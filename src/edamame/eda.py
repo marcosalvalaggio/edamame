@@ -114,7 +114,7 @@ def missing(data) -> list:
             #set default color
             #set particular cell colors
             summary.loc['nan',nan_col] = 'background-color: red'
-            summary.loc['zero',zero_col] = 'background-color: blue'
+            summary.loc['zero',zero_col] = 'background-color: lightblue'
             return summary 
         summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
         display(summary)
