@@ -1,11 +1,9 @@
 import numpy as np 
 import pandas as pd 
 import matplotlib.pyplot as plt 
-from sklearn.impute import SimpleImputer
 import seaborn as sns
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from IPython.display import display, Markdown
+import IPython as ip
+import sklearn.impute
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
@@ -28,9 +26,9 @@ def dimensions(data):
 def describeDistribution(data):
     if data.__class__.__name__ == 'DataFrame':
         print('- Quantitative columns -')
-        display(data.describe())
+        ip.display.display(data.describe())
         print('- Categorical columns -')
-        display(data.describe(include=["O"]))
+        ip.display.display(data.describe(include=["O"]))
     else:
         raise TypeError('The data loaded is not a dataframe')
 # test
@@ -66,7 +64,7 @@ def missing(data) -> list:
         print("\nINFO table:\n")
         info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Quantitative variables': num_quant_col, 'Categorical variables': num_qual_col}
         info_table = pd.DataFrame(data=info_table, index = ['0'])
-        display(Markdown(info_table.to_markdown()))
+        ip.display.display(ip.display.Markdown(info_table.to_markdown()))
         # ----------------------------- #
         # null or blank values in columns 
         # ----------------------------- #
@@ -74,7 +72,7 @@ def missing(data) -> list:
         nan = pd.Series((data.isnull().mean()),name ='%')
         nan.index.name = 'columns'
         nan = nan[nan>0]
-        display(Markdown(nan.to_markdown()))
+        ip.display.display(ip.display.Markdown(nan.to_markdown()))
         nan_col = list(nan.index)
         # nan quantitative cols
         types = data[nan_col].dtypes
@@ -90,14 +88,14 @@ def missing(data) -> list:
         zero = pd.Series((data == 0).mean(),name ='%')
         zero.index.name = 'columns'
         zero = zero[zero>0]
-        display(Markdown(zero.to_markdown()))
+        ip.display.display(ip.display.Markdown(zero.to_markdown()))
         zero_col = list(zero.index)
         # ----------------------------- #
         # duplicates rows
         # ----------------------------- #
         print("\nCheck duplicates rows:\n")
         dupli = pd.Series(data.duplicated(keep=False).sum().mean(),name ='%')
-        display(Markdown(dupli.to_markdown())) 
+        ip.display.display(ip.display.Markdown(dupli.to_markdown())) 
         # ----------------------------- #
         # summary 
         # ----------------------------- #
@@ -117,7 +115,7 @@ def missing(data) -> list:
             summary.loc['zero',zero_col] = 'background-color: lightblue'
             return summary 
         summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
-        display(summary)
+        ip.display.display(summary)
         print("\n")
         # ----------------------------- #
         # return step
@@ -159,7 +157,7 @@ def handlingMissing(data, col: list[str], missing_val = np.nan, method: list[str
                 data = data.drop(col[i], axis = 1)
                 #print(data.shape)
             else:
-                imputer = SimpleImputer(strategy=method[i], missing_values=missing_val)
+                imputer = sklearn.impute.SimpleImputer(strategy=method[i], missing_values=missing_val)
                 data[col[i]] = imputer.fit_transform(data[col[i]].values.reshape(-1,1))[:,0]
                 #print(data.shape)
         # ----------------------------- #
