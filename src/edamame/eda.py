@@ -14,7 +14,7 @@ pd.set_option('display.max_colwidth', None)
 def dimensions(data):
     if data.__class__.__name__ == 'DataFrame':
         dim = f'Rows: {data.shape[0]}, Columns: {data.shape[1]}'
-        return dim
+        ip.display.display(ip.display.Markdown(dim))
     else: 
         raise TypeError('The data loaded is not a dataframe')
 # test
@@ -25,9 +25,11 @@ def dimensions(data):
 # --------------------- #
 def describeDistribution(data):
     if data.__class__.__name__ == 'DataFrame':
-        print('- Quantitative columns -')
+        string = '### Quantitative columns'
+        ip.display.display(ip.display.Markdown(string))
         ip.display.display(data.describe())
-        print('- Categorical columns -')
+        string = '### Categorical columns'
+        ip.display.display(ip.display.Markdown(string))
         ip.display.display(data.describe(include=["O"]))
     else:
         raise TypeError('The data loaded is not a dataframe')
@@ -61,14 +63,16 @@ def missing(data) -> list:
         qual_col = list(qual_col.index)
         num_qual_col = len(qual_col)
         # create table
-        print("\nINFO table:\n")
+        string = '### INFO table'
+        ip.display.display(ip.display.Markdown(string))
         info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Quantitative variables': num_quant_col, 'Categorical variables': num_qual_col}
         info_table = pd.DataFrame(data=info_table, index = ['0'])
         ip.display.display(ip.display.Markdown(info_table.to_markdown()))
         # ----------------------------- #
         # null or blank values in columns 
         # ----------------------------- #
-        print("\nCheck blank, null or empty values:\n")
+        string = '### Check blank, null or empty values'
+        ip.display.display(ip.display.Markdown(string))
         nan = pd.Series((data.isnull().mean()),name ='%')
         nan.index.name = 'columns'
         nan = nan[nan>0]
@@ -84,7 +88,8 @@ def missing(data) -> list:
         # ----------------------------- #
         # rows with zeros 
         # ----------------------------- #
-        print("\nCheck zeros:\n")
+        string = '### Check zeros'
+        ip.display.display(ip.display.Markdown(string))
         zero = pd.Series((data == 0).mean(),name ='%')
         zero.index.name = 'columns'
         zero = zero[zero>0]
@@ -93,13 +98,15 @@ def missing(data) -> list:
         # ----------------------------- #
         # duplicates rows
         # ----------------------------- #
-        print("\nCheck duplicates rows:\n")
+        string = '### Check duplicates rows'
+        ip.display.display(ip.display.Markdown(string))
         dupli = pd.Series(data.duplicated(keep=False).sum().mean(),name ='%')
         ip.display.display(ip.display.Markdown(dupli.to_markdown())) 
         # ----------------------------- #
         # summary 
         # ----------------------------- #
-        print("\nSUMMARY table:\n")
+        string = '### SUMMARY table'
+        ip.display.display(ip.display.Markdown(string))
         zero_row = np.zeros((2,data.shape[1]))
         summary = pd.DataFrame(zero_row, index = ["nan", "zero"])
         summary.columns = data.columns
