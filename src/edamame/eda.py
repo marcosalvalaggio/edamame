@@ -1,7 +1,7 @@
 import numpy as np 
 import pandas as pd 
 import matplotlib.pyplot as plt 
-import seaborn as sns
+import seaborn as sn
 import IPython as ip
 import sklearn.impute
 pd.set_option('display.max_columns', None)
@@ -13,7 +13,7 @@ pd.set_option('display.max_colwidth', None)
 # --------------------- #
 # Dataframe type control
 # --------------------- #
-def typeReview(data):
+def dataframe_review(data):
     if data.__class__.__name__ == 'DataFrame':
         pass
     else:
@@ -26,7 +26,7 @@ def typeReview(data):
 # --------------------- #
 def dimensions(data):
     # dataframe control step 
-    typeReview(data)
+    dataframe_review(data)
     # ---
     dim = f'Rows: {data.shape[0]}, Columns: {data.shape[1]}'
     ip.display.display(ip.display.Markdown(dim))
@@ -37,9 +37,9 @@ def dimensions(data):
 # --------------------- #
 # full describe function 
 # --------------------- #
-def describeDistribution(data):
+def describe_distribution(data):
     # dataframe control step 
-    typeReview(data)
+    dataframe_review(data)
     # ---
     string = '### Quantitative columns'
     ip.display.display(ip.display.Markdown(string))
@@ -52,13 +52,36 @@ def describeDistribution(data):
 #describeDistribution(data)
 
 
+# --------------------- #
+# variables types identifier 
+# --------------------- #
+def variables_type(data):
+     # dataframe control step 
+    dataframe_review(data)
+    # quantiative variables columns 
+    types = data.dtypes
+    quant_col = types[types != 'object']
+    quant_col = list(quant_col.index)
+    # categorical variables columns
+    qual_col = types[types == 'object']
+    qual_col = list(qual_col.index)
+     # return step 
+    return [quant_col, qual_col]
+
+# test
+#quant_col, qual_col = variables_type(data)
+#print(quant_col)
+#print(qual_col)
+
+
+
 
 # --------------------- #
 # missing, zeros and duplicates 
 # --------------------- #
 def missing(data) -> list:
     # dataframe control step 
-    typeReview(data)
+    dataframe_review(data)
     # ---
     # ----------------------------- #
     # info table 
@@ -155,9 +178,9 @@ def missing(data) -> list:
 # --------------------- #
 # handling missing and zeros
 # --------------------- #
-def handlingMissing(data, col: list[str], missing_val = np.nan, method: list[str] = []):
+def handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = []):
     # dataframe control step 
-    typeReview(data)
+    dataframe_review(data)
     # ---
     # ----------------------------- #
     # check method 
