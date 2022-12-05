@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sn
 import IPython as ip
 import sklearn.impute
+import plotly.subplots as sub
+import plotly.graph_objs as go
+# pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
@@ -18,7 +21,6 @@ def dataframe_review(data):
         pass
     else:
         raise TypeError('The data loaded is not a DataFrame')
-
 
 
 # --------------------- #
@@ -73,13 +75,34 @@ def variables_type(data):
 #print(quant_col)
 #print(qual_col)
 
+# --------------------- #
+# change variables types identifier 
+# --------------------- #
+def change_variable_type(data, col: list[str]) -> list[list]:
+    quant_col, qual_col = variables_type(data)
+    for _,colname in enumerate(col):
+        if colname in quant_col:
+            quant_col.remove(colname)
+            qual_col.append(colname)
+        elif colname in qual_col:
+            qual_col.remove(colname)
+            quant_col.append(colname)
+        else: 
+            pass
+    return [quant_col, qual_col]
+
+# test 
+#quant_col, qual_col = change_variable_type(data = train_df, col=['Pclass','SibSp'])
+#print(quant_col)
+#print(qual_col)
+
 
 
 
 # --------------------- #
 # missing, zeros and duplicates 
 # --------------------- #
-def missing(data) -> list:
+def missing(data):
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -221,3 +244,55 @@ def handling_missing(data, col: list[str], missing_val = np.nan, method: list[st
 #data_test = handlingMissing(data_test, col = nan_qual, missing_val=np.nan, method=['most_frequent']*len(nan_qual))
 # zero variables
 #data_test = handlingMissing(data_test, col = zero_col, missing_val=0, method=['mean']*len(zero_col))
+
+
+# --------------------- #
+# fast drop columns
+# --------------------- #
+def drop_columns(data, col: list[str]):
+    for _,colname in enumerate(col):
+        data = data.drop(colname, axis=1)
+    return data
+# test 
+#train = drop_column(train_df, col = ['Name', 'Cabin', 'PassengerId', 'Ticket'])
+
+
+# --------------------- #
+# plot categorical columns 
+# --------------------- #
+def plot_categorical(data, col: list[str]) -> None:
+    # dataframe check 
+    dataframe_review(data)
+    # specs list 
+    sp = [{'type': 'table'}, {'type': 'bar'}]
+    specs = []
+    for i in range(len(col)):
+        specs.append(sp)
+    # define figure specs
+    fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
+    # print loop 
+    for i in range(len(col)):
+        # define info table
+        df = pd.DataFrame(data[col[i]].describe())
+        # table plot
+        fig.add_trace(
+            go.Table(
+            header=dict(values=list(['index', df.columns[0]]),
+                    #fill_color='seagreen',
+                    align='center'),
+            cells=dict(values=[df.index, df.iloc[:,0]],
+                   #fill_color='lightcyan',
+                   align='left')),
+            row=i+1, col=1)
+        # bar plot 
+        fig.add_trace(
+           go.Bar(
+           x = data[col[i]].value_counts().index,
+           y = data[col[i]].value_counts()), 
+           row=i+1, col=2) 
+    # fig dimensions 
+    fig.update_layout(height=500*len(col),showlegend=False,title_text='Categorical columns')
+    fig.show() 
+
+# test 
+#plot_categorical(data_test, qual_col)
