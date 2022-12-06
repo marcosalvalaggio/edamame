@@ -4,13 +4,23 @@ import matplotlib.pyplot as plt
 import seaborn as sn
 import IPython as ip
 import sklearn.impute
-import plotly.subplots as sub
-import plotly.graph_objs as go
+#import plotly.subplots as sub
+#import plotly.graph_objs as go
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
+# --------------------- #
+# display dataframe side by side
+# --------------------- #
+def display_side_by_side(dfs:list, captions:list):
+    output = ""
+    combined = dict(zip(captions, dfs))
+    for caption, df in combined.items():
+        output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
+        output += "\xa0\xa0\xa0"
+    ip.display.display(ip.display.HTML(output))
 
 
 # --------------------- #
@@ -182,7 +192,7 @@ def missing(data):
         #set default color
         #set particular cell colors
         summary.loc['nan',nan_col] = 'background-color: red'
-        summary.loc['zero',zero_col] = 'background-color: lightblue'
+        summary.loc['zero',zero_col] = 'background-color: orange'
         return summary 
     summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
     ip.display.display(summary)
@@ -258,41 +268,204 @@ def drop_columns(data, col: list[str]):
 
 
 # --------------------- #
-# plot categorical columns 
+# plot categorical columns (HEAVY version)
 # --------------------- #
-def plot_categorical(data, col: list[str]) -> None:
-    # dataframe check 
-    dataframe_review(data)
-    # specs list 
-    sp = [{'type': 'table'}, {'type': 'bar'}]
-    specs = []
-    for i in range(len(col)):
-        specs.append(sp)
-    # define figure specs
-    fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
-    # print loop 
-    for i in range(len(col)):
-        # define info table
-        df = pd.DataFrame(data[col[i]].describe())
-        # table plot
-        fig.add_trace(
-            go.Table(
-            header=dict(values=list(['index', df.columns[0]]),
-                    #fill_color='seagreen',
-                    align='center'),
-            cells=dict(values=[df.index, df.iloc[:,0]],
-                   #fill_color='lightcyan',
-                   align='left')),
-            row=i+1, col=1)
-        # bar plot 
-        fig.add_trace(
-           go.Bar(
-           x = data[col[i]].value_counts().index,
-           y = data[col[i]].value_counts()), 
-           row=i+1, col=2) 
-    # fig dimensions 
-    fig.update_layout(height=500*len(col),showlegend=False,title_text='Categorical columns')
-    fig.show() 
+# def plot_categorical_heavy(data, col: list[str]) -> None:
+#     # dataframe check 
+#     dataframe_review(data)
+#     # specs list 
+#     sp = [{'type': 'table'}, {'type': 'bar'}]
+#     specs = []
+#     for i in range(len(col)):
+#         specs.append(sp)
+#     # define figure specs
+#     fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
+#     # print loop 
+#     for i in range(len(col)):
+#         # define info table
+#         df = pd.DataFrame(data[col[i]].describe())
+#         # table plot
+#         fig.add_trace(
+#             go.Table(
+#             header=dict(values=list(['index', df.columns[0]]),
+#                     #fill_color='seagreen',
+#                     align='center'),
+#             cells=dict(values=[df.index, df.iloc[:,0]],
+#                    #fill_color='lightcyan',
+#                    align='left')),
+#             row=i+1, col=1)
+#         # bar plot 
+#         fig.add_trace(
+#            go.Bar(
+#            x = data[col[i]].value_counts().index,
+#            y = data[col[i]].value_counts()), 
+#            row=i+1, col=2) 
+#     # fig dimensions 
+#     fig.update_layout(height=500*len(col),showlegend=False,title_text='Categorical columns')
+#     fig.show() 
 
 # test 
 #plot_categorical(data_test, qual_col)
+
+
+
+# --------------------- #
+# plot quantitative columns (HEAVY version)
+# --------------------- #
+# def plot_quantitative_heavy(data, col: list[str]):
+#     # dataframe check 
+#     dataframe_review(data)
+#     # specs list 
+#     sp = [{'type': 'table'}, {'type': 'histogram'}]
+#     specs = []
+#     for i in range(len(col)):
+#         specs.append(sp)
+#     # define figure specs
+#     fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
+#     # print loop 
+#     for i in range(len(col)):
+#         # define info table
+#         df = pd.DataFrame(data[col[i]].describe())
+#         # add unique value
+#         unique = len(set(data[col[i]]))
+#         df.loc[len(df.index)] = [unique]
+#         df.rename(index={8:'unique'},inplace=True)
+#         # add skewness value
+#         sk = data[col[i]].skew()
+#         df.loc[len(df.index)] = [sk]
+#         df.rename(index={9:'skew'},inplace=True)
+#         # table plot
+#         fig.add_trace(
+#             go.Table(
+#             header=dict(values=list(['index',df.columns[0]]),
+#                     #fill_color='seagreen',
+#                     align='center'),
+#             cells=dict(values=[df.index,df.iloc[:,0]],
+#                    #fill_color='lightcyan',
+#                    align='left', format = ["",".3f"])),
+#             row=i+1, col=1)
+#         # bar plot 
+#         fig.add_trace(
+#            go.Histogram(x = data[col[i]]), 
+#            #px.bar(data, x = col[i], y = col[i]),
+#            row=i+1, col=2) 
+    
+#     # fig dimensions 
+#     fig.update_layout(height=500*len(col), showlegend=False, title_text='Quantitative columns')
+#     fig.show()
+
+# test 
+#train_df, test_df = titanic()
+#quant_col, qual_col = variables_type(train_df)
+#plot_quantitative(train_df, quant_col)
+
+
+
+# --------------------- #
+# plot categorical columns 
+# --------------------- #
+def plot_categorical(data, col: list[str]):
+    # dataframe check 
+    dataframe_review(data)
+    for _, col in enumerate(col):
+        # title
+        string = '### ' + col
+        ip.display.display(ip.display.Markdown(string))
+        # info table
+        df = pd.DataFrame(data[col].describe())
+        # cardinality table 
+        df_c = pd.DataFrame(data[col].value_counts())
+        df_c = df_c.head(10)
+        display_side_by_side([df, df_c], ['Info', 'Top cardinalities'])
+        print('\n')
+        # plot
+        if len(data[col].value_counts().index) > 1000:
+            string = '***too many unique values***'
+            print('\n')
+            ip.display.display(ip.display.Markdown(string))
+        elif len(data[col].value_counts().index) > 50:
+            fig = plt.figure(figsize = (8, 4))
+            plt.bar(data[col].value_counts().index, data[col].value_counts())
+            plt.xticks([''])
+            plt.xticks(rotation = 90)
+            plt.ylabel(col)
+            plt.show()
+        else:
+            fig = plt.figure(figsize = (8, 4))
+            plt.bar(data[col].value_counts().index, data[col].value_counts())
+            plt.xticks(rotation = 90)
+            plt.ylabel(col)
+            plt.show()
+        print('\n')
+
+# test 
+#quant_col, qual_col = variables_type(data_test)
+#plot_categorical(data_test, qual_col)
+
+
+
+# --------------------- #
+# plot quantitative columns 
+# --------------------- #
+def plot_quantitative(data, col: list[str], bins: int = 50):
+    # dataframe check 
+    dataframe_review(data)
+    for _, col in enumerate(col):
+        # title
+        string = '### ' + col
+        ip.display.display(ip.display.Markdown(string))
+        # info table
+        df = pd.DataFrame(data[col].describe())
+        # add unique value
+        unique = len(set(data[col]))
+        df.loc[len(df.index)] = [unique]
+        df.rename(index={8:'unique'},inplace=True)
+        # add skewness value
+        sk = data[col].skew()
+        df.loc[len(df.index)] = [sk]
+        df.rename(index={9:'skew'},inplace=True)
+        display_side_by_side([df], ['Info'])
+         # plot 
+        fig = plt.figure(figsize = (8, 4))
+        f, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
+        # assigning a graph to each ax
+        sn.boxplot(x = data[col], ax=ax_box)
+        sn.histplot(x = data[col], ax=ax_hist, bins=bins,kde=True)
+        # Remove x axis name for the boxplot
+        ax_box.set(xlabel='')
+        plt.show()
+# test 
+#quant_col, qual_col = variables_type(data_test)
+#plot_quantitative(data_test, quant_col, bins = 100)
+
+
+
+# --------------------- #
+# modify cardinalities of categorical columns 
+# --------------------- #
+def modify_cardinality(data, col: list[str], threshold: list[int]):
+    # dataframe check 
+    dataframe_review(data)
+        # parameters check
+    if len(col) != len(threshold):
+        raise ValueError("You must pass the same number of values in the columns parameter and in the thresholds parameter")
+    else: 
+        pass
+    # dataframe of old cardinalities 
+    cardinality = pd.DataFrame()
+    cardinality['columns'] = col
+    cardinality['old_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
+    #ip.display.display(ip.display.Markdown(cardinality.to_markdown()))
+    for i, colname in enumerate(col):
+        listCat = data[colname].value_counts()
+        listCat = list(listCat[listCat > threshold[i]].index)
+        data.loc[~data.loc[:,colname].isin(listCat), colname] = "Other"
+    # add new cardinalities 
+    cardinality['new_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
+    # display
+    ip.display.display(ip.display.Markdown(cardinality.to_markdown()))
+
+# test 
+#data_cpy = data_test.copy()
+#modify_cardinality(data_cpy, col = ['SellerG','Suburb'], threshold=[400,200])
+
