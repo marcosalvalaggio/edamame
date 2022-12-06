@@ -469,3 +469,19 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
 #data_cpy = data_test.copy()
 #modify_cardinality(data_cpy, col = ['SellerG','Suburb'], threshold=[400,200])
 
+
+# --------------------- #
+# correlation
+# --------------------- #
+def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0.7):
+    corr_mtr = data[col].corr()
+    if verbose == True: 
+        corr_mtr = corr_mtr.style.background_gradient()
+        ip.display.display(corr_mtr)
+    else: 
+        corr_mtr = corr_mtr[(corr_mtr.iloc[:,:]>threshold) | (corr_mtr.iloc[:,:]<-threshold)]
+        ip.display.display(corr_mtr)
+
+# test
+#quant_col, qual_col = variables_type(data_cpy)
+#correlation(data_cpy, quant_col)
