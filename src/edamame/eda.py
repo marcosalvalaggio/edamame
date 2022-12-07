@@ -4,12 +4,14 @@ import matplotlib.pyplot as plt
 import seaborn as sn
 import IPython as ip
 import sklearn.impute
+import scipy.stats as sp_stats
 #import plotly.subplots as sub
 #import plotly.graph_objs as go
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
+
 
 # --------------------- #
 # display dataframe side by side
@@ -506,29 +508,79 @@ def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0
 # --------------------- #
 # Study distribution of a quatitative variable
 # --------------------- #
-def quant_variable_study(data, col:str, bins: int = 50)->None:
-    # dataframe chack step 
-    dataframe_review(data)
-    # variable type check step 
-    if data[col].dtypes == 'O':
-        raise TypeError('you must pass a quantitative variable')
-    else:
-        pass
-    # study step 
-    plt.figure(figsize = (12, 12))
-    plt.subplot(2,2,1)
-    sn.histplot(x = data['Price'],kde=True, bins = bins)
+def quant_variable_plot(data, col, bins):
+    # figure dim
+    plt.figure(figsize = (22, 12))
+    # original
+    plt.subplot(2,3,1)
+    sn.histplot(x = data,kde=True, bins = bins)
     plt.title('Original data: $x$')
-    plt.subplot(2,2,2)
-    sn.histplot(x = np.log(data['Price']),kde=True, bins = bins)
+    # log price
+    plt.subplot(2,3,2)
+    sn.histplot(x = np.log(data),kde=True, bins = bins)
     plt.title('$log(x)$')
-    plt.subplot(2,2,3)
-    sn.histplot(x = 1/data['Price'],kde=True, bins = bins)
+    # reciprocal  
+    plt.subplot(2,3,3)
+    sn.histplot(x = 1/data, kde=True, bins = bins)
     plt.title('$1/x$')
-    plt.subplot(2,2,4)
-    sn.histplot(x = data['Price']**(1/3),kde=True, bins = bins)
+    # cubic square 
+    plt.subplot(2,3,4)
+    sn.histplot(x = data**(1/3), kde=True, bins = bins)
     plt.title('$\mathregular{\sqrt[3]{x}}$')
+    # box-cox (with lambda=none, array must be positive)
+    plt.subplot(2,3,5)
+    x = sp_stats.boxcox(data)
+    sn.histplot(x = x[0], kde=True, bins = bins)
+    plt.xlabel(col)
+    plt.title('Box-Cox$')
+    # yeojohnson (yeojohnson does not require the input data to be positive.)
+    plt.subplot(2,3,6)
+    x = sp_stats.yeojohnson(data)
+    sn.histplot(x = x[0],kde=True, bins = bins)
+    plt.xlabel(col)
+    plt.title('Yeo-Johnson')
     plt.show()
 
-# test 
-#quant_variable_study(data_test, 'Car', bins = 20)
+
+def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001)->None:
+    # dataframe chack step 
+    dataframe_review(data)
+    # response variable check step 
+    if data[col].dtypes == 'O':
+        raise TypeError('you must pass a quantitative variable as a response ')
+    else:
+        pass
+    # --- #
+    # negative values 
+    # --- #
+    if data[data[col] < 0].shape[0] > 0:
+        print(1)
+        string = '### Variable with negative values'
+        ip.display.display(ip.display.Markdown(string))
+        x = data[col]
+        x = x + abs(min(x))+epsilon
+        quant_variable_plot(data = x, col = col, bins = bins)
+    # --- #
+    # zero values 
+    # --- #
+    elif data[data[col] == 0].shape[0] > 0:
+        print(2)
+        string = '### Variable with zeros values'
+        ip.display.display(ip.display.Markdown(string))
+        x = data[col]
+        x[x==0] = epsilon
+        quant_variable_plot(data = x, col = col, bins = bins)
+    # --- #
+    # strict values 
+    # --- #
+    else:
+        print(3)
+        string = '### Strict positive variable'
+        ip.display.display(ip.display.Markdown(string))
+        x = data[col]
+        quant_variable_plot(data = x, col = col, bins = bins)
+
+# test        
+#quant_variable_study(data_test, 'Price', bins = 20)
+
+

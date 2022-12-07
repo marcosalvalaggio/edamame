@@ -24,6 +24,7 @@ dependencies = [
     "ipython",
     "matplotlib",
     "seaborn",
+    "scipy",
 ]
 
 [project.urls]
