@@ -9,6 +9,7 @@ plot_categorical,
 plot_quantitative,
 view_cardinality,
 modify_cardinality,
-correlation)
+correlation,
+quant_variable_study)
 
 __version__ = "0.0.7"

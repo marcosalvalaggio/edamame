@@ -14,7 +14,7 @@ pd.set_option('display.max_colwidth', None)
 # --------------------- #
 # display dataframe side by side
 # --------------------- #
-def display_side_by_side(dfs:list, captions:list):
+def display_side_by_side(dfs:list, captions:list) -> None:
     output = ""
     combined = dict(zip(captions, dfs))
     for caption, df in combined.items():
@@ -26,7 +26,7 @@ def display_side_by_side(dfs:list, captions:list):
 # --------------------- #
 # Dataframe type control
 # --------------------- #
-def dataframe_review(data):
+def dataframe_review(data) -> None:
     if data.__class__.__name__ == 'DataFrame':
         pass
     else:
@@ -36,7 +36,7 @@ def dataframe_review(data):
 # --------------------- #
 # Dataframe dimensions
 # --------------------- #
-def dimensions(data):
+def dimensions(data) -> None:
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -49,7 +49,7 @@ def dimensions(data):
 # --------------------- #
 # full describe function 
 # --------------------- #
-def describe_distribution(data):
+def describe_distribution(data) -> None:
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -67,7 +67,7 @@ def describe_distribution(data):
 # --------------------- #
 # variables types identifier 
 # --------------------- #
-def variables_type(data):
+def variables_type(data) -> list[list[str]]:
      # dataframe control step 
     dataframe_review(data)
     # quantiative variables columns 
@@ -88,7 +88,7 @@ def variables_type(data):
 # --------------------- #
 # change variables types identifier 
 # --------------------- #
-def change_variable_type(data, col: list[str]) -> list[list]:
+def change_variable_type(data, col: list[str]) -> list[list[str]]:
     quant_col, qual_col = variables_type(data)
     for _,colname in enumerate(col):
         if colname in quant_col:
@@ -112,7 +112,7 @@ def change_variable_type(data, col: list[str]) -> list[list]:
 # --------------------- #
 # missing, zeros and duplicates 
 # --------------------- #
-def missing(data):
+def missing(data) -> list[list[str]]:
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -364,7 +364,7 @@ def drop_columns(data, col: list[str]):
 # --------------------- #
 # plot categorical columns 
 # --------------------- #
-def plot_categorical(data, col: list[str]):
+def plot_categorical(data, col: list[str]) -> None:
     # dataframe check 
     dataframe_review(data)
     for _, col in enumerate(col):
@@ -407,7 +407,7 @@ def plot_categorical(data, col: list[str]):
 # --------------------- #
 # plot quantitative columns 
 # --------------------- #
-def plot_quantitative(data, col: list[str], bins: int = 50):
+def plot_quantitative(data, col: list[str], bins: int = 50) -> None:
     # dataframe check 
     dataframe_review(data)
     for _, col in enumerate(col):
@@ -442,7 +442,7 @@ def plot_quantitative(data, col: list[str], bins: int = 50):
 # --------------------- #
 # view cardinalities of columns 
 # --------------------- #
-def view_cardinality(data, col: list[str]):
+def view_cardinality(data, col: list[str]) -> None:
     dataframe_review(data)
     # dataframe of the cardinalities 
     cardinality = pd.DataFrame()
@@ -456,12 +456,10 @@ def view_cardinality(data, col: list[str]):
 
 
 
-
-
 # --------------------- #
 # modify cardinalities of categorical columns 
 # --------------------- #
-def modify_cardinality(data, col: list[str], threshold: list[int]):
+def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
     # dataframe check 
     dataframe_review(data)
         # parameters check
@@ -491,7 +489,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
 # --------------------- #
 # correlation
 # --------------------- #
-def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0.7):
+def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0.7) -> None:
     corr_mtr = data[col].corr()
     if verbose == True: 
         corr_mtr = corr_mtr.style.background_gradient()
@@ -503,3 +501,34 @@ def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0
 # test
 #quant_col, qual_col = variables_type(data_cpy)
 #correlation(data_cpy, quant_col)
+
+
+# --------------------- #
+# Study distribution of a quatitative variable
+# --------------------- #
+def quant_variable_study(data, col:str, bins: int = 50)->None:
+    # dataframe chack step 
+    dataframe_review(data)
+    # variable type check step 
+    if data[col].dtypes == 'O':
+        raise TypeError('you must pass a quantitative variable')
+    else:
+        pass
+    # study step 
+    plt.figure(figsize = (12, 12))
+    plt.subplot(2,2,1)
+    sn.histplot(x = data['Price'],kde=True, bins = bins)
+    plt.title('Original data: $x$')
+    plt.subplot(2,2,2)
+    sn.histplot(x = np.log(data['Price']),kde=True, bins = bins)
+    plt.title('$log(x)$')
+    plt.subplot(2,2,3)
+    sn.histplot(x = 1/data['Price'],kde=True, bins = bins)
+    plt.title('$1/x$')
+    plt.subplot(2,2,4)
+    sn.histplot(x = data['Price']**(1/3),kde=True, bins = bins)
+    plt.title('$\mathregular{\sqrt[3]{x}}$')
+    plt.show()
+
+# test 
+#quant_variable_study(data_test, 'Car', bins = 20)
