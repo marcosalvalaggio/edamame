@@ -140,7 +140,7 @@ def missing(data):
     ip.display.display(ip.display.Markdown(string))
     info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Quantitative variables': num_quant_col, 'Categorical variables': num_qual_col}
     info_table = pd.DataFrame(data=info_table, index = ['0'])
-    ip.display.display(ip.display.Markdown(info_table.to_markdown()))
+    ip.display.display(ip.display.Markdown(info_table.to_markdown(index=False)))
     # ----------------------------- #
     # null or blank values in columns 
     # ----------------------------- #
@@ -174,7 +174,7 @@ def missing(data):
     string = '### Check duplicates rows'
     ip.display.display(ip.display.Markdown(string))
     dupli = pd.Series(data.duplicated(keep=False).sum().mean(),name ='%')
-    ip.display.display(ip.display.Markdown(dupli.to_markdown())) 
+    ip.display.display(ip.display.Markdown(dupli.to_markdown(index=False))) 
     # ----------------------------- #
     # summary 
     # ----------------------------- #
@@ -439,6 +439,24 @@ def plot_quantitative(data, col: list[str], bins: int = 50):
 #plot_quantitative(data_test, quant_col, bins = 100)
 
 
+# --------------------- #
+# view cardinalities of columns 
+# --------------------- #
+def view_cardinality(data, col: list[str]):
+    dataframe_review(data)
+    # dataframe of the cardinalities 
+    cardinality = pd.DataFrame()
+    cardinality['columns'] = col
+    cardinality['cardinality'] = [data[col[i]].value_counts().count() for i in range(len(col))]
+    ip.display.display(ip.display.Markdown(cardinality.to_markdown(index=False)))
+    
+# test 
+#quant_col, qual_col = variables_type(data_test)
+#view_cardinality(data_test, qual_col)
+
+
+
+
 
 # --------------------- #
 # modify cardinalities of categorical columns 
@@ -448,7 +466,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
     dataframe_review(data)
         # parameters check
     if len(col) != len(threshold):
-        raise ValueError("You must pass the same number of values in the columns parameter and in the thresholds parameter")
+        raise ValueError("You must pass the same number of values in the [col] parameter and in the [thresholds] parameter")
     else: 
         pass
     # dataframe of old cardinalities 
@@ -463,7 +481,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
     # add new cardinalities 
     cardinality['new_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
     # display
-    ip.display.display(ip.display.Markdown(cardinality.to_markdown()))
+    ip.display.display(ip.display.Markdown(cardinality.to_markdown(index=False)))
 
 # test 
 #data_cpy = data_test.copy()
