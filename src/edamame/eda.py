@@ -532,8 +532,9 @@ def quant_variable_plot(data, col, bins):
     x = sp_stats.boxcox(data)
     sn.histplot(x = x[0], kde=True, bins = bins)
     plt.xlabel(col)
-    plt.title('Box-Cox$')
+    plt.title('Box-Cox')
     # yeojohnson (yeojohnson does not require the input data to be positive.)
+    # PROBLEMA CON YJ CON DATI POSITIVI DA RISOLVERE
     plt.subplot(2,3,6)
     x = sp_stats.yeojohnson(data)
     sn.histplot(x = x[0],kde=True, bins = bins)
