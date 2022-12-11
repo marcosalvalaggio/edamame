@@ -69,9 +69,13 @@ def describe_distribution(data) -> None:
 # --------------------- #
 # variables types identifier 
 # --------------------- #
-def variables_type(data) -> list[list[str]]:
+def identify_types(data) -> list[list[str]]:
      # dataframe control step 
     dataframe_review(data)
+    # display types 
+    types = pd.DataFrame(data.dtypes)
+    types.columns = ['variable type']
+    ip.display.display(ip.display.Markdown(types.to_markdown()))
     # quantiative variables columns 
     types = data.dtypes
     quant_col = types[types != 'object']
@@ -83,25 +87,25 @@ def variables_type(data) -> list[list[str]]:
     return [quant_col, qual_col]
 
 # test
-#quant_col, qual_col = variables_type(data)
+#quant_col, qual_col = identify_types(data)
 #print(quant_col)
 #print(qual_col)
 
 # --------------------- #
 # change variables types identifier 
 # --------------------- #
-def change_variable_type(data, col: list[str]) -> list[list[str]]:
-    quant_col, qual_col = variables_type(data)
-    for _,colname in enumerate(col):
-        if colname in quant_col:
-            quant_col.remove(colname)
-            qual_col.append(colname)
-        elif colname in qual_col:
-            qual_col.remove(colname)
-            quant_col.append(colname)
-        else: 
-            pass
-    return [quant_col, qual_col]
+# def change_variable_type(data, col: list[str]) -> list[list[str]]:
+#     quant_col, qual_col = variables_type(data)
+#     for _,colname in enumerate(col):
+#         if colname in quant_col:
+#             quant_col.remove(colname)
+#             qual_col.append(colname)
+#         elif colname in qual_col:
+#             qual_col.remove(colname)
+#             quant_col.append(colname)
+#         else: 
+#             pass
+#     return [quant_col, qual_col]
 
 # test 
 #quant_col, qual_col = change_variable_type(data = train_df, col=['Pclass','SibSp'])
@@ -109,6 +113,14 @@ def change_variable_type(data, col: list[str]) -> list[list[str]]:
 #print(qual_col)
 
 
+# --------------------- #
+# convert numeric to categorical  
+# --------------------- #
+def num_to_categorical(data, col: list[str]):
+    # dataframe check
+    dataframe_review(data)
+    # convert 
+    data[col] = data[col].astype(object)
 
 
 # --------------------- #
@@ -455,7 +467,6 @@ def view_cardinality(data, col: list[str]) -> None:
 # test 
 #quant_col, qual_col = variables_type(data_test)
 #view_cardinality(data_test, qual_col)
-
 
 
 # --------------------- #
