@@ -76,7 +76,7 @@ def identify_types(data) -> list[list[str]]:
     types = pd.DataFrame(data.dtypes)
     types.columns = ['variable type']
     ip.display.display(ip.display.Markdown(types.to_markdown()))
-    # quantiative variables columns 
+    # quantitative variables columns 
     types = data.dtypes
     quant_col = types[types != 'object']
     quant_col = list(quant_col.index)
@@ -221,7 +221,6 @@ def missing(data) -> list[list[str]]:
 
 
 
-
 # --------------------- #
 # handling missing and zeros
 # --------------------- #
@@ -320,7 +319,6 @@ def drop_columns(data, col: list[str]):
 
 # test 
 #plot_categorical(data_test, qual_col)
-
 
 
 # --------------------- #
