@@ -26,7 +26,7 @@ def dataframe_review(data) -> None:
 # --------------------- #
 # Dataframe dimensions
 # --------------------- #
-def dimensions(data) -> None:
+def dimensions(data: pd.core.frame.DataFrame) -> None:
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -83,7 +83,7 @@ def identify_types(data) -> list[list[str]]:
 # --------------------- #
 # convert numeric to categorical  
 # --------------------- #
-def num_to_categorical(data, col: list[str]):
+def num_to_categorical(data, col: list[str]) -> None:
     # dataframe check
     dataframe_review(data)
     # convert 
@@ -127,7 +127,7 @@ def missing(data) -> list[list[str]]:
     # ----------------------------- #
     string = '### Check blank, null or empty values'
     ip.display.display(ip.display.Markdown(string))
-    nan = pd.Series((data.isnull().mean()),name ='%')
+    nan = pd.Series((data.isnull().mean()*100),name ='%')
     nan.index.name = 'columns'
     nan = nan[nan>0]
     ip.display.display(ip.display.Markdown(nan.to_markdown()))
@@ -144,7 +144,7 @@ def missing(data) -> list[list[str]]:
     # ----------------------------- #
     string = '### Check zeros'
     ip.display.display(ip.display.Markdown(string))
-    zero = pd.Series((data == 0).mean(),name ='%')
+    zero = pd.Series((data == 0).mean()*100,name ='%')
     zero.index.name = 'columns'
     zero = zero[zero>0]
     ip.display.display(ip.display.Markdown(zero.to_markdown()))
@@ -154,7 +154,7 @@ def missing(data) -> list[list[str]]:
     # ----------------------------- #
     string = '### Check duplicates rows'
     ip.display.display(ip.display.Markdown(string))
-    dupli = pd.Series(data.duplicated(keep=False).sum().mean(),name ='%')
+    dupli = pd.Series(data.duplicated(keep=False).sum().mean()*100,name ='%')
     ip.display.display(ip.display.Markdown(dupli.to_markdown(index=False))) 
     # ----------------------------- #
     # summary 
@@ -190,6 +190,7 @@ def missing(data) -> list[list[str]]:
 # --------------------- #
 # handling missing and zeros
 # --------------------- #
+# missing_cal = np.nan or 0 or other values
 def handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = []):
     # dataframe control step 
     dataframe_review(data)
@@ -437,7 +438,7 @@ def quant_variable_plot(data, col, bins):
     plt.show()
 
 # useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot
-def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory = False)->None:
+def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
     # dataframe chack step 
     dataframe_review(data)
     # response variable check step 
@@ -503,6 +504,4 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
         pass
 # test 
 #quant_variable_study(data_test, 'Price', bins = 50, theory=True)
-
-
 
