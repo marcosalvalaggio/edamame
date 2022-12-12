@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sn
 import IPython as ip
 import sklearn.impute
-import scipy.stats as sp_stats
+import scipy as sp
 #import plotly.subplots as sub
 #import plotly.graph_objs as go
 # pandas options
@@ -538,14 +538,15 @@ def quant_variable_plot(data, col, bins):
     plt.title('$\mathregular{\sqrt[3]{x}}$')
     # box-cox (with lambda=none, array must be positive)
     plt.subplot(2,3,5)
-    x = sp_stats.boxcox(data)
+    x = sp.stats.boxcox(data)
+    lmbda = x[1]
     sn.histplot(x = x[0], kde=True, bins = bins)
     plt.xlabel(col)
-    plt.title('Box-Cox')
+    plt.title(f'Box-Cox with $\lambda$ = {lmbda:.3f}')
     # yeojohnson (yeojohnson does not require the input data to be positive.)
     # PROBLEMA CON YJ CON DATI POSITIVI DA RISOLVERE
     plt.subplot(2,3,6)
-    x = sp_stats.yeojohnson(data)
+    x = sp.stats.yeojohnson(data)
     sn.histplot(x = x[0],kde=True, bins = bins)
     plt.xlabel(col)
     plt.title('Yeo-Johnson')
