@@ -14,18 +14,6 @@ pd.set_option('display.max_colwidth', None)
 
 
 # --------------------- #
-# display dataframe side by side
-# --------------------- #
-def display_side_by_side(dfs:list, captions:list) -> None:
-    output = ""
-    combined = dict(zip(captions, dfs))
-    for caption, df in combined.items():
-        output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
-        output += "\xa0\xa0\xa0"
-    ip.display.display(ip.display.HTML(output))
-
-
-# --------------------- #
 # Dataframe type control
 # --------------------- #
 def dataframe_review(data) -> None:
@@ -88,27 +76,6 @@ def identify_types(data) -> list[list[str]]:
 
 # test
 #quant_col, qual_col = identify_types(data)
-#print(quant_col)
-#print(qual_col)
-
-# --------------------- #
-# change variables types identifier 
-# --------------------- #
-# def change_variable_type(data, col: list[str]) -> list[list[str]]:
-#     quant_col, qual_col = variables_type(data)
-#     for _,colname in enumerate(col):
-#         if colname in quant_col:
-#             quant_col.remove(colname)
-#             qual_col.append(colname)
-#         elif colname in qual_col:
-#             qual_col.remove(colname)
-#             quant_col.append(colname)
-#         else: 
-#             pass
-#     return [quant_col, qual_col]
-
-# test 
-#quant_col, qual_col = change_variable_type(data = train_df, col=['Pclass','SibSp'])
 #print(quant_col)
 #print(qual_col)
 
@@ -220,7 +187,6 @@ def missing(data) -> list[list[str]]:
 #nan_quant, nan_qual, zero_col = missing(data)
 
 
-
 # --------------------- #
 # handling missing and zeros
 # --------------------- #
@@ -281,96 +247,15 @@ def drop_columns(data, col: list[str]):
 
 
 # --------------------- #
-# plot categorical columns (HEAVY version)
+# display dataframe side by side
 # --------------------- #
-# def plot_categorical_heavy(data, col: list[str]) -> None:
-#     # dataframe check 
-#     dataframe_review(data)
-#     # specs list 
-#     sp = [{'type': 'table'}, {'type': 'bar'}]
-#     specs = []
-#     for i in range(len(col)):
-#         specs.append(sp)
-#     # define figure specs
-#     fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
-#     # print loop 
-#     for i in range(len(col)):
-#         # define info table
-#         df = pd.DataFrame(data[col[i]].describe())
-#         # table plot
-#         fig.add_trace(
-#             go.Table(
-#             header=dict(values=list(['index', df.columns[0]]),
-#                     #fill_color='seagreen',
-#                     align='center'),
-#             cells=dict(values=[df.index, df.iloc[:,0]],
-#                    #fill_color='lightcyan',
-#                    align='left')),
-#             row=i+1, col=1)
-#         # bar plot 
-#         fig.add_trace(
-#            go.Bar(
-#            x = data[col[i]].value_counts().index,
-#            y = data[col[i]].value_counts()), 
-#            row=i+1, col=2) 
-#     # fig dimensions 
-#     fig.update_layout(height=500*len(col),showlegend=False,title_text='Categorical columns')
-#     fig.show() 
-
-# test 
-#plot_categorical(data_test, qual_col)
-
-
-# --------------------- #
-# plot quantitative columns (HEAVY version)
-# --------------------- #
-# def plot_quantitative_heavy(data, col: list[str]):
-#     # dataframe check 
-#     dataframe_review(data)
-#     # specs list 
-#     sp = [{'type': 'table'}, {'type': 'histogram'}]
-#     specs = []
-#     for i in range(len(col)):
-#         specs.append(sp)
-#     # define figure specs
-#     fig = sub.make_subplots(rows=len(col), cols=2, shared_xaxes=False, horizontal_spacing=0.1, specs=specs)
-#     # print loop 
-#     for i in range(len(col)):
-#         # define info table
-#         df = pd.DataFrame(data[col[i]].describe())
-#         # add unique value
-#         unique = len(set(data[col[i]]))
-#         df.loc[len(df.index)] = [unique]
-#         df.rename(index={8:'unique'},inplace=True)
-#         # add skewness value
-#         sk = data[col[i]].skew()
-#         df.loc[len(df.index)] = [sk]
-#         df.rename(index={9:'skew'},inplace=True)
-#         # table plot
-#         fig.add_trace(
-#             go.Table(
-#             header=dict(values=list(['index',df.columns[0]]),
-#                     #fill_color='seagreen',
-#                     align='center'),
-#             cells=dict(values=[df.index,df.iloc[:,0]],
-#                    #fill_color='lightcyan',
-#                    align='left', format = ["",".3f"])),
-#             row=i+1, col=1)
-#         # bar plot 
-#         fig.add_trace(
-#            go.Histogram(x = data[col[i]]), 
-#            #px.bar(data, x = col[i], y = col[i]),
-#            row=i+1, col=2) 
-    
-#     # fig dimensions 
-#     fig.update_layout(height=500*len(col), showlegend=False, title_text='Quantitative columns')
-#     fig.show()
-
-# test 
-#train_df, test_df = titanic()
-#quant_col, qual_col = variables_type(train_df)
-#plot_quantitative(train_df, quant_col)
-
+def display_side_by_side(dfs:list, captions:list) -> None:
+    output = ""
+    combined = dict(zip(captions, dfs))
+    for caption, df in combined.items():
+        output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
+        output += "\xa0\xa0\xa0"
+    ip.display.display(ip.display.HTML(output))
 
 
 # --------------------- #
@@ -501,7 +386,9 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
 # correlation
 # --------------------- #
 def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0.7) -> None:
+    # correlation matrix 
     corr_mtr = data[col].corr()
+    # graph style 
     if verbose == True: 
         corr_mtr = corr_mtr.style.background_gradient()
         ip.display.display(corr_mtr)
@@ -523,19 +410,19 @@ def quant_variable_plot(data, col, bins):
     # original
     plt.subplot(2,3,1)
     sn.histplot(x = data,kde=True, bins = bins)
-    plt.title('Original data: $x$')
+    plt.title('$x$')
     # log price
     plt.subplot(2,3,2)
     sn.histplot(x = np.log(data),kde=True, bins = bins)
     plt.title('$log(x)$')
-    # reciprocal  
+    # square root
     plt.subplot(2,3,3)
-    sn.histplot(x = 1/data, kde=True, bins = bins)
-    plt.title('$1/x$')
-    # cubic square 
+    sn.histplot(x = np.sqrt(data), kde=True, bins = bins)
+    plt.title('$\mathregular{\sqrt{x}}$')
+    # square 
     plt.subplot(2,3,4)
-    sn.histplot(x = data**(1/3), kde=True, bins = bins)
-    plt.title('$\mathregular{\sqrt[3]{x}}$')
+    sn.histplot(x = data**2, kde=True, bins = bins)
+    plt.title('$\mathregular{{x}^2}$')
     # box-cox (with lambda=none, array must be positive)
     plt.subplot(2,3,5)
     x = sp.stats.boxcox(data)
@@ -543,55 +430,79 @@ def quant_variable_plot(data, col, bins):
     sn.histplot(x = x[0], kde=True, bins = bins)
     plt.xlabel(col)
     plt.title(f'Box-Cox with $\lambda$ = {lmbda:.3f}')
-    # yeojohnson (yeojohnson does not require the input data to be positive.)
-    # PROBLEMA CON YJ CON DATI POSITIVI DA RISOLVERE
+    # reciprocal 
     plt.subplot(2,3,6)
-    x = sp.stats.yeojohnson(data)
-    sn.histplot(x = x[0],kde=True, bins = bins)
-    plt.xlabel(col)
-    plt.title('Yeo-Johnson')
+    sn.histplot(x = 1/data, kde=True, bins = bins)
+    plt.title('$1/x$')
     plt.show()
 
-
-def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001)->None:
+# useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot
+def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory = False)->None:
     # dataframe chack step 
     dataframe_review(data)
     # response variable check step 
     if data[col].dtypes == 'O':
-        raise TypeError('you must pass a quantitative variable as a response ')
+        raise TypeError('you must pass a quantitative variable')
     else:
         pass
-    # --- #
-    # negative values 
-    # --- #
+    # check
     if data[data[col] < 0].shape[0] > 0:
         print(1)
-        string = '### Variable with negative values'
+        string = '## Variable with negative values'
+        ip.display.display(ip.display.Markdown(string))
+        string = "* applied the transformation $x^{'}=x-min(x)+\epsilon$"
         ip.display.display(ip.display.Markdown(string))
         x = data[col]
         x = x + abs(min(x))+epsilon
         quant_variable_plot(data = x, col = col, bins = bins)
-    # --- #
-    # zero values 
-    # --- #
     elif data[data[col] == 0].shape[0] > 0:
         print(2)
-        string = '### Variable with zeros values'
+        string = '## Variable with zeros values'
         ip.display.display(ip.display.Markdown(string))
         x = data[col]
         x[x==0] = epsilon
         quant_variable_plot(data = x, col = col, bins = bins)
-    # --- #
-    # strict values 
-    # --- #
     else:
         print(3)
-        string = '### Strict positive variable'
+        string = '## Strickt positive variable'
         ip.display.display(ip.display.Markdown(string))
         x = data[col]
         quant_variable_plot(data = x, col = col, bins = bins)
+    if theory == True:
+        # theory behind transformation 
+        string = '## Effects of transformations:'
+        ip.display.display(ip.display.Markdown(string))
+        string = '### log transformation'
+        ip.display.display(ip.display.Markdown(string))
+        string = '* positive effect on right-skewed distributions and de-emphasize outliers'
+        string2 = '* gets worse when applied to distributions left-skewed or already normal'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+        string = '### Square root transformation'
+        ip.display.display(ip.display.Markdown(string))
+        string = '* normalizing effect on right-skewed distributions, it is weaker than the logarithm and cube root'
+        string2 = '* variables with a left skew will become worst after a square root transformation.'
+        string3 = '* high values get compressed and low values become more spread out'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3))
+        string = '### Square transformation'
+        ip.display.display(ip.display.Markdown(string))
+        string = '* used to reduce left skewness'
+        string2 = '* gets worse when applied to distributions without skewness'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+        string = '### Box-Cox'
+        ip.display.display(ip.display.Markdown(string))
+        string = '* if $\lambda$ is a non-zero number, then the transformed variable may be more difficult to interpret than if we simply applied a log transform.'
+        string2 = '* works well for left and right skewness'
+        string3 = '* only works for positive data'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3))
+        string = '### Reciprocal'
+        ip.display.display(ip.display.Markdown(string))
+        string = 'It can not be applied to zero values'
+        string2 = 'The reciprocal reverses order among values of the same sign: largestbecomes smallest, etc.'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+    else: 
+        pass
+# test 
+#quant_variable_study(data_test, 'Price', bins = 50, theory=True)
 
-# test        
-#quant_variable_study(data_test, 'Price', bins = 20)
 
 
