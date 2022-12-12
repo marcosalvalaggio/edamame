@@ -5,6 +5,7 @@ import seaborn as sn
 import IPython as ip
 import sklearn.impute
 import scipy as sp
+from itertools import product
 #import plotly.subplots as sub
 #import plotly.graph_objs as go
 # pandas options
@@ -21,6 +22,18 @@ def dataframe_review(data) -> None:
         pass
     else:
         raise TypeError('The data loaded is not a DataFrame')
+
+
+# --------------------- #
+# display dataframe side by side
+# --------------------- #
+def display_side_by_side(dfs:list, captions:list) -> None:
+    output = ""
+    combined = dict(zip(captions, dfs))
+    for caption, df in combined.items():
+        output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
+        output += "\xa0\xa0\xa0"
+    ip.display.display(ip.display.HTML(output))
 
 
 # --------------------- #
@@ -247,17 +260,6 @@ def drop_columns(data, col: list[str]):
 #train = drop_column(train_df, col = ['Name', 'Cabin', 'PassengerId', 'Ticket'])
 
 
-# --------------------- #
-# display dataframe side by side
-# --------------------- #
-def display_side_by_side(dfs:list, captions:list) -> None:
-    output = ""
-    combined = dict(zip(captions, dfs))
-    for caption, df in combined.items():
-        output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
-        output += "\xa0\xa0\xa0"
-    ip.display.display(ip.display.HTML(output))
-
 
 # --------------------- #
 # plot categorical columns 
@@ -384,11 +386,15 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
 
 
 # --------------------- #
-# correlation
+# correlation pearson (quantitative colum)
 # --------------------- #
-def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0.7) -> None:
+# correlation coefficients for numerical variables (Pearson, Kendall, Spearman)
+def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> None:
+    # title 
+    string = "### Pearson's correlation matrix"
+    ip.display.display(ip.display.Markdown(string))
     # correlation matrix 
-    corr_mtr = data[col].corr()
+    corr_mtr = data.corr()
     # graph style 
     if verbose == True: 
         corr_mtr = corr_mtr.style.background_gradient()
@@ -400,6 +406,37 @@ def correlation(data, col: list[str], verbose: bool = True, threshold: float = 0
 # test
 #quant_col, qual_col = variables_type(data_cpy)
 #correlation(data_cpy, quant_col)
+
+
+# --------------------- #
+# correlation categorical (chisq test p-values)
+# --------------------- #
+def correlation_categorical(data):
+    dataframe_review(data)
+    # list of categorical columns 
+    types = data.dtypes
+    qual = types[types == 'object']
+    qual = list(qual.index)
+    # pairs of variable 
+    var_prod = list(product(qual, qual, repeat=1))
+    # calculate chisq p-value 
+    result = []
+    for i in var_prod:
+        if i[0] != i[1]:
+            crosstab = pd.crosstab(data[i[0]], data[i[1]])
+            chisq = list(sp.stats.chi2_contingency(crosstab))
+            pval = np.round(chisq[1], decimals=3)
+            result.append((i[0],i[1],pval))
+    # create the matrix 
+    chi_test_output = pd.DataFrame(result, columns = ['var1', 'var2', 'coeff'])
+    chi_test_output = chi_test_output.pivot(index='var1', columns='var2', values='coeff')
+    chi_test_output.columns.name = None
+    chi_test_output.index.name = None
+    # display 
+    ip.display.display(chi_test_output)
+
+# test   
+#correlation_categorical(data_cpy)
 
 
 # --------------------- #
