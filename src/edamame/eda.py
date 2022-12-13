@@ -390,6 +390,8 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
 # --------------------- #
 # correlation coefficients for numerical variables (Pearson, Kendall, Spearman)
 def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> None:
+    # dataframe check 
+    dataframe_review(data)
     # title 
     string = "### Pearson's correlation matrix"
     ip.display.display(ip.display.Markdown(string))
@@ -412,6 +414,7 @@ def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> N
 # correlation categorical (chisq test p-values)
 # --------------------- #
 def correlation_categorical(data):
+    # dataframe check 
     dataframe_review(data)
     # list of categorical columns 
     types = data.dtypes
