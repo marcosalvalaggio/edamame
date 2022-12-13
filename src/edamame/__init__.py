@@ -12,6 +12,7 @@ modify_cardinality,
 correlation_pearson,
 correlation_categorical,
 correlation_phik,
-quant_variable_study)
+quant_variable_study,
+split_and_scaling)
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"

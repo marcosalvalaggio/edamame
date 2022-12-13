@@ -7,6 +7,7 @@ import sklearn.impute
 import scipy as sp
 from itertools import product
 import phik
+import sklearn
 #import plotly.subplots as sub
 #import plotly.graph_objs as go
 # pandas options
@@ -589,3 +590,26 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
 # test 
 #quant_variable_study(data_test, 'Price', bins = 50, theory=True)
 
+
+
+# --------------------- #
+# split and scale dataset
+# --------------------- #
+def split_and_scaling(data, target: str):
+    # dataframe check 
+    dataframe_review(data)
+    # split step
+    y = data[target]
+    X = data.drop(target, axis=1)
+    # scaling quantitative variables 
+    types = X.dtypes
+    quant = types[types != 'object']
+    quant_columns = list(quant.index)
+    scaler = sklearn.preprocessing.StandardScaler()
+    scaler.fit(X[quant_columns])
+    X[quant_columns] = scaler.transform(X[quant_columns])
+    # return step 
+    return [X,y]
+
+# test 
+#X, y = split_and_scaling(data_cpy, 'Price')
