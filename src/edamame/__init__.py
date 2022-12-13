@@ -11,6 +11,7 @@ view_cardinality,
 modify_cardinality,
 correlation_pearson,
 correlation_categorical,
+correlation_phik,
 quant_variable_study)
 
 __version__ = "0.0.7"

@@ -6,6 +6,7 @@ import IPython as ip
 import sklearn.impute
 import scipy as sp
 from itertools import product
+import phik
 #import plotly.subplots as sub
 #import plotly.graph_objs as go
 # pandas options
@@ -416,6 +417,9 @@ def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> N
 def correlation_categorical(data):
     # dataframe check 
     dataframe_review(data)
+    # title 
+    string = '### $\chi^2$ test statistic $p$-values'
+    ip.display.display(ip.display.Markdown(string))
     # list of categorical columns 
     types = data.dtypes
     qual = types[types == 'object']
@@ -445,6 +449,41 @@ def correlation_categorical(data):
 
 # test   
 #correlation_categorical(data_cpy)
+
+
+# --------------------- #
+# correlation phik (quantitative and categorical columns)
+# --------------------- #
+# https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7
+def correlation_phik(data, theory: bool = False):
+    # dataframe check 
+    dataframe_review(data)
+    # title 
+    string = '### $\phi K$ correlation matrix'
+    ip.display.display(ip.display.Markdown(string))
+    # interval columns 
+    types = data.dtypes
+    quant = types[types != 'object']
+    quant = list(quant.index)
+    interval_cols = quant
+    # call method (if categorical columns has many cardinalities slow down the execution)
+    phik_overview = data.phik_matrix(interval_cols = interval_cols)
+    phik_overview = phik_overview.style.background_gradient().format("{:.2}")
+    # display
+    ip.display.display(phik_overview)
+    if theory == True:
+        string = '* the calculation of $\phi K$ is computationally expensive'
+        string2 = '* no indication of direction'
+        string3 = '* no closed-form formula'
+        string4 = '* when working with numeric-only variables, other correlation coefficients will be more precise, especially for small samples.'
+        string5 = '* it is based on several refinements to Pearson’s $\chi^2$ contingency test'
+        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3), ip.display.Markdown(string4), ip.display.Markdown(string5))
+    else:
+        pass
+        
+# test 
+#correlation_phik(train_df, theory= True)
+
 
 
 # --------------------- #
