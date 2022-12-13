@@ -432,6 +432,11 @@ def correlation_categorical(data):
     chi_test_output = chi_test_output.pivot(index='var1', columns='var2', values='coeff')
     chi_test_output.columns.name = None
     chi_test_output.index.name = None
+    # style
+    def highlight_pvalue(s):
+        is_rej = s < 0.05
+        return ['background-color: orange' if i else 'background-color:' for i in is_rej]
+    chi_test_output = chi_test_output.style.apply(highlight_pvalue)
     # display 
     ip.display.display(chi_test_output)
 
