@@ -16,4 +16,4 @@ quant_variable_study,
 interactions,
 split_and_scaling)
 
-__version__ = "0.1"
+__version__ = "0.11"
