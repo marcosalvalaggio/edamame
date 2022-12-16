@@ -2,14 +2,13 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
 import seaborn as sn
-import IPython as ip
-import sklearn.impute
+from IPython.display import display, Markdown, HTML
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
 import scipy as sp
 from itertools import product
 import phik
 import sklearn
-#import plotly.subplots as sub
-#import plotly.graph_objs as go
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -35,7 +34,7 @@ def display_side_by_side(dfs:list, captions:list) -> None:
     for caption, df in combined.items():
         output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
         output += "\xa0\xa0\xa0"
-    ip.display.display(ip.display.HTML(output))
+    display(HTML(output))
 
 
 # --------------------- #
@@ -46,7 +45,7 @@ def dimensions(data: pd.core.frame.DataFrame) -> None:
     dataframe_review(data)
     # ---
     dim = f'Rows: {data.shape[0]}, Columns: {data.shape[1]}'
-    ip.display.display(ip.display.Markdown(dim))
+    display(Markdown(dim))
 
 # test
 #dimensions(data)
@@ -59,11 +58,11 @@ def describe_distribution(data) -> None:
     dataframe_review(data)
     # ---
     string = '### Quantitative columns'
-    ip.display.display(ip.display.Markdown(string))
-    ip.display.display(data.describe())
+    display(Markdown(string))
+    display(data.describe())
     string = '### Categorical columns'
-    ip.display.display(ip.display.Markdown(string))
-    ip.display.display(data.describe(include=["O"]))
+    display(Markdown(string))
+    display(data.describe(include=["O"]))
 
 # test
 #describeDistribution(data)
@@ -78,7 +77,7 @@ def identify_types(data) -> list[list[str]]:
     # display types 
     types = pd.DataFrame(data.dtypes)
     types.columns = ['variable type']
-    ip.display.display(ip.display.Markdown(types.to_markdown()))
+    display(Markdown(types.to_markdown()))
     # quantitative variables columns 
     types = data.dtypes
     quant_col = types[types != 'object']
@@ -133,19 +132,19 @@ def missing(data) -> list[list[str]]:
     num_qual_col = len(qual_col)
     # create table
     string = '### INFO table'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Quantitative variables': num_quant_col, 'Categorical variables': num_qual_col}
     info_table = pd.DataFrame(data=info_table, index = ['0'])
-    ip.display.display(ip.display.Markdown(info_table.to_markdown(index=False)))
+    display(Markdown(info_table.to_markdown(index=False)))
     # ----------------------------- #
     # null or blank values in columns 
     # ----------------------------- #
     string = '### Check blank, null or empty values'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     nan = pd.Series((data.isnull().mean()*100),name ='%')
     nan.index.name = 'columns'
     nan = nan[nan>0]
-    ip.display.display(ip.display.Markdown(nan.to_markdown()))
+    display(Markdown(nan.to_markdown()))
     nan_col = list(nan.index)
     # nan quantitative cols
     types = data[nan_col].dtypes
@@ -158,24 +157,24 @@ def missing(data) -> list[list[str]]:
     # rows with zeros 
     # ----------------------------- #
     string = '### Check zeros'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     zero = pd.Series((data == 0).mean()*100,name ='%')
     zero.index.name = 'columns'
     zero = zero[zero>0]
-    ip.display.display(ip.display.Markdown(zero.to_markdown()))
+    display(Markdown(zero.to_markdown()))
     zero_col = list(zero.index)
     # ----------------------------- #
     # duplicates rows
     # ----------------------------- #
     string = '### Check duplicates rows'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     dupli = pd.Series(data.duplicated(keep=False).sum().mean()*100,name ='%')
-    ip.display.display(ip.display.Markdown(dupli.to_markdown(index=False))) 
+    display(Markdown(dupli.to_markdown(index=False))) 
     # ----------------------------- #
     # summary 
     # ----------------------------- #
     string = '### SUMMARY table'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     zero_row = np.zeros((2,data.shape[1]))
     summary = pd.DataFrame(zero_row, index = ["nan", "zero"])
     summary.columns = data.columns
@@ -191,7 +190,7 @@ def missing(data) -> list[list[str]]:
         summary.loc['zero',zero_col] = 'background-color: orange'
         return summary 
     summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
-    ip.display.display(summary)
+    display(summary)
     print("\n")
     # ----------------------------- #
     # return step
@@ -233,7 +232,7 @@ def handling_missing(data, col: list[str], missing_val = np.nan, method: list[st
             data = data.drop(col[i], axis = 1)
             #print(data.shape)
         else:
-            imputer = sklearn.impute.SimpleImputer(strategy=method[i], missing_values=missing_val)
+            imputer = SimpleImputer(strategy=method[i], missing_values=missing_val)
             data[col[i]] = imputer.fit_transform(data[col[i]].values.reshape(-1,1))[:,0]
             #print(data.shape)
     # ----------------------------- #
@@ -272,7 +271,7 @@ def plot_categorical(data, col: list[str]) -> None:
     for _, col in enumerate(col):
         # title
         string = '### ' + col
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         # info table
         df = pd.DataFrame(data[col].describe())
         # cardinality table 
@@ -284,7 +283,7 @@ def plot_categorical(data, col: list[str]) -> None:
         if len(data[col].value_counts().index) > 1000:
             string = '***too many unique values***'
             print('\n')
-            ip.display.display(ip.display.Markdown(string))
+            display(Markdown(string))
         elif len(data[col].value_counts().index) > 50:
             fig = plt.figure(figsize = (8, 4))
             plt.bar(data[col].value_counts().index, data[col].value_counts())
@@ -315,7 +314,7 @@ def plot_quantitative(data, col: list[str], bins: int = 50) -> None:
     for _, col in enumerate(col):
         # title
         string = '### ' + col
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         # info table
         df = pd.DataFrame(data[col].describe())
         # add unique value
@@ -350,7 +349,7 @@ def view_cardinality(data, col: list[str]) -> None:
     cardinality = pd.DataFrame()
     cardinality['columns'] = col
     cardinality['cardinality'] = [data[col[i]].value_counts().count() for i in range(len(col))]
-    ip.display.display(ip.display.Markdown(cardinality.to_markdown(index=False)))
+    display(Markdown(cardinality.to_markdown(index=False)))
     
 # test 
 #quant_col, qual_col = variables_type(data_test)
@@ -372,7 +371,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
     cardinality = pd.DataFrame()
     cardinality['columns'] = col
     cardinality['old_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
-    #ip.display.display(ip.display.Markdown(cardinality.to_markdown()))
+    #display(Markdown(cardinality.to_markdown()))
     for i, colname in enumerate(col):
         listCat = data[colname].value_counts()
         listCat = list(listCat[listCat > threshold[i]].index)
@@ -380,7 +379,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
     # add new cardinalities 
     cardinality['new_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
     # display
-    ip.display.display(ip.display.Markdown(cardinality.to_markdown(index=False)))
+    display(Markdown(cardinality.to_markdown(index=False)))
 
 # test 
 #data_cpy = data_test.copy()
@@ -396,16 +395,16 @@ def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> N
     dataframe_review(data)
     # title 
     string = "### Pearson's correlation matrix"
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     # correlation matrix 
     corr_mtr = data.corr()
     # graph style 
     if verbose == True: 
         corr_mtr = corr_mtr.style.background_gradient()
-        ip.display.display(corr_mtr)
+        display(corr_mtr)
     else: 
         corr_mtr = corr_mtr[(corr_mtr.iloc[:,:]>threshold) | (corr_mtr.iloc[:,:]<-threshold)]
-        ip.display.display(corr_mtr)
+        display(corr_mtr)
 
 # test
 #quant_col, qual_col = variables_type(data_cpy)
@@ -420,7 +419,7 @@ def correlation_categorical(data):
     dataframe_review(data)
     # title 
     string = '### $\chi^2$ test statistic $p$-values'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     # list of categorical columns 
     types = data.dtypes
     qual = types[types == 'object']
@@ -446,7 +445,7 @@ def correlation_categorical(data):
         return ['background-color: orange' if i else 'background-color:' for i in is_rej]
     chi_test_output = chi_test_output.style.apply(highlight_pvalue)
     # display 
-    ip.display.display(chi_test_output)
+    display(chi_test_output)
 
 # test   
 #correlation_categorical(data_cpy)
@@ -461,7 +460,7 @@ def correlation_phik(data, theory: bool = False):
     dataframe_review(data)
     # title 
     string = '### $\phi K$ correlation matrix'
-    ip.display.display(ip.display.Markdown(string))
+    display(Markdown(string))
     # interval columns 
     types = data.dtypes
     quant = types[types != 'object']
@@ -471,14 +470,14 @@ def correlation_phik(data, theory: bool = False):
     phik_overview = data.phik_matrix(interval_cols = interval_cols)
     phik_overview = phik_overview.style.background_gradient().format("{:.2}")
     # display
-    ip.display.display(phik_overview)
+    display(phik_overview)
     if theory == True:
         string = '* the calculation of $\phi K$ is computationally expensive'
         string2 = '* no indication of direction'
         string3 = '* no closed-form formula'
         string4 = '* when working with numeric-only variables, other correlation coefficients will be more precise, especially for small samples.'
         string5 = '* it is based on several refinements to Pearson’s $\chi^2$ contingency test'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3), ip.display.Markdown(string4), ip.display.Markdown(string5))
+        display(Markdown(string),Markdown(string2),Markdown(string3), Markdown(string4), Markdown(string5))
     else:
         pass
         
@@ -535,56 +534,56 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
     if data[data[col] < 0].shape[0] > 0:
         print(1)
         string = '## Variable with negative values'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = "* applied the transformation $x^{'}=x-min(x)+\epsilon$"
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         x = data[col]
         x = x + abs(min(x))+epsilon
         quant_variable_plot(data = x, col = col, bins = bins)
     elif data[data[col] == 0].shape[0] > 0:
         print(2)
         string = '## Variable with zeros values'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         x = data[col]
         x[x==0] = epsilon
         quant_variable_plot(data = x, col = col, bins = bins)
     else:
         print(3)
         string = '## Strickt positive variable'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         x = data[col]
         quant_variable_plot(data = x, col = col, bins = bins)
     if theory == True:
         # theory behind transformation 
         string = '## Effects of transformations:'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = '### log transformation'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = '* positive effect on right-skewed distributions and de-emphasize outliers'
         string2 = '* gets worse when applied to distributions left-skewed or already normal'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+        display(Markdown(string),Markdown(string2))
         string = '### Square root transformation'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = '* normalizing effect on right-skewed distributions, it is weaker than the logarithm and cube root'
         string2 = '* variables with a left skew will become worst after a square root transformation.'
         string3 = '* high values get compressed and low values become more spread out'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3))
+        display(Markdown(string),Markdown(string2),Markdown(string3))
         string = '### Square transformation'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = '* used to reduce left skewness'
         string2 = '* gets worse when applied to distributions without skewness'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+        display(Markdown(string),Markdown(string2))
         string = '### Box-Cox'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = '* if $\lambda$ is a non-zero number, then the transformed variable may be more difficult to interpret than if we simply applied a log transform.'
         string2 = '* works well for left and right skewness'
         string3 = '* only works for positive data'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2),ip.display.Markdown(string3))
+        display(Markdown(string),Markdown(string2),Markdown(string3))
         string = '### Reciprocal'
-        ip.display.display(ip.display.Markdown(string))
+        display(Markdown(string))
         string = 'It can not be applied to zero values'
         string2 = 'The reciprocal reverses order among values of the same sign: largestbecomes smallest, etc.'
-        ip.display.display(ip.display.Markdown(string),ip.display.Markdown(string2))
+        display(Markdown(string),Markdown(string2))
     else: 
         pass
 # test 
@@ -605,7 +604,7 @@ def split_and_scaling(data, target: str):
     types = X.dtypes
     quant = types[types != 'object']
     quant_columns = list(quant.index)
-    scaler = sklearn.preprocessing.StandardScaler()
+    scaler = StandardScaler()
     scaler.fit(X[quant_columns])
     X[quant_columns] = scaler.transform(X[quant_columns])
     # return step 
