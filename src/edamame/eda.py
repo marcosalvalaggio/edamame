@@ -8,7 +8,7 @@ from sklearn.impute import SimpleImputer
 import scipy as sp
 from itertools import product
 import phik
-import sklearn
+from ipywidgets import interact
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -589,6 +589,23 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
 # test 
 #quant_variable_study(data_test, 'Price', bins = 50, theory=True)
 
+
+
+# --------------------- #
+# interactive scatterplot
+# --------------------- #
+def interactions(data):
+    # dataframe check 
+    dataframe_review(data)
+    # scatterplot function 
+    @interact
+    def scatter(column1 = list(data.select_dtypes('number').columns), 
+                column2 = list(data.select_dtypes('number').columns)):
+        # scatterplot
+        sn.regplot(x=data[column1], y=data[column2])
+        
+# test 
+#interactions(X)
 
 
 # --------------------- #
