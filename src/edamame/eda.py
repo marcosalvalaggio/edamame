@@ -594,7 +594,7 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
 # --------------------- #
 # interactive scatterplot
 # --------------------- #
-def interactions(data) -> None:
+def interaction(data) -> None:
     # dataframe check 
     dataframe_review(data)
     # scatterplot function 
@@ -612,7 +612,7 @@ def interactions(data) -> None:
 # --------------------- #
 # interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
 # --------------------- #
-def inspections(data,threshold: int = 10, bins: int = 50) -> None:
+def inspection(data,threshold: int = 10, bins: int = 50) -> None:
     # dataframe check 
     dataframe_review(data)
     # plot step

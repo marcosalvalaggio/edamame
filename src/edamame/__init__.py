@@ -13,7 +13,8 @@ correlation_pearson,
 correlation_categorical,
 correlation_phik,
 quant_variable_study,
-interactions,
+interaction,
+inspection,
 split_and_scaling)
 
 __version__ = "0.11"
