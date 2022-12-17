@@ -594,7 +594,7 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
 # --------------------- #
 # interactive scatterplot
 # --------------------- #
-def interactions(data):
+def interactions(data) -> None:
     # dataframe check 
     dataframe_review(data)
     # scatterplot function 
@@ -602,10 +602,37 @@ def interactions(data):
     def scatter(column1 = list(data.select_dtypes('number').columns), 
                 column2 = list(data.select_dtypes('number').columns)):
         # scatterplot
-        sn.regplot(x=data[column1], y=data[column2])
+        sn.jointplot(x=data[column1], y=data[column2], kind='scatter')
+        plt.show()
         
 # test 
 #interactions(X)
+
+
+# --------------------- #
+# interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
+# --------------------- #
+def inspections(data,threshold: int = 10, bins: int = 50) -> None:
+    # dataframe check 
+    dataframe_review(data)
+    # plot step
+    @interact
+    def inspect(column = list(data.columns), target = list(data.columns)):
+        # check column variable type
+        if len(data[target].unique()) > threshold:
+            print('too many unique values in the target variable')
+        # check column variable type
+        elif data[column].dtypes == 'O':
+            #barplot 
+            sn.countplot(x=data[column], hue=data[target])
+            plt.xticks(rotation=90)           
+            plt.show()
+        else:
+            sn.histplot(x=data[column], hue=data[target], kde=True, bins = bins)
+            plt.show()
+    
+# test  
+#inspections(X)
 
 
 # --------------------- #
