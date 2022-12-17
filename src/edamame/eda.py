@@ -612,22 +612,30 @@ def interaction(data) -> None:
 # --------------------- #
 # interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
 # --------------------- #
-def inspection(data,threshold: int = 10, bins: int = 50) -> None:
+def inspection(data,threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.)) -> None:
     # dataframe check 
     dataframe_review(data)
     # plot step
     @interact
     def inspect(column = list(data.columns), target = list(data.columns)):
+        # useful info
+        column_type = str(data[column].describe().dtype)
+        target_type = str(data[target].describe().dtype)
+        string = f'column type: {column_type}, target type: {target_type}'
+        display(Markdown(string))
         # check column variable type
         if len(data[target].unique()) > threshold:
             print('too many unique values in the target variable')
         # check column variable type
         elif data[column].dtypes == 'O':
             #barplot 
+            plt.figure(figsize=figsize)
             sn.countplot(x=data[column], hue=data[target])
             plt.xticks(rotation=90)           
             plt.show()
         else:
+            # histplot
+            plt.figure(figsize=figsize)
             sn.histplot(x=data[column], hue=data[target], kde=True, bins = bins)
             plt.show()
     
