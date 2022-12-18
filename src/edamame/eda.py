@@ -619,9 +619,11 @@ def inspection(data,threshold: int = 10, bins: int = 50, figsize: tuple[float, f
     @interact
     def inspect(column = list(data.columns), target = list(data.columns)):
         # useful info
+        title = ' ### Variable type info:'
+        display(Markdown(title))
         column_type = str(data[column].describe().dtype)
         target_type = str(data[target].describe().dtype)
-        string = f'column type: {column_type}, target type: {target_type}'
+        string = f'**column**: {column_type}, **target**: {target_type}'
         display(Markdown(string))
         # check column variable type
         if len(data[target].unique()) > threshold:
@@ -636,7 +638,10 @@ def inspection(data,threshold: int = 10, bins: int = 50, figsize: tuple[float, f
         else:
             # histplot
             plt.figure(figsize=figsize)
-            sn.histplot(x=data[column], hue=data[target], kde=True, bins = bins)
+            try:
+                sn.histplot(x=data[column], hue=data[target], kde = True, bins = bins)
+            except:
+                sn.histplot(x=data[column], hue=data[target], bins = bins)
             plt.show()
     
 # test  
