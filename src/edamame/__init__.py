@@ -18,4 +18,4 @@ inspection,
 split_and_scaling)
 from edamame import regression
 
-__version__ = "0.15"
+__version__ = "0.16"

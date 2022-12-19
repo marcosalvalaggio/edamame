@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "edamame"
-version = "0.15"
+version = "0.16"
 authors = [
   { name="Marco Salvalaggio", email="mar.salvalaggio@gmail.com" },
 ]
@@ -28,6 +28,10 @@ dependencies = [
     "phik",
     "ipywidgets",
 ]
+
+[tool.setuptools.packages.find]
+include = ["edamame", "edamame.*"]
+namespaces = false
 
 [project.urls]
 "Homepage" = "https://github.com/marcosalvalaggio/edamame"
