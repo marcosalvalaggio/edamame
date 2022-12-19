@@ -16,6 +16,7 @@ quant_variable_study,
 interaction,
 inspection,
 split_and_scaling)
-from edamame import regression
 
-__version__ = "0.16"
+from .reg import TrainRegressor
+
+__version__ = "0.17"
