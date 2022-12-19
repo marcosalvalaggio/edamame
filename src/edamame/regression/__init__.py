@@ -1,0 +1,1 @@
+from .reg import TrainRegressor
