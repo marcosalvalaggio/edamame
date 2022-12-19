@@ -16,6 +16,6 @@ quant_variable_study,
 interaction,
 inspection,
 split_and_scaling)
-import regression
+from . import regression
 
-__version__ = "0.13"
+__version__ = "0.14"
