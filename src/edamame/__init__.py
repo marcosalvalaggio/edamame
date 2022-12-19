@@ -16,6 +16,6 @@ quant_variable_study,
 interaction,
 inspection,
 split_and_scaling)
-from . import regression
+from edamame import regression
 
-__version__ = "0.14"
+__version__ = "0.15"

@@ -1,1 +1,1 @@
-from .reg import TrainRegressor
+from edamame.regression.reg import TrainRegressor
