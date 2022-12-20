@@ -95,7 +95,7 @@ class TrainRegressor:
     # ------------ #
     # Lasso model
     # ------------ #
-    def lasso(self, alpha: list[float, float, int] = [0.00001, 10., 50],  n_folds: int = 5):
+    def lasso(self, alpha: list[float, float, int] = [0.0001, 10., 50],  n_folds: int = 5):
         # lasso hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         # hyperparameter gridsearch
@@ -247,26 +247,31 @@ class TrainRegressor:
         cv_mean = []
         score = []
         std = []
-        regressor = ["Linear", "Lasso", "Ridge"]
+        regressor = ["Linear", "Lasso", "Ridge", "Tree"]
         try:
             model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
-                          Ridge(alpha = self.ridge.alpha)]
+                          Ridge(alpha = self.ridge.alpha),
+                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease)]
         except:
             # find best hyperparameters 
             self.lasso()
             self.ridge()
+            self.tree()
             # model list 
             model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
-                          Ridge(alpha = self.ridge.alpha)]
+                          Ridge(alpha = self.ridge.alpha),
+                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease)]
         # cross validation loop 
         for model in model_list:
-            cv_result = cross_val_score(model, self.X_train, self.y_train, cv=kfold, scoring="r2")
+            cv_result = cross_val_score(model, self.X_test, self.y_test, cv=kfold, scoring="r2")
             cv_mean.append(cv_result.mean())
             std.append(cv_result.std())
             score.append(cv_result)
         # dataframe for results 
         df_kfold_result = pd.DataFrame({"CV Mean": cv_mean, "Std": std},index=regressor)
         # display step 
+        string = '### Metrics results:'
+        display(Markdown(string))
         display(df_kfold_result)
         # boxplot on R2
         box = pd.DataFrame(score, index=regressor)
