@@ -33,20 +33,16 @@ def dataframe_review(data) -> None:
 
 class TrainRegressor:
     
-    def __init__(self, X, y, n_folds: int = 5, alpha_lasso: list[float, float, int]=[0.0001,10,50], 
-                 alpha_ridge: list[float, float, int]=[0.0001,10,50]):
+    def __init__(self, X, y):
         self.X = X
         self.y = y
         # check dataframe 
         dataframe_review(self.X)
         # check columns type
         dummy_control(self.X)
-        self.n_folds = n_folds
-        # lasso hyperparameter 
-        self.alpha_lasso = np.linspace(alpha_lasso[0], alpha_lasso[1], alpha_lasso[2])
-        # ridge hyperparameter
-        self.alpha_ridge = np.linspace(alpha_ridge[0], alpha_ridge[1], alpha_ridge[2])
-    
+
+
+
     # ------------ #
     # linear model
     # ------------ #
@@ -58,6 +54,7 @@ class TrainRegressor:
         # return step 
         return linear
 
+
     # aggiungere sognificatività coef
     def linear_coef(self):
         intercept = ('intercept',self.linear.intercept_[0])
@@ -68,6 +65,7 @@ class TrainRegressor:
         # display step 
         display(df_coef)
         
+
     def linear_metrics(self):
         # R2
         y_pred_train = self.linear.predict(self.X)
@@ -86,10 +84,13 @@ class TrainRegressor:
     # ------------ #
     # Lasso model
     # ------------ #
-    def lasso(self):
+    def lasso(self, alpha: list[float, float, int] = [0.00001, 10., 50],  n_folds: int = 5):
+        # lasso hyperparameter 
+        alphas = np.linspace(alpha[0], alpha[1], alpha[2])
+        # hyperparameter gridsearch
         lasso = Lasso()
-        tuned_parameters = [{"alpha": self.alpha_lasso}]
-        reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=self.n_folds, refit=True, verbose = 0, scoring='r2')
+        tuned_parameters = [{"alpha": alphas}]
+        reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_lasso.fit(self.X, self.y)
         # running the optimized model 
         lasso = Lasso(alpha = reg_lasso.best_params_['alpha'])
@@ -98,6 +99,7 @@ class TrainRegressor:
         self.lasso = lasso
         # return step 
         return lasso
+
 
     def lasso_coef(self):
         intercept = ('intercept',self.lasso.intercept_[0])
@@ -108,6 +110,7 @@ class TrainRegressor:
         # display step 
         display(df_coef)
     
+
     def lasso_metrics(self):
         # R2
         y_pred_train = self.lasso.predict(self.X)
@@ -122,13 +125,17 @@ class TrainRegressor:
         metrics.columns = [f'Lasso with alpha: {self.lasso.alpha:.4f}']
         display(metrics)        
         
+
     # ------------ #
     # Ridge model
     # ------------ #
-    def ridge(self):
+    def ridge(self, alpha: list[float, float, int] = [0.1, 50, 50], n_folds: int = 5):
+        # ridge hyperparameter 
+        alphas = np.linspace(alpha[0], alpha[1], alpha[2])
+        # hyperparameter gridsearch
         ridge = Ridge()
-        tuned_parameters = [{"alpha": self.alpha_ridge}]
-        reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=self.n_folds, refit=True, verbose = 0, scoring='r2')
+        tuned_parameters = [{"alpha": alphas}]
+        reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_ridge.fit(self.X, self.y)
         # running the optimized model 
         ridge = Ridge(alpha = reg_ridge.best_params_['alpha'])
@@ -163,11 +170,12 @@ class TrainRegressor:
         metrics.columns = [f'Ridge with alpha: {self.ridge.alpha:.4f}']
         display(metrics) 
 
+
     # ------------ #
     # auto_ml
     # ------------ #
-    def auto_ml(self):
-        kfold = KFold(n_splits=self.n_folds)
+    def auto_ml(self, n_folds: int = 5):
+        kfold = KFold(n_splits=n_folds)
         cv_mean = []
         score = []
         std = []

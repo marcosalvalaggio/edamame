@@ -19,4 +19,4 @@ split_and_scaling)
 
 from .reg import TrainRegressor
 
-__version__ = "0.17"
+__version__ = "0.18"
