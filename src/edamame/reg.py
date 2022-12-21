@@ -8,6 +8,7 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold, cross_val_predict, cross_val_score
+import pickle
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -45,7 +46,6 @@ class TrainRegressor:
         # check columns type
         dummy_control(self.X_train)
         dummy_control(self.X_test)
-
 
 
     # ------------ #
@@ -125,7 +125,7 @@ class TrainRegressor:
     def lasso_metrics(self):
         # R2
         y_pred_train = self.lasso.predict(self.X_train)
-        y_pred_test = self.linear.predict(self.X_test)
+        y_pred_test = self.lasso.predict(self.X_test)
         # r2
         r2_train = r2_score(self.y_train, y_pred_train)
         r2_test = r2_score(self.y_test, y_pred_test)
@@ -176,7 +176,7 @@ class TrainRegressor:
     
     def ridge_metrics(self):
         y_pred_train = self.ridge.predict(self.X_train)
-        y_pred_test = self.linear.predict(self.X_test)
+        y_pred_test = self.ridge.predict(self.X_test)
         # r2
         r2_train = r2_score(self.y_train, y_pred_train)
         r2_test = r2_score(self.y_test, y_pred_test)
@@ -238,11 +238,31 @@ class TrainRegressor:
         display(Markdown(string))
         display(metrics) 
 
+    # ------------ #
+    # save model
+    # ------------ #
+    def save_model(self, model_name: str = 'all'):
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3}
+        model_list = [self.linear, self.lasso, self.ridge, self.tree]
+        if model_name == 'all':
+            for key in model_dct:
+                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                        display(f'unable to save {key} model')
+                else:
+                    filename = f'{key}.pkl'
+                    with open(filename, 'wb') as file:
+                        pickle.dump(model_list[model_dct[key]], file)
+                        display(f'{filename} saved')
+        else:
+            filename = f'{model_name}.pkl'
+            with open(filename, 'wb') as file:
+                pickle.dump(model_list[model_dct[model_name]], file)
+
 
     # ------------ #
     # auto_ml
     # ------------ #
-    def auto_ml(self, n_folds: int = 5):
+    def auto_ml(self, n_folds: int = 5, data: str = 'test'):
         kfold = KFold(n_splits=n_folds)
         cv_mean = []
         score = []
@@ -263,14 +283,19 @@ class TrainRegressor:
                           DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease)]
         # cross validation loop 
         for model in model_list:
-            cv_result = cross_val_score(model, self.X_test, self.y_test, cv=kfold, scoring="r2")
+            if data == 'train':
+                cv_result = cross_val_score(model, self.X_train, self.y_train, cv=kfold, scoring="r2")
+            elif data == 'test':
+                cv_result = cross_val_score(model, self.X_test, self.y_test, cv=kfold, scoring="r2")
+            else:
+                raise ValueError('insert valid target dataset (\'train\' or \'test\')')
             cv_mean.append(cv_result.mean())
             std.append(cv_result.std())
             score.append(cv_result)
         # dataframe for results 
         df_kfold_result = pd.DataFrame({"CV Mean": cv_mean, "Std": std},index=regressor)
         # display step 
-        string = '### Metrics results:'
+        string = f'### Metrics results on {data} set:'
         display(Markdown(string))
         display(df_kfold_result)
         # boxplot on R2
@@ -288,7 +313,7 @@ if __name__ == '__main__':
     # OHE formatting
     X_train_t = pd.get_dummies(data=X_train, drop_first=False)
     # instance
-    model = TrainRegressor(X_train_t, np.log(y_train))
+    model = TrainRegressor(X_train_t, np.log(y_train), X_test, y_test)
     model.linear()
     model.linear_coef()
     model.linear_metrics()
