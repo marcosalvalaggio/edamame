@@ -238,26 +238,6 @@ class TrainRegressor:
         display(Markdown(string))
         display(metrics) 
 
-    # ------------ #
-    # save model
-    # ------------ #
-    def save_model(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3}
-        model_list = [self.linear, self.lasso, self.ridge, self.tree]
-        if model_name == 'all':
-            for key in model_dct:
-                if model_list[model_dct[key]].__class__.__name__ == 'method':
-                        display(f'unable to save {key} model')
-                else:
-                    filename = f'{key}.pkl'
-                    with open(filename, 'wb') as file:
-                        pickle.dump(model_list[model_dct[key]], file)
-                        display(f'{filename} saved')
-        else:
-            filename = f'{model_name}.pkl'
-            with open(filename, 'wb') as file:
-                pickle.dump(model_list[model_dct[model_name]], file)
-
 
     # ------------ #
     # auto_ml
@@ -304,9 +284,29 @@ class TrainRegressor:
         plt.show()
 
 
+    # ------------ #
+    # save model
+    # ------------ #
+    def save_model(self, model_name: str = 'all'):
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3}
+        model_list = [self.linear, self.lasso, self.ridge, self.tree]
+        if model_name == 'all':
+            for key in model_dct:
+                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                        display(f'unable to save {key} model')
+                else:
+                    filename = f'{key}.pkl'
+                    with open(filename, 'wb') as file:
+                        pickle.dump(model_list[model_dct[key]], file)
+                        display(f'{filename} saved')
+        else:
+            filename = f'{model_name}.pkl'
+            with open(filename, 'wb') as file:
+                pickle.dump(model_list[model_dct[model_name]], file)
+
+
 
 if __name__ == '__main__':
-
     X = pd.read_csv('/Users/marcosalvalaggio/code/python/ds/data/melb_data/X.csv', sep = ';')
     y = pd.read_csv('/Users/marcosalvalaggio/code/python/ds/data/melb_data/y.csv', sep = ';')
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
