@@ -17,6 +17,9 @@ pd.set_option('display.max_colwidth', None)
 # list of metrics
 #get_scorer_names()
 
+# ----------------- #
+# OHE check
+# ----------------- #
 def dummy_control(data):
     types = data.dtypes
     qual_col = types[types == 'object']
@@ -25,7 +28,9 @@ def dummy_control(data):
     else:
         pass
 
-
+# ----------------- #
+#  pandas dataframe check
+# ----------------- #
 def dataframe_review(data) -> None:
     if data.__class__.__name__ == 'DataFrame':
         pass
@@ -33,6 +38,9 @@ def dataframe_review(data) -> None:
         raise TypeError('The data loaded is not a DataFrame')
 
 
+# ----------------- #
+# REGRESSOR CLASS
+# ----------------- #
 class TrainRegressor:
     
     def __init__(self, X_train, y_train, X_test, y_test):
@@ -304,6 +312,38 @@ class TrainRegressor:
             with open(filename, 'wb') as file:
                 pickle.dump(model_list[model_dct[model_name]], file)
 
+
+
+# ----------------- #
+# load model 
+# ----------------- #
+def load_model(path: str):
+    with open(path, 'rb') as file:
+        model = pickle.load(file)
+    return model 
+
+# ----------------- #
+# view model metrics on data passed
+# ----------------- #
+def model_metrics(model, X, y):
+        # dataframe check
+        dataframe_review(X)
+        dummy_control(X)
+        # pred step 
+        y_pred = model.predict(X)
+        # r2
+        r2 = r2_score(y, y_pred)
+        # MSE
+        mse = mean_squared_error(y, y_pred)
+        # MAE
+        mae = mean_absolute_error(y, y_pred)
+        # display step 
+        index_label = ['R2', 'MSE', 'MAE']
+        metrics = pd.DataFrame([r2,mse,mae], index = index_label)
+        metrics.columns = ['Values']
+        string = '### Model metrics:'
+        display(Markdown(string))
+        display(metrics)
 
 
 if __name__ == '__main__':

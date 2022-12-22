@@ -17,6 +17,6 @@ interaction,
 inspection,
 split_and_scaling)
 
-from .reg import TrainRegressor
+from .reg import (TrainRegressor, load_model, model_metrics)
 
-__version__ = "0.19"
+__version__ = "0.20"
