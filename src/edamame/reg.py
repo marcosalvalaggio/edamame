@@ -6,6 +6,7 @@ import scipy.stats as stats
 from IPython.display import display, Markdown
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
@@ -111,11 +112,8 @@ class TrainRegressor:
         tuned_parameters = [{"alpha": alphas}]
         reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_lasso.fit(self.X_train, self.y_train)
-        # running the optimized model 
-        lasso = Lasso(alpha = reg_lasso.best_params_['alpha'])
-        lasso.fit(self.X_train, self.y_train)
         # save the model in the instance attributes
-        self.lasso = lasso
+        self.lasso = reg_lasso.best_estimator_
         # return step 
         return lasso
 
@@ -163,11 +161,8 @@ class TrainRegressor:
         tuned_parameters = [{"alpha": alphas}]
         reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_ridge.fit(self.X_train, self.y_train)
-        # running the optimized model 
-        ridge = Ridge(alpha = reg_ridge.best_params_['alpha'])
-        ridge.fit(self.X_train, self.y_train)
         # save the model in the instance attributes
-        self.ridge = ridge
+        self.ridge = reg_ridge.best_estimator_
         # return step 
         return ridge
     
@@ -215,13 +210,8 @@ class TrainRegressor:
         tree = DecisionTreeRegressor() 
         reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_tree.fit(self.X_train, self.y_train)
-        # running the optimized model 
-        alpha = reg_tree.best_params_['ccp_alpha']
-        min_impurity= reg_tree.best_params_['min_impurity_decrease']
-        tree = DecisionTreeRegressor(ccp_alpha=alpha, min_impurity_decrease=min_impurity)
-        tree.fit(self.X_train, self.y_train)
         # save the model in the instance attributes
-        self.tree = tree
+        self.tree = reg_tree.best_estimator_
         # return step 
         return tree
 
@@ -245,6 +235,42 @@ class TrainRegressor:
         string = '### Tree metrics:'
         display(Markdown(string))
         display(metrics) 
+
+
+
+    # ------------ #
+    # Random forest
+    # ------------ #
+    def random_forest(self, n_estimators: list[int, int, int] = [50, 1000, 5], n_folds: int = 2):
+        n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
+        tuned_parameters = [{"n_estimators": n_estimators}]
+        random_forest = RandomForestRegressor(warm_start=True, n_jobs=-1)
+        reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
+        reg_random_forest.fit(self.X_train, self.y_train.to_numpy().ravel())
+        # save the model in the instance attributes
+        self.random_forest = reg_random_forest.best_estimator_
+        # return step 
+        return random_forest
+    
+    def random_forest_metrics(self):
+        y_pred_train = self.random_forest.predict(self.X_train)
+        y_pred_test = self.random_forest.predict(self.X_test)
+        # r2
+        r2_train = r2_score(self.y_train, y_pred_train)
+        r2_test = r2_score(self.y_test, y_pred_test)
+        # MSE
+        mse_train = mean_squared_error(self.y_train, y_pred_train)
+        mse_test = mean_squared_error(self.y_test, y_pred_test)
+        # MAE
+        mae_train = mean_absolute_error(self.y_train, y_pred_train)
+        mae_test = mean_absolute_error(self.y_test, y_pred_test)
+        # display step 
+        index_label = ['R2', 'MSE', 'MAE']
+        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
+        metrics.columns = [f'Train', 'Test']
+        string = f'### Random forest metrics with {self.random_forest.n_estimators} trees:'
+        display(Markdown(string))
+        display(metrics)
 
 
     # ------------ #
@@ -325,7 +351,7 @@ def load_model(path: str):
 # ----------------- #
 # view model metrics on data passed
 # ----------------- #
-def model_metrics(model, X, y):
+def regression_metrics(model, X, y):
         # dataframe check
         dataframe_review(X)
         dummy_control(X)
