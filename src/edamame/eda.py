@@ -40,7 +40,7 @@ def display_side_by_side(dfs:list, captions:list) -> None:
 # --------------------- #
 # Dataframe dimensions
 # --------------------- #
-def dimensions(data: pd.core.frame.DataFrame) -> None:
+def dimensions(data) -> None:
     # dataframe control step 
     dataframe_review(data)
     # ---
