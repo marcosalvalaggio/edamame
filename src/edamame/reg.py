@@ -165,6 +165,18 @@ class TrainRegressor:
         self.random_forest = reg_random_forest.best_estimator_
         # return step 
         return random_forest
+
+
+    def random_forest_fi(self, figsize: tuple[float, float] = (12,10)):
+        importances = self.random_forest.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in self.random_forest.estimators_], axis=0)
+        feature_names = self.random_forest.feature_names_in_
+        forest_importances = pd.Series(importances, index=feature_names)
+        plt.figure(figsize=figsize)
+        forest_importances.plot.bar(yerr=std)
+        plt.title("Feature importances using mean decrease in impurity")
+        plt.ylabel("Mean decrease in impurity")
+        plt.show()
     
 
     # ------------ #
