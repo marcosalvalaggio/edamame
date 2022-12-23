@@ -62,7 +62,7 @@ class TrainRegressor:
     # ------------ #
     def linear(self):
         linear = LinearRegression()
-        linear.fit(self.X_train, self.y_train)
+        linear.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.linear = linear
         # return step 
@@ -80,27 +80,6 @@ class TrainRegressor:
         display(df_coef)
         
 
-    def linear_metrics(self):
-        y_pred_train = self.linear.predict(self.X_train)
-        y_pred_test = self.linear.predict(self.X_test)
-        # r2
-        r2_train = r2_score(self.y_train, y_pred_train)
-        r2_test = r2_score(self.y_test, y_pred_test)
-        # MSE
-        mse_train = mean_squared_error(self.y_train, y_pred_train)
-        mse_test = mean_squared_error(self.y_test, y_pred_test)
-        # MAE
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        # display step 
-        index_label = ['R2', 'MSE', 'MAE']
-        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
-        metrics.columns = ['Train','Test']
-        string = '### Linear model metrics:'
-        display(Markdown(string))
-        display(metrics)
-
-
     # ------------ #
     # Lasso model
     # ------------ #
@@ -111,7 +90,7 @@ class TrainRegressor:
         lasso = Lasso()
         tuned_parameters = [{"alpha": alphas}]
         reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
-        reg_lasso.fit(self.X_train, self.y_train)
+        reg_lasso.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.lasso = reg_lasso.best_estimator_
         # return step 
@@ -126,30 +105,8 @@ class TrainRegressor:
         df_coef.columns = ['Columns', 'Lasso Coef']
         # display step 
         display(df_coef)
-    
-
-    def lasso_metrics(self):
-        # R2
-        y_pred_train = self.lasso.predict(self.X_train)
-        y_pred_test = self.lasso.predict(self.X_test)
-        # r2
-        r2_train = r2_score(self.y_train, y_pred_train)
-        r2_test = r2_score(self.y_test, y_pred_test)
-        # MSE
-        mse_train = mean_squared_error(self.y_train, y_pred_train)
-        mse_test = mean_squared_error(self.y_test, y_pred_test)
-        # MAE
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        # display step 
-        index_label = ['R2', 'MSE', 'MAE']
-        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
-        string = '### Lasso metrics:'
-        display(Markdown(string))
-        metrics.columns = [f'Train with alpha: {self.lasso.alpha:.4f}', 'Test']
-        display(metrics)        
+            
         
-
     # ------------ #
     # Ridge model
     # ------------ #
@@ -160,7 +117,7 @@ class TrainRegressor:
         ridge = Ridge()
         tuned_parameters = [{"alpha": alphas}]
         reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
-        reg_ridge.fit(self.X_train, self.y_train)
+        reg_ridge.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.ridge = reg_ridge.best_estimator_
         # return step 
@@ -177,27 +134,6 @@ class TrainRegressor:
         display(df_coef)
         
     
-    def ridge_metrics(self):
-        y_pred_train = self.ridge.predict(self.X_train)
-        y_pred_test = self.ridge.predict(self.X_test)
-        # r2
-        r2_train = r2_score(self.y_train, y_pred_train)
-        r2_test = r2_score(self.y_test, y_pred_test)
-        # MSE
-        mse_train = mean_squared_error(self.y_train, y_pred_train)
-        mse_test = mean_squared_error(self.y_test, y_pred_test)
-        # MAE
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        # display step 
-        index_label = ['R2', 'MSE', 'MAE']
-        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
-        metrics.columns = [f'Train with alpha: {self.ridge.alpha:.4f}', 'Test']
-        string = '### Ridge metrics:'
-        display(Markdown(string))
-        display(metrics) 
-
-
     # ------------ #
     # TREE model
     # ------------ #
@@ -209,33 +145,11 @@ class TrainRegressor:
         tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
         tree = DecisionTreeRegressor() 
         reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
-        reg_tree.fit(self.X_train, self.y_train)
+        reg_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.tree = reg_tree.best_estimator_
         # return step 
         return tree
-
-
-    def tree_metrics(self):
-        y_pred_train = self.tree.predict(self.X_train)
-        y_pred_test = self.tree.predict(self.X_test)
-        # r2
-        r2_train = r2_score(self.y_train, y_pred_train)
-        r2_test = r2_score(self.y_test, y_pred_test)
-        # MSE
-        mse_train = mean_squared_error(self.y_train, y_pred_train)
-        mse_test = mean_squared_error(self.y_test, y_pred_test)
-        # MAE
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        # display step 
-        index_label = ['R2', 'MSE', 'MAE']
-        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
-        metrics.columns = [f'Train', 'Test']
-        string = '### Tree metrics:'
-        display(Markdown(string))
-        display(metrics) 
-
 
 
     # ------------ #
@@ -246,31 +160,64 @@ class TrainRegressor:
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestRegressor(warm_start=True, n_jobs=-1)
         reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
-        reg_random_forest.fit(self.X_train, self.y_train.to_numpy().ravel())
+        reg_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.random_forest = reg_random_forest.best_estimator_
         # return step 
         return random_forest
     
-    def random_forest_metrics(self):
-        y_pred_train = self.random_forest.predict(self.X_train)
-        y_pred_test = self.random_forest.predict(self.X_test)
-        # r2
-        r2_train = r2_score(self.y_train, y_pred_train)
-        r2_test = r2_score(self.y_test, y_pred_test)
-        # MSE
-        mse_train = mean_squared_error(self.y_train, y_pred_train)
-        mse_test = mean_squared_error(self.y_test, y_pred_test)
-        # MAE
-        mae_train = mean_absolute_error(self.y_train, y_pred_train)
-        mae_test = mean_absolute_error(self.y_test, y_pred_test)
-        # display step 
-        index_label = ['R2', 'MSE', 'MAE']
-        metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
-        metrics.columns = [f'Train', 'Test']
-        string = f'### Random forest metrics with {self.random_forest.n_estimators} trees:'
-        display(Markdown(string))
-        display(metrics)
+
+    # ------------ #
+    # model metrics
+    # ------------ #
+    def model_metrics(self, model_name: str = 'all'):
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
+        model_list = [self.linear, self.lasso, self.ridge, self.tree, self.random_forest]
+        if model_name == 'all':
+            for key in model_dct:
+                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                        display(f'unable to show {key} model metrics')
+                else:
+                    y_pred_train = model_list[model_dct[key]].predict(self.X_train)
+                    y_pred_test = model_list[model_dct[key]].predict(self.X_test)
+                    # r2
+                    r2_train = r2_score(self.y_train, y_pred_train)
+                    r2_test = r2_score(self.y_test, y_pred_test)
+                    # MSE
+                    mse_train = mean_squared_error(self.y_train, y_pred_train)
+                    mse_test = mean_squared_error(self.y_test, y_pred_test)
+                    # MAE
+                    mae_train = mean_absolute_error(self.y_train, y_pred_train)
+                    mae_test = mean_absolute_error(self.y_test, y_pred_test)
+                    # display step 
+                    index_label = ['R2', 'MSE', 'MAE']
+                    metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
+                    metrics.columns = [f'Train', 'Test']
+                    string = f'### {key} model metrics:'
+                    display(Markdown(string))
+                    display(metrics)
+        else:
+            if model_list[model_dct[model_name]].__class__.__name__ == 'method':
+                display(f'unable to show {model_name} model metrics')
+            else:
+                y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
+                y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
+                # r2
+                r2_train = r2_score(self.y_train, y_pred_train)
+                r2_test = r2_score(self.y_test, y_pred_test)
+                # MSE
+                mse_train = mean_squared_error(self.y_train, y_pred_train)
+                mse_test = mean_squared_error(self.y_test, y_pred_test)
+                # MAE
+                mae_train = mean_absolute_error(self.y_train, y_pred_train)
+                mae_test = mean_absolute_error(self.y_test, y_pred_test)
+                # display step 
+                index_label = ['R2', 'MSE', 'MAE']
+                metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
+                metrics.columns = [f'Train', 'Test']
+                string = f'### {key} model metrics:'
+                display(Markdown(string))
+                display(metrics)
 
 
     # ------------ #
@@ -281,26 +228,30 @@ class TrainRegressor:
         cv_mean = []
         score = []
         std = []
-        regressor = ["Linear", "Lasso", "Ridge", "Tree"]
+        regressor = ["Linear", "Lasso", "Ridge", "Tree", "Random Forest"]
         try:
             model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
                           Ridge(alpha = self.ridge.alpha),
-                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease)]
+                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease),
+                          RandomForestRegressor(n_estimators = self.random_forest.n_estimators, warm_start=True, n_jobs=-1)]
         except:
-            # find best hyperparameters 
+            # find best hyperparameters
+            self.linear()
             self.lasso()
             self.ridge()
             self.tree()
+            self.random_forest()
             # model list 
             model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
                           Ridge(alpha = self.ridge.alpha),
-                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease)]
+                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease),
+                          RandomForestRegressor(n_estimators = self.random_forest.n_estimators, warm_start=True, n_jobs=-1)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
-                cv_result = cross_val_score(model, self.X_train, self.y_train, cv=kfold, scoring="r2")
+                cv_result = cross_val_score(model, self.X_train, self.y_train.squeeze(), cv=kfold, scoring="r2")
             elif data == 'test':
-                cv_result = cross_val_score(model, self.X_test, self.y_test, cv=kfold, scoring="r2")
+                cv_result = cross_val_score(model, self.X_test, self.y_test.squeeze(), cv=kfold, scoring="r2")
             else:
                 raise ValueError('insert valid target dataset (\'train\' or \'test\')')
             cv_mean.append(cv_result.mean())
@@ -322,8 +273,8 @@ class TrainRegressor:
     # save model
     # ------------ #
     def save_model(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3}
-        model_list = [self.linear, self.lasso, self.ridge, self.tree]
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
+        model_list = [self.linear, self.lasso, self.ridge, self.tree, self.random_forest]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'method':
@@ -334,9 +285,12 @@ class TrainRegressor:
                         pickle.dump(model_list[model_dct[key]], file)
                         display(f'{filename} saved')
         else:
-            filename = f'{model_name}.pkl'
-            with open(filename, 'wb') as file:
-                pickle.dump(model_list[model_dct[model_name]], file)
+            if model_list[model_dct[model_name]].__class__.__name__ == 'method':
+                display(f'unable to save {model_name} model')
+            else:
+                filename = f'{model_name}.pkl'
+                with open(filename, 'wb') as file:
+                    pickle.dump(model_list[model_dct[model_name]], file)
 
 
 
@@ -378,8 +332,11 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
     # OHE formatting
     X_train_t = pd.get_dummies(data=X_train, drop_first=False)
+    X_test_t = pd.get_dummies(data=X_test, drop_first=False)
     # instance
-    model = TrainRegressor(X_train_t, np.log(y_train), X_test, y_test)
-    model.linear()
-    model.linear_coef()
-    model.linear_metrics()
+    regressor = TrainRegressor(X_train_t, np.log(y_train), X_test_t, np.log(y_test))
+    regressor.linear()
+    regressor.linear_coef()
+    regressor.auto_ml()
+    regressor.model_metrics()
+    regressor.save_model()
