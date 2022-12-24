@@ -181,16 +181,16 @@ def missing(data) -> list[list[str]]:
     # values of nan
     summary.loc['nan',nan_col] = nan.values
     summary.loc['zero',zero_col] = zero.values
+    summary = summary/100
     # background color refactor
     def highlight_cells(x):
         summary = x.copy()
-        summary = summary/100
         #set default color
         #set particular cell colors
         summary.loc['nan',nan_col] = 'background-color: red'
         summary.loc['zero',zero_col] = 'background-color: orange'
         return summary 
-    summary = summary.style.apply(highlight_cells, axis=None).format("{:.2f}")
+    summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
     display(summary)
     print("\n")
     # ----------------------------- #
