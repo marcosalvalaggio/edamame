@@ -63,6 +63,13 @@ passing a dataframe and a list with columns name, the function transforms the ty
 eda.missing(data)
 ```
 
+the function display the following elements:
+
+* a table with the percentage of **NA** record for every column
+* a table with the percentage of **0** as a record for every column
+* a table with the percentage of duplicate rows
+* a list of lists that contains the name of the numerical columns with **NA**, the name of the categorical columns with **NA** and the name of the columns with 0 as a record 
+
 
 
 ## TODO 
