@@ -189,7 +189,7 @@ def missing(data) -> list[list[str]]:
         summary.loc['nan',nan_col] = 'background-color: red'
         summary.loc['zero',zero_col] = 'background-color: orange'
         return summary 
-    summary = summary.style.apply(highlight_cells, axis=None).format("{:.2%}")
+    summary = summary.style.apply(highlight_cells, axis=None).format("{:.2}")
     display(summary)
     print("\n")
     # ----------------------------- #

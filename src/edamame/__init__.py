@@ -19,4 +19,4 @@ split_and_scaling)
 
 from .reg import (TrainRegressor, load_model, regression_metrics)
 
-__version__ = "0.20"
+__version__ = "0.21"
