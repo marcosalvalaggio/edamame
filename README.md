@@ -70,6 +70,13 @@ the function display the following elements:
 * a table with the percentage of duplicate rows
 * a list of lists that contains the name of the numerical columns with **NA**, the name of the categorical columns with **NA** and the name of the columns with 0 as a record 
 
+### Handling Missing values
+
+```python
+eda.handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = [])
+```
+
+
 
 
 ## TODO 
