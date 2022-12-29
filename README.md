@@ -54,7 +54,7 @@ passing a dataframe the function display the result of the **.dtypes** method an
 eda.identify_types(data, col: list[str])
 ```
 
-passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". This operation can help convert numerical columns we know to be categorical. 
+passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". 
 
 
 ### Missing data
@@ -76,6 +76,12 @@ the function display the following elements:
 eda.handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = [])
 ```
 
+Parameters: 
+
+* **data**: a pandas dataframe
+* **col**: a list of the names of the dataframe columns to handle
+* **missing_val**: the value that represents the **NA** in the columns passed. By default is equal to **np.nan** 
+* **method**: a list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method
 
 
 
