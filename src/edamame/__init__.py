@@ -17,6 +17,8 @@ interaction,
 inspection,
 split_and_scaling)
 
-from .reg import (TrainRegressor, load_model, regression_metrics)
+from .regression import (TrainRegressor, regression_metrics)
 
-__version__ = "0.22"
+from .tools import load_model
+
+__version__ = "0.23"

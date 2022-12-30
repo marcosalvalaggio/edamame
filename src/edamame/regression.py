@@ -307,14 +307,6 @@ class TrainRegressor:
 
 
 # ----------------- #
-# load model 
-# ----------------- #
-def load_model(path: str):
-    with open(path, 'rb') as file:
-        model = pickle.load(file)
-    return model 
-
-# ----------------- #
 # view model metrics on data passed
 # ----------------- #
 def regression_metrics(model, X, y):

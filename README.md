@@ -83,6 +83,16 @@ Parameters:
 * **missing_val**: the value that represents the **NA** in the columns passed. By default is equal to **np.nan** 
 * **method**: a list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method
 
+### Drop columns 
+
+```python 
+eda.drop_columns(data, col: list[str]):
+```
+
+Parameters:
+
+* **data**: a pandas dataframe
+* **col**: a list of strings containing the names of columns to drop 
 
 
 ## TODO 
