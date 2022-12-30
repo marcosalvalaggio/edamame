@@ -1,4 +1,23 @@
-# Installation
+
+
+- [Installation](#installation)
+- [Why Edamame?](#why-edamame)
+  - [Exploratory data analysis functions](#exploratory-data-analysis-functions)
+    - [Dimensions](#dimensions)
+    - [Describe distribution](#describe-distribution)
+    - [Identify columns types](#identify-columns-types)
+    - [Convert numerical columns to categorical](#convert-numerical-columns-to-categorical)
+    - [Missing data](#missing-data)
+    - [Handling Missing values](#handling-missing-values)
+    - [Drop columns](#drop-columns)
+    - [Plot categorical variables](#plot-categorical-variables)
+    - [Plot numerical variables](#plot-numerical-variables)
+  - [TODO](#todo)
+
+
+
+
+# Installation 
 
 To install the package,
 
@@ -140,7 +159,7 @@ Like the **plot_categorical**, the function returns a sequence of tables and plo
 * number of unique values 
 * value of the skew 
 
-
+In addition, the function returns an histogram with an estimated density + a boxplot. In the **plot_quantitative** function, it's mandatory to pass numerical variables to plot the histogram and estimate the density of the distribution. 
 
 
 
