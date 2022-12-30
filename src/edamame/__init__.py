@@ -19,6 +19,6 @@ split_and_scaling)
 
 from .regression import (TrainRegressor, regression_metrics)
 
-from .tools import load_model
+from .tools import (load_model, setup)
 
-__version__ = "0.23"
+__version__ = "0.24"
