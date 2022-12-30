@@ -309,7 +309,7 @@ def plot_categorical(data, col: list[str]) -> None:
 # --------------------- #
 # plot quantitative columns 
 # --------------------- #
-def plot_quantitative(data, col: list[str], bins: int = 50) -> None:
+def plot_numerical(data, col: list[str], bins: int = 50) -> None:
     # dataframe check 
     dataframe_review(data)
     for _, col in enumerate(col):
