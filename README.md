@@ -51,7 +51,7 @@ passing a dataframe the function display the result of the **.dtypes** method an
 ### Convert numerical columns to categorical
 
 ```python
-eda.identify_types(data, col: list[str])
+eda.num_to_categorical(data, col: list[str])
 ```
 
 passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". 
@@ -93,6 +93,55 @@ Parameters:
 
 * **data**: a pandas dataframe
 * **col**: a list of strings containing the names of columns to drop 
+
+
+### Plot categorical variables
+
+```python 
+eda.plot_categorical(data, col: list[str])
+```
+Parameters:
+
+* **data**: a pandas dataframe
+* **col**: a list of string containing the names of columns to plot
+  
+The function returns a sequence of tables and plots. For every variables the **plot_categorical** produce an **info** table that contains the information about: 
+
+* the number of not nan rows 
+* the number of unique values 
+* the name of the value with the major frequency
+* the frequence of the top unique value 
+
+By the side of the info table, you can see the **top cardinalities** table that shows the first ten values by order of frequency. In addition, the function returns a **barplot** of the cardinalities frequencies. The **plot_categorical** function raises the message ***too many unique values*** instead of the plot if the variable has more than 1000 unique values and removes the x-axis ticks if the variable has more than 50 unique values. 
+
+In the **plot_categorical** function, it's not mandatory to use pandas "object" type variables, but it's strictly recommended
+
+### Plot numerical variables 
+
+```python
+eda.plot_quantitative(data, col: list[str], bins: int = 50)
+```
+Parameters:
+
+* **data**: a pandas dataframe
+* **col**: a list of string containing the names of columns to plot
+* **bins**: number of bins to use in the histogram plot 
+
+Like the **plot_categorical**, the function returns a sequence of tables and plots. For every variables the **plot_quantitative** function produce an **info** table that contains the information about: 
+
+* count of rows not nan
+* mean
+* std
+* min
+* 25%
+* 50%
+* 75%
+* max
+* number of unique values 
+* value of the skew 
+
+
+
 
 
 ## TODO 
