@@ -12,6 +12,7 @@
     - [Drop columns](#drop-columns)
     - [Plot categorical variables](#plot-categorical-variables)
     - [Plot numerical variables](#plot-numerical-variables)
+    - [View cardinalities of variables](#view-cardinalities-of-variables)
   - [TODO](#todo)
 
 
@@ -161,7 +162,20 @@ Like the **plot_categorical**, the function returns a sequence of tables and plo
 
 In addition, the function returns an histogram with an estimated density + a boxplot. In the **plot_quantitative** function, it's mandatory to pass numerical variables to plot the histogram and estimate the density of the distribution. 
 
+### View cardinalities of variables
 
+```python
+eda.view_cardinality(data, col: list[str])
+```
+
+Parameters:
+
+* **data**: a pandas dataframe
+* **col**: a list of strings containing the names of columns for which we want to show the number of unique values
+
+The function especially helps study the cardinalities of the categorical variables. In case the variables present high cardinalities values. We need to reduce these values or drop the variable.
+ 
+In addition, seeing low cardinalities values in numerical variables can be a clue for the necessity to convert a numerical variable into a categorical with the **num_to_categorical** function.
 
 ## TODO 
 
