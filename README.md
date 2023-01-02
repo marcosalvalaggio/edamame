@@ -13,6 +13,7 @@
     - [Plot categorical variables](#plot-categorical-variables)
     - [Plot numerical variables](#plot-numerical-variables)
     - [View cardinalities of variables](#view-cardinalities-of-variables)
+    - [Modify the cardinalities of a variable](#modify-the-cardinalities-of-a-variable)
   - [TODO](#todo)
 
 
@@ -46,7 +47,11 @@ a prettier version of the **.shape** method
 ```python
 eda.dimensions(data)
 ```
-the function displays the number of rows and columns of a pandas dataframe passed 
+Parameters: 
+
+* **data**: A pandas dataframe
+
+The function displays the number of rows and columns of a pandas dataframe passed. 
 
 ### Describe distribution
 
@@ -55,7 +60,11 @@ the function displays the number of rows and columns of a pandas dataframe passe
 eda.describe_distribution(data)
 ```
 
-passing a dataframe the function display the result of the **.describe()** method applied to a pandas dataframe, divided by quantitative/numerical and categorical/object columns.
+Parameters: 
+
+* **data**: A pandas dataframe.
+
+Passing a dataframe the function display the result of the **.describe()** method applied to a pandas dataframe, divided by quantitative/numerical and categorical/object columns.
 
 
 ### Identify columns types
@@ -64,8 +73,11 @@ passing a dataframe the function display the result of the **.describe()** metho
 ```python
 eda.identify_types(data)
 ```
+Parameters: 
 
-passing a dataframe the function display the result of the **.dtypes** method and returns a list with the name of the quantitative/numerical columns and a list with the name of the columns identified as "object" by pandas. 
+* **data**: A pandas dataframe.
+  
+Passing a dataframe the function display the result of the **.dtypes** method and returns a list with the name of the quantitative/numerical columns and a list with the name of the columns identified as "object" by pandas. 
 
 
 ### Convert numerical columns to categorical
@@ -74,7 +86,12 @@ passing a dataframe the function display the result of the **.dtypes** method an
 eda.num_to_categorical(data, col: list[str])
 ```
 
-passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". 
+Parameters: 
+
+* **data**: A pandas dataframe.
+* **col**: A list of strings containing the names of columns to convert. 
+
+Passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". 
 
 
 ### Missing data
@@ -83,12 +100,16 @@ passing a dataframe and a list with columns name, the function transforms the ty
 eda.missing(data)
 ```
 
-the function display the following elements:
+Parameters: 
 
-* a table with the percentage of **NA** record for every column
-* a table with the percentage of **0** as a record for every column
-* a table with the percentage of duplicate rows
-* a list of lists that contains the name of the numerical columns with **NA**, the name of the categorical columns with **NA** and the name of the columns with 0 as a record 
+* **data**: A pandas dataframe.
+
+The function display the following elements:
+
+* A table with the percentage of **NA** record for every column.
+* A table with the percentage of **0** as a record for every column.
+* A table with the percentage of duplicate rows.
+* A list of lists that contains the name of the numerical columns with **NA**, the name of the categorical columns with **NA** and the name of the columns with 0 as a record. 
 
 ### Handling Missing values
 
@@ -98,10 +119,10 @@ eda.handling_missing(data, col: list[str], missing_val = np.nan, method: list[st
 
 Parameters: 
 
-* **data**: a pandas dataframe
-* **col**: a list of the names of the dataframe columns to handle
-* **missing_val**: the value that represents the **NA** in the columns passed. By default is equal to **np.nan** 
-* **method**: a list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method
+* **data**: A pandas dataframe.
+* **col**: A list of the names of the dataframe columns to handle.
+* **missing_val**: The value that represents the **NA** in the columns passed. By default is equal to **np.nan**.
+* **method**: A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method.
 
 ### Drop columns 
 
@@ -111,8 +132,8 @@ eda.drop_columns(data, col: list[str]):
 
 Parameters:
 
-* **data**: a pandas dataframe
-* **col**: a list of strings containing the names of columns to drop 
+* **data**: A pandas dataframe.
+* **col**: A list of strings containing the names of columns to drop. 
 
 
 ### Plot categorical variables
@@ -122,19 +143,19 @@ eda.plot_categorical(data, col: list[str])
 ```
 Parameters:
 
-* **data**: a pandas dataframe
-* **col**: a list of string containing the names of columns to plot
+* **data**: A pandas dataframe
+* **col**: A list of string containing the names of columns to plot
   
 The function returns a sequence of tables and plots. For every variables the **plot_categorical** produce an **info** table that contains the information about: 
 
-* the number of not nan rows 
-* the number of unique values 
-* the name of the value with the major frequency
-* the frequence of the top unique value 
+* The number of not nan rows. 
+* The number of unique values. 
+* The name of the value with the major frequency.
+* The frequence of the top unique value. 
 
 By the side of the info table, you can see the **top cardinalities** table that shows the first ten values by order of frequency. In addition, the function returns a **barplot** of the cardinalities frequencies. The **plot_categorical** function raises the message ***too many unique values*** instead of the plot if the variable has more than 1000 unique values and removes the x-axis ticks if the variable has more than 50 unique values. 
 
-In the **plot_categorical** function, it's not mandatory to use pandas "object" type variables, but it's strictly recommended
+In the **plot_categorical** function, it's not mandatory to use pandas "object" type variables, but it's strictly recommended.
 
 ### Plot numerical variables 
 
@@ -143,22 +164,22 @@ eda.plot_numerical(data, col: list[str], bins: int = 50)
 ```
 Parameters:
 
-* **data**: a pandas dataframe
-* **col**: a list of string containing the names of columns to plot
-* **bins**: number of bins to use in the histogram plot 
+* **data**: A pandas dataframe.
+* **col**: A list of string containing the names of columns to plot.
+* **bins**: Number of bins to use in the histogram plot. 
 
 Like the **plot_categorical**, the function returns a sequence of tables and plots. For every variables the **plot_quantitative** function produce an **info** table that contains the information about: 
 
-* count of rows not nan
-* mean
-* std
-* min
+* Count of rows not nan
+* Mean
+* Std
+* Min
 * 25%
 * 50%
 * 75%
-* max
-* number of unique values 
-* value of the skew 
+* Max
+* Number of unique values 
+* Value of the skew 
 
 In addition, the function returns an histogram with an estimated density + a boxplot. In the **plot_quantitative** function, it's mandatory to pass numerical variables to plot the histogram and estimate the density of the distribution. 
 
@@ -170,12 +191,27 @@ eda.view_cardinality(data, col: list[str])
 
 Parameters:
 
-* **data**: a pandas dataframe
-* **col**: a list of strings containing the names of columns for which we want to show the number of unique values
+* **data**: A pandas dataframe.
+* **col**: A list of strings containing the names of columns for which we want to show the number of unique values.
 
 The function especially helps study the cardinalities of the categorical variables. In case the variables present high cardinalities values. We need to reduce these values or drop the variable.
  
 In addition, seeing low cardinalities values in numerical variables can be a clue for the necessity to convert a numerical variable into a categorical with the **num_to_categorical** function.
+
+### Modify the cardinalities of a variable
+
+```python 
+eda.modify_cardinality(data, col: list[str], threshold: list[int])
+```
+Parameters:
+
+* **data**: A pandas dataframe.
+* **col**: A list of strings containing the names of columns for which we want to modify the cardinalities.
+* **threshold**: A list of integer values containing the threshold values for every variable.
+
+All the cardinalities that have a total count lower than the threshold indicated in the function are grouped into a new unique value called: Other.
+
+
 
 ## TODO 
 
