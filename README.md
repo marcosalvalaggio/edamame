@@ -14,6 +14,8 @@
     - [Plot numerical variables](#plot-numerical-variables)
     - [View cardinalities of variables](#view-cardinalities-of-variables)
     - [Modify the cardinalities of a variable](#modify-the-cardinalities-of-a-variable)
+    - [Distribution study of a numerical variable](#distribution-study-of-a-numerical-variable)
+    - [Pearson's correlation matrix](#pearsons-correlation-matrix)
   - [TODO](#todo)
 
 
@@ -210,6 +212,47 @@ Parameters:
 * **threshold**: A list of integer values containing the threshold values for every variable.
 
 All the cardinalities that have a total count lower than the threshold indicated in the function are grouped into a new unique value called: Other.
+
+### Distribution study of a numerical variable
+
+```python
+eda.num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False)
+```
+Parameters: 
+
+* **data**: A pandas dataframe.
+* **col**: The name of the dataframe column to study.
+* **bins**: The number of bins used by the histograms. By default bins=50.
+* **epsilon**: A constant for handle non strictly positive variables. By default epsilon = 0.0001
+* **theory**: A boolean value for displaying insight into the transformations applied
+
+The function displays the following transformations of the variable **col** passed:
+
+* $log(x)$
+* $\sqrt(x)$
+* $x^2$
+* Box-cox
+* $1/x$
+
+If a variable with zeros or negative values is passed, the function shows results based on the original data transformed to be strictly positive. 
+
+* In case of zeros, data is transformed as: $\begin{cases}
+    x_i = \epsilon,& \text{if } x_i = 0\\
+    x_i,              & \text{otherwise}
+\end{cases}$. 
+
+* In case of negative values, data are transformed as: $x_i = x_i + |min(x)|\cdot\epsilon$.
+
+
+### Pearson's correlation matrix
+
+```python 
+eda.correlation_pearson(data, threshold: float = 0.)
+```
+Parameters: 
+
+* **data**: A pandas dataframe.
+* **threshold**: Only the correlation values higher than the threshold are shown in the matrix.  A floating value set by default to 0. 
 
 
 

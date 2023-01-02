@@ -391,7 +391,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
 # correlation pearson (quantitative colum)
 # --------------------- #
 # correlation coefficients for numerical variables (Pearson, Kendall, Spearman)
-def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> None:
+def correlation_pearson(data, threshold: float = 0.) -> None:
     # dataframe check 
     dataframe_review(data)
     # title 
@@ -400,7 +400,7 @@ def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> N
     # correlation matrix 
     corr_mtr = data.corr()
     # graph style 
-    if verbose == True: 
+    if threshold == 0.: 
         corr_mtr = corr_mtr.style.background_gradient()
         display(corr_mtr)
     else: 
@@ -415,7 +415,7 @@ def correlation_pearson(data, verbose: bool = True, threshold: float = 0.7) -> N
 # --------------------- #
 # correlation categorical (chisq test p-values)
 # --------------------- #
-def correlation_categorical(data):
+def correlation_categorical(data) -> None:
     # dataframe check 
     dataframe_review(data)
     # title 
@@ -533,7 +533,6 @@ def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, t
         pass
     # check
     if data[data[col] < 0].shape[0] > 0:
-        print(1)
         string = '## Variable with negative values'
         display(Markdown(string))
         string = "* applied the transformation $x^{'}=x-min(x)+\epsilon$"
@@ -542,14 +541,12 @@ def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, t
         x = x + abs(min(x))+epsilon
         num_plot(data = x, col = col, bins = bins)
     elif data[data[col] == 0].shape[0] > 0:
-        print(2)
         string = '## Variable with zeros values'
         display(Markdown(string))
         x = data[col]
         x[x==0] = epsilon
         num_plot(data = x, col = col, bins = bins)
     else:
-        print(3)
         string = '## Strickt positive variable'
         display(Markdown(string))
         x = data[col]
@@ -582,8 +579,8 @@ def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, t
         display(Markdown(string),Markdown(string2),Markdown(string3))
         string = '### Reciprocal'
         display(Markdown(string))
-        string = 'It can not be applied to zero values'
-        string2 = 'The reciprocal reverses order among values of the same sign: largestbecomes smallest, etc.'
+        string = '* It can not be applied to zero values'
+        string2 = '* The reciprocal reverses order among values of the same sign: largestbecomes smallest, etc.'
         display(Markdown(string),Markdown(string2))
     else: 
         pass
