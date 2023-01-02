@@ -490,7 +490,7 @@ def correlation_phik(data, theory: bool = False):
 # --------------------- #
 # Study distribution of a quatitative variable
 # --------------------- #
-def quant_variable_plot(data, col, bins):
+def num_plot(data, col, bins) -> None:
     # figure dim
     plt.figure(figsize = (22, 12))
     # original
@@ -523,7 +523,7 @@ def quant_variable_plot(data, col, bins):
     plt.show()
 
 # useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot
-def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
+def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
     # dataframe chack step 
     dataframe_review(data)
     # response variable check step 
@@ -540,20 +540,20 @@ def quant_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001,
         display(Markdown(string))
         x = data[col]
         x = x + abs(min(x))+epsilon
-        quant_variable_plot(data = x, col = col, bins = bins)
+        num_plot(data = x, col = col, bins = bins)
     elif data[data[col] == 0].shape[0] > 0:
         print(2)
         string = '## Variable with zeros values'
         display(Markdown(string))
         x = data[col]
         x[x==0] = epsilon
-        quant_variable_plot(data = x, col = col, bins = bins)
+        num_plot(data = x, col = col, bins = bins)
     else:
         print(3)
         string = '## Strickt positive variable'
         display(Markdown(string))
         x = data[col]
-        quant_variable_plot(data = x, col = col, bins = bins)
+        num_plot(data = x, col = col, bins = bins)
     if theory == True:
         # theory behind transformation 
         string = '## Effects of transformations:'

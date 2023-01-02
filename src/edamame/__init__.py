@@ -12,7 +12,7 @@ modify_cardinality,
 correlation_pearson,
 correlation_categorical,
 correlation_phik,
-quant_variable_study,
+num_variable_study,
 interaction,
 inspection,
 split_and_scaling)
