@@ -17,6 +17,10 @@ pd.set_option('display.max_colwidth', None)
 # list of metrics
 #get_scorer_names()
 
+# ----------------- #
+# DUBBI/RIFLESSIONI 
+# riflettere se mettere i modelli come membri privati/protetti della classe 
+# ----------------- #
 
 # ----------------- #
 # REGRESSOR CLASS
@@ -271,7 +275,7 @@ class TrainRegressor:
     # ------------ #
     def save_model(self, model_name: str = 'all'):
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
-        model_list = [self.linea_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
+        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
