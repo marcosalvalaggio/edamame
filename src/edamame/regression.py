@@ -1,16 +1,14 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
-import seaborn as sns
-import scipy.stats as stats
 from IPython.display import display, Markdown
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
-from sklearn.model_selection import train_test_split, GridSearchCV, KFold, cross_val_predict, cross_val_score
+from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
-from tools import dataframe_review, dummy_control
+from tools import dataframe_review, dummy_control, setup
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -36,6 +34,12 @@ class TrainRegressor:
         # check columns type
         dummy_control(self.X_train)
         dummy_control(self.X_test)
+        # models
+        self.linear_fit = {}
+        self.lasso_fit = {}
+        self.ridge_fit = {}
+        self.tree_fit = {}
+        self.random_forest_fit = {}
 
 
     # ------------ #
@@ -52,8 +56,8 @@ class TrainRegressor:
 
     # aggiungere sognificatività coef
     def linear_coef(self):
-        intercept = ('intercept',self.linear.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.linear.coef_[0]))
+        intercept = ('intercept',self.linear_fit.intercept_[0])
+        coef = list(zip(list(self.X_train.columns), self.linear_fit.coef_[0]))
         coef = [intercept, *coef]
         df_coef = pd.DataFrame(coef)
         df_coef.columns = ['Columns', 'Linear Coef']
@@ -79,8 +83,8 @@ class TrainRegressor:
 
 
     def lasso_coef(self):
-        intercept = ('intercept',self.lasso.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.lasso.coef_))
+        intercept = ('intercept',self.lasso_fit.intercept_[0])
+        coef = list(zip(list(self.X_train.columns), self.lasso_fit.coef_))
         coef = [intercept, *coef]
         df_coef = pd.DataFrame(coef)
         df_coef.columns = ['Columns', 'Lasso Coef']
@@ -100,14 +104,14 @@ class TrainRegressor:
         reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_ridge.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.ridge = reg_ridge.best_estimator_
+        self.ridge_fit = reg_ridge.best_estimator_
         # return step 
-        return ridge
+        return self.ridge_fit
     
     
     def ridge_coef(self):
-        intercept = ('intercept',self.ridge.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.ridge.coef_))
+        intercept = ('intercept',self.ridge_fit.intercept_[0])
+        coef = list(zip(list(self.X_train.columns), self.ridge_fit.coef_))
         coef = [intercept, *coef]
         df_coef = pd.DataFrame(coef)
         df_coef.columns = ['Columns', 'Ridge Coef']
@@ -128,9 +132,9 @@ class TrainRegressor:
         reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.tree = reg_tree.best_estimator_
+        self.tree_fit = reg_tree.best_estimator_
         # return step 
-        return tree
+        return self.tree_fit
 
 
     # ------------ #
@@ -143,15 +147,15 @@ class TrainRegressor:
         reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.random_forest = reg_random_forest.best_estimator_
+        self.random_forest_fit = reg_random_forest.best_estimator_
         # return step 
-        return random_forest
+        return self.random_forest_fit
 
 
     def random_forest_fi(self, figsize: tuple[float, float] = (12,10)):
-        importances = self.random_forest.feature_importances_
-        std = np.std([tree.feature_importances_ for tree in self.random_forest.estimators_], axis=0)
-        feature_names = self.random_forest.feature_names_in_
+        importances = self.random_forest_fit.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in self.random_forest_fit.estimators_], axis=0)
+        feature_names = self.random_forest_fit.feature_names_in_
         forest_importances = pd.Series(importances, index=feature_names)
         plt.figure(figsize=figsize)
         forest_importances.plot.bar(yerr=std)
@@ -165,10 +169,10 @@ class TrainRegressor:
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
-        model_list = [self.linear, self.lasso, self.ridge, self.tree, self.random_forest]
+        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
-                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                if model_list[model_dct[key]].__class__.__name__ == 'dict':
                         display(f'unable to show {key} model metrics')
                 else:
                     y_pred_train = model_list[model_dct[key]].predict(self.X_train)
@@ -190,7 +194,7 @@ class TrainRegressor:
                     display(Markdown(string))
                     display(metrics)
         else:
-            if model_list[model_dct[model_name]].__class__.__name__ == 'method':
+            if model_list[model_dct[model_name]].__class__.__name__ == 'dict':
                 display(f'unable to show {model_name} model metrics')
             else:
                 y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
@@ -223,10 +227,10 @@ class TrainRegressor:
         std = []
         regressor = ["Linear", "Lasso", "Ridge", "Tree", "Random Forest"]
         try:
-            model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
-                          Ridge(alpha = self.ridge.alpha),
-                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease),
-                          RandomForestRegressor(n_estimators = self.random_forest.n_estimators, warm_start=True, n_jobs=-1)]
+            model_list = [LinearRegression(), Lasso(alpha = self.lasso_fit.alpha),
+                          Ridge(alpha = self.ridge_fit.alpha),
+                          DecisionTreeRegressor(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
+                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
         except:
             # find best hyperparameters
             self.linear()
@@ -235,10 +239,10 @@ class TrainRegressor:
             self.tree()
             self.random_forest()
             # model list 
-            model_list = [LinearRegression(), Lasso(alpha = self.lasso.alpha),
-                          Ridge(alpha = self.ridge.alpha),
-                          DecisionTreeRegressor(ccp_alpha=self.tree.ccp_alpha, min_impurity_decrease=self.tree.min_impurity_decrease),
-                          RandomForestRegressor(n_estimators = self.random_forest.n_estimators, warm_start=True, n_jobs=-1)]
+            model_list = [LinearRegression(), Lasso(alpha = self.lasso_fit.alpha),
+                          Ridge(alpha = self.ridge_fit.alpha),
+                          DecisionTreeRegressor(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
+                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -267,10 +271,10 @@ class TrainRegressor:
     # ------------ #
     def save_model(self, model_name: str = 'all'):
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
-        model_list = [self.linear, self.lasso, self.ridge, self.tree, self.random_forest]
+        model_list = [self.linea_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
-                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                if model_list[model_dct[key]].__class__.__name__ == 'dict':
                         display(f'unable to save {key} model')
                 else:
                     filename = f'{key}.pkl'
@@ -278,7 +282,7 @@ class TrainRegressor:
                         pickle.dump(model_list[model_dct[key]], file)
                         display(f'{filename} saved')
         else:
-            if model_list[model_dct[model_name]].__class__.__name__ == 'method':
+            if model_list[model_dct[model_name]].__class__.__name__ == 'dict':
                 display(f'unable to save {model_name} model')
             else:
                 filename = f'{model_name}.pkl'
@@ -314,12 +318,8 @@ def regression_metrics(model, X, y):
 if __name__ == '__main__':
     X = pd.read_csv('/Users/marcosalvalaggio/code/python/ds/data/melb_data/X.csv', sep = ';')
     y = pd.read_csv('/Users/marcosalvalaggio/code/python/ds/data/melb_data/y.csv', sep = ';')
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-    # OHE formatting
-    X_train_t = pd.get_dummies(data=X_train, drop_first=False)
-    X_test_t = pd.get_dummies(data=X_test, drop_first=False)
-    # instance
-    regressor = TrainRegressor(X_train_t, np.log(y_train), X_test_t, np.log(y_test))
+    X_train, X_test, y_train, y_test = setup(X, y)
+    regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
     regressor.linear()
     regressor.linear_coef()
     regressor.auto_ml()

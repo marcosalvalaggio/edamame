@@ -27,6 +27,9 @@ class TrainClassifier:
         # check columns type
         dummy_control(self.X_train)
         dummy_control(self.X_test)
+        # models 
+        self.logistic_fit = {}
+        self.gaussian_nb_fit = {}
 
     # ------------ #
     # logistic model
@@ -56,30 +59,52 @@ class TrainClassifier:
     # model metrics
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
-        model_dct = {'logistic_fit': 0, 'guassian_nb_fit': 1}
+        model_dct = {'logistic': 0, 'guassian nb': 1}
         model_list = [self.logistic_fit, self.gaussian_nb_fit]
         if model_name == 'all':
             for key in model_dct:
-                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                if model_list[model_dct[key]].__class__.__name__ == 'dict':
                         display(f'unable to show {key} model metrics')
                 else:
-                    model_str = key 
-                    model_str = model_str.replace("_fit", "")
-                    model_str = model_str.upper()
-                    model_str = model_str.replace("_", " ")
-                    title = f'### {model_str} model metrics:'
+                    title = f'### {key} model metrics:'
                     display(Markdown(title))
                     y_pred_train = model_list[model_dct[key]].predict(self.X_train)
                     y_pred_test = model_list[model_dct[key]].predict(self.X_test)
                     plt.figure(figsize=(10,4))
                     plt.subplot(121)
                     sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
-                    plt.title(f'{model_str} train')
+                    plt.title(f'{key} train')
                     plt.subplot(122)
                     sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
-                    plt.title(f'{model_str} test')
+                    plt.title(f'{key} test')
                     plt.show()
+                    title = f'#### Train classification report'
+                    display(Markdown(title))
                     print(classification_report(self.y_train, y_pred_train))
+                    title = f'#### Test classification report'
+                    display(Markdown(title))
                     print(classification_report(self.y_test, y_pred_test))
-
+        else:
+            if model_list[model_dct[model_name]].__class__.__name__ == 'dict':
+                display(f'unable to show {model_name} model metrics')
+            else:
+                title = f'### {model_name} model metrics:'
+                display(Markdown(title))
+                y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
+                y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
+                plt.figure(figsize=(10,4))
+                plt.subplot(121)
+                sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
+                plt.title(f'{model_name} train')
+                plt.subplot(122)
+                sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
+                plt.title(f'{model_name} test')
+                plt.show()
+                title = f'#### Train classification report'
+                display(Markdown(title))
+                print(classification_report(self.y_train, y_pred_train))
+                title = f'#### Test classification report'
+                display(Markdown(title))
+                print(classification_report(self.y_test, y_pred_test))
+        
     
