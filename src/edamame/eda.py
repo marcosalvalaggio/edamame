@@ -9,20 +9,11 @@ import scipy as sp
 from itertools import product
 import phik
 from ipywidgets import interact
+from .tools import dataframe_review
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
-
-
-# --------------------- #
-# Dataframe type control
-# --------------------- #
-def dataframe_review(data) -> None:
-    if data.__class__.__name__ == 'DataFrame':
-        pass
-    else:
-        raise TypeError('The data loaded is not a DataFrame')
 
 
 # --------------------- #

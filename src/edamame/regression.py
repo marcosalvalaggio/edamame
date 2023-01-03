@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
-from tools import dataframe_review, dummy_control, setup
+from .tools import dataframe_review, dummy_control, setup
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)

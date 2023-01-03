@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from tools import dataframe_review, dummy_control
+from .tools import dataframe_review, dummy_control
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
