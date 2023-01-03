@@ -277,7 +277,7 @@ eda.correlation_phik(data, theory: bool = False)
 Parameters:
 
 * **data**: A pandas dataframe.
-* **theory**: A boolean value for displaying insight into the theory of the $\phi_k$ correlation index. 
+* **theory**: A boolean value for displaying insight into the theory of the $\phi_k$ correlation index. By default is set to False. 
 
 [Link to the paper](https://arxiv.org/pdf/1811.11440.pdf)
 
