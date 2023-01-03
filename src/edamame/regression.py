@@ -45,9 +45,9 @@ class TrainRegressor:
         linear = LinearRegression()
         linear.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.linear = linear
+        self.linear_fit = linear
         # return step 
-        return linear
+        return self.linear_fit
 
 
     # aggiungere sognificatività coef
@@ -73,9 +73,9 @@ class TrainRegressor:
         reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_lasso.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.lasso = reg_lasso.best_estimator_
+        self.lasso_fit = reg_lasso.best_estimator_
         # return step 
-        return lasso
+        return self.lasso_fit
 
 
     def lasso_coef(self):

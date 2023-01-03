@@ -285,6 +285,7 @@ Parameters:
 
 ## TODO 
 
-* Finishing the documentation 
-* Add the xgboost model, PCA regression and other methods for studying the goodness of fit of the other models
-* Add the classification part to the package 
+* Finishing the documentation. 
+* Fixing the methods in the regression class.
+* Add the xgboost model, PCA regression and other methods for studying the goodness of fit of the other models.
+* Add the classification part to the package.

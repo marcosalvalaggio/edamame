@@ -6,6 +6,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
+from IPython.display import display, Markdown
+import matplotlib.pyplot as plt 
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -33,9 +35,9 @@ class TrainClassifier:
         logistic = LogisticRegression()
         logistic.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.logistic = logistic
+        self.logistic_fit = logistic
         # return step 
-        return logistic
+        return self.logistic_fit
 
 
     # ------------ #
@@ -45,6 +47,39 @@ class TrainClassifier:
         gauss_nb = GaussianNB()
         gauss_nb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.gauss_nb = gauss_nb
+        self.gaussian_nb_fit = gauss_nb
         # return step 
-        return gauss_nb
+        return self.gaussian_nb_fit
+
+    
+    # ------------ #
+    # model metrics
+    # ------------ #
+    def model_metrics(self, model_name: str = 'all'):
+        model_dct = {'logistic_fit': 0, 'guassian_nb_fit': 1}
+        model_list = [self.logistic_fit, self.gaussian_nb_fit]
+        if model_name == 'all':
+            for key in model_dct:
+                if model_list[model_dct[key]].__class__.__name__ == 'method':
+                        display(f'unable to show {key} model metrics')
+                else:
+                    model_str = key 
+                    model_str = model_str.replace("_fit", "")
+                    model_str = model_str.upper()
+                    model_str = model_str.replace("_", " ")
+                    title = f'### {model_str} model metrics:'
+                    display(Markdown(title))
+                    y_pred_train = model_list[model_dct[key]].predict(self.X_train)
+                    y_pred_test = model_list[model_dct[key]].predict(self.X_test)
+                    plt.figure(figsize=(10,4))
+                    plt.subplot(121)
+                    sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
+                    plt.title(f'{model_str} train')
+                    plt.subplot(122)
+                    sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
+                    plt.title(f'{model_str} test')
+                    plt.show()
+                    print(classification_report(self.y_train, y_pred_train))
+                    print(classification_report(self.y_test, y_pred_test))
+
+    
