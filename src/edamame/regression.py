@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
 from sklearn.model_selection import train_test_split, GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
+from tools import dataframe_review, dummy_control
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -17,26 +18,6 @@ pd.set_option('display.max_colwidth', None)
 
 # list of metrics
 #get_scorer_names()
-
-# ----------------- #
-# OHE check
-# ----------------- #
-def dummy_control(data):
-    types = data.dtypes
-    qual_col = types[types == 'object']
-    if len(qual_col) != 0:
-        raise TypeError('dataframe with non-numerical columns')
-    else:
-        pass
-
-# ----------------- #
-#  pandas dataframe check
-# ----------------- #
-def dataframe_review(data) -> None:
-    if data.__class__.__name__ == 'DataFrame':
-        pass
-    else:
-        raise TypeError('The data loaded is not a DataFrame')
 
 
 # ----------------- #
