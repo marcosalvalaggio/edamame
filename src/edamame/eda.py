@@ -456,11 +456,11 @@ def correlation_categorical(data) -> None:
 # correlation phik (quantitative and categorical columns)
 # --------------------- #
 # https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7
-def correlation_phik(data, theory: bool = False):
+def correlation_phik(data, theory: bool = False) -> None:
     # dataframe check 
     dataframe_review(data)
     # title 
-    string = '### $\phi K$ correlation matrix'
+    string = '### $\phi_K$ correlation matrix'
     display(Markdown(string))
     # interval columns 
     types = data.dtypes
@@ -473,7 +473,7 @@ def correlation_phik(data, theory: bool = False):
     # display
     display(phik_overview)
     if theory == True:
-        string = '* the calculation of $\phi K$ is computationally expensive'
+        string = '* the calculation of $\phi_K$ is computationally expensive'
         string2 = '* no indication of direction'
         string3 = '* no closed-form formula'
         string4 = '* when working with numeric-only variables, other correlation coefficients will be more precise, especially for small samples.'

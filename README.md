@@ -16,6 +16,8 @@
     - [Modify the cardinalities of a variable](#modify-the-cardinalities-of-a-variable)
     - [Distribution study of a numerical variable](#distribution-study-of-a-numerical-variable)
     - [Pearson's correlation matrix](#pearsons-correlation-matrix)
+    - [Correlation matrix for categorical columns](#correlation-matrix-for-categorical-columns)
+    - [$\\phi\_k$ Correlation matrix](#phi_k-correlation-matrix)
   - [TODO](#todo)
 
 
@@ -252,7 +254,32 @@ eda.correlation_pearson(data, threshold: float = 0.)
 Parameters: 
 
 * **data**: A pandas dataframe.
-* **threshold**: Only the correlation values higher than the threshold are shown in the matrix.  A floating value set by default to 0. 
+* **threshold**: Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. 
+
+### Correlation matrix for categorical columns 
+
+```python
+eda.correlation_categorical(data)
+```
+
+Parameters:
+
+* **data**: A pandas dataframe.
+
+The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
+
+### $\phi_k$ Correlation matrix
+
+```python
+eda.correlation_phik(data, theory: bool = False)
+```
+
+Parameters:
+
+* **data**: A pandas dataframe.
+* **theory**: A boolean value for displaying insight into the theory of the $\phi_k$ correlation index. 
+
+[Link to the paper](https://arxiv.org/pdf/1811.11440.pdf)
 
 
 
