@@ -601,7 +601,7 @@ def interaction(data) -> None:
 # --------------------- #
 # interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
 # --------------------- #
-def inspection(data,threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.)) -> None:
+def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.)) -> None:
     # dataframe check 
     dataframe_review(data)
     # plot step

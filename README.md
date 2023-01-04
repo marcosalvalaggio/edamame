@@ -17,7 +17,9 @@
     - [Distribution study of a numerical variable](#distribution-study-of-a-numerical-variable)
     - [Pearson's correlation matrix](#pearsons-correlation-matrix)
     - [Correlation matrix for categorical columns](#correlation-matrix-for-categorical-columns)
-    - [$\\phi\_k$ Correlation matrix](#phi_k-correlation-matrix)
+    - [Phik Correlation matrix](#phik-correlation-matrix)
+    - [Interaction](#interaction)
+    - [Inspection](#inspection)
   - [TODO](#todo)
 
 
@@ -268,7 +270,7 @@ Parameters:
 
 The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
 
-### $\phi_k$ Correlation matrix
+### Phik Correlation matrix
 
 ```python
 eda.correlation_phik(data, theory: bool = False)
@@ -282,10 +284,37 @@ Parameters:
 [Link to the paper](https://arxiv.org/pdf/1811.11440.pdf)
 
 
+### Interaction 
+
+```python 
+eda.interaction(data)
+```
+
+Parameters:
+
+* **data**: A pandas dataframe.
+
+The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
+
+### Inspection
+
+```python 
+eda.inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.))
+```
+
+Parameters:
+
+* **data**: A pandas dataframe.
+* **threshold**: A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. 
+* **bins**: The number of bins used by the histograms. By default bins=50.
+* **figsize**: A tuple to determine the plot size.
+
+The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable. 
+
 
 ## TODO 
 
 * Finishing the documentation. 
-* Fixing the methods in the regression class.
 * Add the xgboost model, PCA regression and other methods for studying the goodness of fit of the other models.
-* Add the classification part to the package.
+* Add the classification class to the package.
+* Ensamble regressor/classifier method. 

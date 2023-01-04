@@ -21,4 +21,4 @@ from .regression import (TrainRegressor, regression_metrics)
 
 from .tools import (load_model, setup, scaling)
 
-__version__ = "0.28"
+__version__ = "0.29"

@@ -172,7 +172,7 @@ class TrainRegressor:
     # model metrics
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4}
         model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
@@ -259,7 +259,7 @@ class TrainRegressor:
             std.append(cv_result.std())
             score.append(cv_result)
         # dataframe for results 
-        df_kfold_result = pd.DataFrame({"CV Mean": cv_mean, "Std": std},index=regressor)
+        df_kfold_result = pd.DataFrame({"CV Mean": cv_mean, "Std": std}, index=regressor)
         # display step 
         string = f'### Metrics results on {data} set:'
         display(Markdown(string))
@@ -274,7 +274,7 @@ class TrainRegressor:
     # save model
     # ------------ #
     def save_model(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random forest': 4}
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4}
         model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
