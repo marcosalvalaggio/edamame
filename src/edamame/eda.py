@@ -379,6 +379,8 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
     cardinality['new_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
     # display
     display(Markdown(cardinality.to_markdown(index=False)))
+    # return step 
+    return data
 
 # test 
 #data_cpy = data_test.copy()
