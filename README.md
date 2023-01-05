@@ -20,6 +20,7 @@
     - [Phik Correlation matrix](#phik-correlation-matrix)
     - [Interaction](#interaction)
     - [Inspection](#inspection)
+    - [Split and scaling](#split-and-scaling)
   - [TODO](#todo)
 
 
@@ -310,6 +311,25 @@ Parameters:
 * **figsize**: A tuple to determine the plot size.
 
 The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable. 
+
+
+### Split and scaling 
+
+```python 
+eda.split_and_scaling(data, target: str)
+```
+
+Parameters: 
+
+* **data**: A pandas dataframe.
+* **target**: The response variable column name.
+
+The function returns two pandas dataframes:
+
+* The regressor matrix $X$ contains all the predictors for the model. 
+* The series $y$ contains the values of the response variable.
+
+In addition, the function applies a step of standard scaling on the numerical columns of the $X$ matrix.
 
 
 ## TODO 

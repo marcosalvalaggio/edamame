@@ -88,11 +88,14 @@ def identify_types(data) -> list[list[str]]:
 # --------------------- #
 # convert numeric to categorical  
 # --------------------- #
+# modified to avoid side effect 
 def num_to_categorical(data, col: list[str]) -> None:
     # dataframe check
     dataframe_review(data)
     # convert 
+    data = data.copy()
     data[col] = data[col].astype(object)
+    return data
 
 
 # --------------------- #
@@ -200,6 +203,7 @@ def missing(data) -> list[list[str]]:
 def handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = []):
     # dataframe control step 
     dataframe_review(data)
+    data = data.copy()
     # ---
     # ----------------------------- #
     # check method 
@@ -246,6 +250,8 @@ def handling_missing(data, col: list[str], missing_val = np.nan, method: list[st
 # fast drop columns
 # --------------------- #
 def drop_columns(data, col: list[str]):
+    # dataframe control step 
+    dataframe_review(data)
     for _,colname in enumerate(col):
         data = data.drop(colname, axis=1)
     return data
@@ -354,7 +360,8 @@ def view_cardinality(data, col: list[str]) -> None:
 def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
     # dataframe check 
     dataframe_review(data)
-        # parameters check
+    data = data.copy()
+    # parameters check
     if len(col) != len(threshold):
         raise ValueError("You must pass the same number of values in the [col] parameter and in the [thresholds] parameter")
     else: 
