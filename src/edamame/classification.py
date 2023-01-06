@@ -5,6 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
@@ -34,6 +35,7 @@ class TrainClassifier:
         self.logistic_fit = {}
         self.gaussian_nb_fit = {}
         self.knn_fit = {}
+        self.tree_fit = {}
 
     # ------------ #
     # logistic model
@@ -73,13 +75,29 @@ class TrainClassifier:
         # return step 
         return self.knn_fit
 
-    
+
+    # ------------ #
+    # Tree
+    # ------------ #
+    def tree(self, n_folds: int = 5, alpha: list[float, float, int] = [0, 0.001, 5], impurity: list = [0, 0.00001, 5]):
+        alphas = np.linspace(alpha[0], alpha[1], alpha[2])
+        impurities = np.linspace(impurity[0], impurity[1], impurity[2])
+        tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
+        tree = DecisionTreeClassifier() 
+        reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        reg_tree.fit(self.X_train, self.y_train.squeeze())
+        # save the model in the instance attributes
+        self.tree_fit = reg_tree.best_estimator_
+        # return step 
+        return self.tree_fit
+
+
     # ------------ #
     # model metrics
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3}
+        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
@@ -135,16 +153,19 @@ class TrainClassifier:
         cv_mean = []
         score = []
         std = []
-        classifier = ["Logistic", "Gaussian NB", "KNN"]
+        classifier = ["Logistic", "Gaussian NB", "KNN", "Tree"]
         try:
-            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors)]
+            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
+                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease)]
         except:
             # find best hyperparameters
             self.logistic()
             self.gaussian_nb()
             self.knn()
+            self.tree()
             # model list 
-            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors)]
+            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
+                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -167,13 +188,15 @@ class TrainClassifier:
         box.T.boxplot()
         plt.show()
 
+        return self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit
+
 
     # ------------ #
     # save model
     # ------------ #
     def save_model(self, model_name: str = 'all'):
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3}
+        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
