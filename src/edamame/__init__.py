@@ -23,4 +23,4 @@ from .tools import (load_model, setup, scaling)
 
 from .classification import TrainClassifier
 
-__version__ = "0.32"
+__version__ = "0.33"
