@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
@@ -36,6 +37,7 @@ class TrainClassifier:
         self.gaussian_nb_fit = {}
         self.knn_fit = {}
         self.tree_fit = {}
+        self.random_forest_fit = {}
 
     # ------------ #
     # logistic model
@@ -93,11 +95,26 @@ class TrainClassifier:
 
 
     # ------------ #
+    # Random Forest 
+    # ------------ #
+    def random_forest(self, n_estimators: list[int, int, int] = [50, 1000, 5], n_folds: int = 2):
+        n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
+        tuned_parameters = [{"n_estimators": n_estimators}]
+        random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)
+        reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
+        reg_random_forest.fit(self.X_train, self.y_train.squeeze())
+        # save the model in the instance attributes
+        self.random_forest_fit = reg_random_forest.best_estimator_
+        # return step 
+        return self.random_forest_fit
+
+
+    # ------------ #
     # model metrics
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4}
+        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
@@ -130,7 +147,7 @@ class TrainClassifier:
                 y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
                 y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
                 plt.figure(figsize=(10,4))
-                plt.subplot(121)
+                # plt.subplot(121)
                 sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
                 plt.title(f'{model_name} train')
                 plt.subplot(122)
@@ -153,19 +170,22 @@ class TrainClassifier:
         cv_mean = []
         score = []
         std = []
-        classifier = ["Logistic", "Gaussian NB", "KNN", "Tree"]
+        classifier = ["Logistic", "Gaussian NB", "KNN", "Tree", "Random forest"]
         try:
             model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
-                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease)]
+                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
+                          RandomForestClassifier(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
         except:
             # find best hyperparameters
             self.logistic()
             self.gaussian_nb()
             self.knn()
             self.tree()
+            self.random_forest()
             # model list 
             model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
-                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease)]
+                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
+                          RandomForestClassifier(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -188,15 +208,15 @@ class TrainClassifier:
         box.T.boxplot()
         plt.show()
 
-        return self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit
+        return [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit]
 
 
     # ------------ #
     # save model
     # ------------ #
     def save_model(self, model_name: str = 'all'):
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4}
+        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':

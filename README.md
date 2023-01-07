@@ -98,7 +98,7 @@ Parameters:
 * **data**: A pandas dataframe.
 * **col**: A list of strings containing the names of columns to convert. 
 
-Passing a dataframe and a list with columns name, the function transforms the types of the columns into "object". 
+Passing a dataframe and a list with columns name, the function returns a dataframe with the columns transformed into an "object". 
 
 
 ### Missing data
@@ -131,6 +131,8 @@ Parameters:
 * **missing_val**: The value that represents the **NA** in the columns passed. By default is equal to **np.nan**.
 * **method**: A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method.
 
+The function returns a pandas dataframe with the columns selected modified to handle the nan values. 
+
 ### Drop columns 
 
 ```python 
@@ -141,6 +143,8 @@ Parameters:
 
 * **data**: A pandas dataframe.
 * **col**: A list of strings containing the names of columns to drop. 
+
+The function returns a pandas dataframe with the columns selected dropped.
 
 
 ### Plot categorical variables
@@ -216,7 +220,9 @@ Parameters:
 * **col**: A list of strings containing the names of columns for which we want to modify the cardinalities.
 * **threshold**: A list of integer values containing the threshold values for every variable.
 
-All the cardinalities that have a total count lower than the threshold indicated in the function are grouped into a new unique value called: Other.
+All the cardinalities that have a total count lower than the threshold indicated in the function are grouped into a new unique value called: Other. 
+
+The function returns a pandas dataframe with the cardinalities of the columns selected modified. 
 
 ### Distribution study of a numerical variable
 

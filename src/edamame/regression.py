@@ -269,7 +269,7 @@ class TrainRegressor:
         box.T.boxplot()
         plt.show()
 
-        return self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit
+        return [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
 
 
     # ------------ #
