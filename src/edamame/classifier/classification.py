@@ -1,8 +1,6 @@
 import numpy as np
-import sys
-
 import pandas as pd
-from  ...edamame.tools import dataframe_review, dummy_control
+from  edamame.tools import dataframe_review, dummy_control
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.naive_bayes import GaussianNB
