@@ -17,10 +17,7 @@ interaction,
 inspection,
 split_and_scaling)
 
-#from .regression import (TrainRegressor, regression_metrics)
-
 from .tools import (load_model, setup, scaling)
 
-#from .classification import TrainClassifier
 
-__version__ = "0.35"
+__version__ = "0.36"
