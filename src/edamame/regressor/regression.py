@@ -59,14 +59,14 @@ class TrainRegressor:
 
 
     # aggiungere sognificatività coef
-    def linear_coef(self):
-        intercept = ('intercept',self.linear_fit.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.linear_fit.coef_[0]))
-        coef = [intercept, *coef]
-        df_coef = pd.DataFrame(coef)
-        df_coef.columns = ['Columns', 'Linear Coef']
-        # display step 
-        display(df_coef)
+    # def linear_coef(self):
+    #     intercept = ('intercept',self.linear_fit.intercept_[0])
+    #     coef = list(zip(list(self.X_train.columns), self.linear_fit.coef_[0]))
+    #     coef = [intercept, *coef]
+    #     df_coef = pd.DataFrame(coef)
+    #     df_coef.columns = ['Columns', 'Linear Coef']
+    #     # display step 
+    #     display(df_coef)
         
 
     # ------------ #
@@ -86,14 +86,14 @@ class TrainRegressor:
         return self.lasso_fit
 
 
-    def lasso_coef(self):
-        intercept = ('intercept',self.lasso_fit.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.lasso_fit.coef_))
-        coef = [intercept, *coef]
-        df_coef = pd.DataFrame(coef)
-        df_coef.columns = ['Columns', 'Lasso Coef']
-        # display step 
-        display(df_coef)
+    # def lasso_coef(self):
+    #     intercept = ('intercept',self.lasso_fit.intercept_[0])
+    #     coef = list(zip(list(self.X_train.columns), self.lasso_fit.coef_))
+    #     coef = [intercept, *coef]
+    #     df_coef = pd.DataFrame(coef)
+    #     df_coef.columns = ['Columns', 'Lasso Coef']
+    #     # display step 
+    #     display(df_coef)
             
         
     # ------------ #
@@ -113,14 +113,14 @@ class TrainRegressor:
         return self.ridge_fit
     
     
-    def ridge_coef(self):
-        intercept = ('intercept',self.ridge_fit.intercept_[0])
-        coef = list(zip(list(self.X_train.columns), self.ridge_fit.coef_))
-        coef = [intercept, *coef]
-        df_coef = pd.DataFrame(coef)
-        df_coef.columns = ['Columns', 'Ridge Coef']
-        # display step 
-        display(df_coef)
+    # def ridge_coef(self):
+    #     intercept = ('intercept',self.ridge_fit.intercept_[0])
+    #     coef = list(zip(list(self.X_train.columns), self.ridge_fit.coef_))
+    #     coef = [intercept, *coef]
+    #     df_coef = pd.DataFrame(coef)
+    #     df_coef.columns = ['Columns', 'Ridge Coef']
+    #     # display step 
+    #     display(df_coef)
         
     
     # ------------ #
@@ -156,16 +156,16 @@ class TrainRegressor:
         return self.random_forest_fit
 
 
-    def random_forest_fi(self, figsize: tuple[float, float] = (12,10)):
-        importances = self.random_forest_fit.feature_importances_
-        std = np.std([tree.feature_importances_ for tree in self.random_forest_fit.estimators_], axis=0)
-        feature_names = self.random_forest_fit.feature_names_in_
-        forest_importances = pd.Series(importances, index=feature_names)
-        plt.figure(figsize=figsize)
-        forest_importances.plot.bar(yerr=std)
-        plt.title("Feature importances using mean decrease in impurity")
-        plt.ylabel("Mean decrease in impurity")
-        plt.show()
+    # def random_forest_fi(self, figsize: tuple[float, float] = (12,10)):
+    #     importances = self.random_forest_fit.feature_importances_
+    #     std = np.std([tree.feature_importances_ for tree in self.random_forest_fit.estimators_], axis=0)
+    #     feature_names = self.random_forest_fit.feature_names_in_
+    #     forest_importances = pd.Series(importances, index=feature_names)
+    #     plt.figure(figsize=figsize)
+    #     forest_importances.plot.bar(yerr=std)
+    #     plt.title("Feature importances using mean decrease in impurity")
+    #     plt.ylabel("Mean decrease in impurity")
+    #     plt.show()
     
 
     # ------------ #
