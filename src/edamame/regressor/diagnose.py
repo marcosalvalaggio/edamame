@@ -43,12 +43,13 @@ def lasso_coef(model):
 # ------------------- #
 #     RIDGE MODEL 
 # ------------------- #
-def check_lasso(model): 
+def check_ridge(model): 
     if model.__class__.__name__ != 'Ridge':
         raise TypeError('The model passed isn\'t a ridge model')
 
 
 def ridge_coef(model):
+    check_ridge(model)
     intercept = ('intercept',model.intercept_[0])
     coef = list(zip(list(model.feature_names_in_), model.coef_))
     coef = [intercept, *coef]
