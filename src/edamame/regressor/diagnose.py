@@ -1,5 +1,8 @@
 import pandas as pd 
 from IPython.display import display
+import numpy as np 
+import matplotlib.pyplot as plt 
+
 
 
 # ------------------- #
@@ -57,3 +60,24 @@ def ridge_coef(model):
     df_coef.columns = ['Columns', 'Ridge Coef']
     # display step 
     display(df_coef)
+
+
+# ------------------- #
+#     RANDOM FOREST 
+# ------------------- #
+def check_random_forest(model): 
+    if model.__class__.__name__ != 'RandomForestRegressor':
+        raise TypeError('The model passed isn\'t a ridge model')
+
+
+def random_forest_fi(model, figsize: tuple[float, float] = (12,10)):
+    check_random_forest(model)
+    importances = model.feature_importances_
+    std = np.std([tree.feature_importances_ for tree in model.estimators_], axis=0)
+    feature_names = model.feature_names_in_
+    forest_importances = pd.Series(importances, index=feature_names)
+    plt.figure(figsize=figsize)
+    forest_importances.plot.bar(yerr=std)
+    plt.title("Feature importances using mean decrease in impurity")
+    plt.ylabel("Mean decrease in impurity")
+    plt.show()
