@@ -5,6 +5,7 @@ from IPython.display import display, Markdown
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
@@ -44,6 +45,7 @@ class TrainRegressor:
         self.ridge_fit = {}
         self.tree_fit = {}
         self.random_forest_fit = {}
+        self.xgb_fit = {}
 
 
     # ------------ #
@@ -125,13 +127,28 @@ class TrainRegressor:
         return self.random_forest_fit
 
 
+    # ------------ #
+    # Random forest
+    # ------------ #
+    def xgboost(self, n_estimators: list[int, int, int] = [10, 100, 5], n_folds: int = 2):
+        n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
+        tuned_parameters = {"n_estimators": n_est}
+        xgb_m = xgb.XGBRegressor(objective ='reg:squarederror')
+        reg_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
+        reg_xgb.fit(self.X_train, self.y_train.squeeze())
+        # save the model in the instance attributes
+        self.xgb_fit = reg_xgb.best_estimator_
+        # return step 
+        return self.xgb_fit
+
+
 
     # ------------ #
     # model metrics
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4}
-        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
+        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
@@ -187,12 +204,13 @@ class TrainRegressor:
         cv_mean = []
         score = []
         std = []
-        regressor = ["Linear", "Lasso", "Ridge", "Tree", "Random Forest"]
+        regressor = ["Linear", "Lasso", "Ridge", "Tree", "Random Forest", "Xgboost"]
         try:
             model_list = [LinearRegression(), Lasso(alpha = self.lasso_fit.alpha),
                           Ridge(alpha = self.ridge_fit.alpha),
                           DecisionTreeRegressor(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
-                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
+                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1), 
+                          xgb.XGBRegressor(objective ='reg:squarederror', n_estimators = self.xgb_fit.n_estimators)]
         except:
             # find best hyperparameters
             self.linear()
@@ -200,11 +218,13 @@ class TrainRegressor:
             self.ridge()
             self.tree()
             self.random_forest()
+            self.xgboost()
             # model list 
             model_list = [LinearRegression(), Lasso(alpha = self.lasso_fit.alpha),
                           Ridge(alpha = self.ridge_fit.alpha),
                           DecisionTreeRegressor(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
-                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1)]
+                          RandomForestRegressor(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1),
+                          xgb.XGBRegressor(objective ='reg:squarederror', n_estimators = self.xgb_fit.n_estimators)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -234,8 +254,8 @@ class TrainRegressor:
     # save model
     # ------------ #
     def save_model(self, model_name: str = 'all'):
-        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4}
-        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
+        model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
+        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit, self.xgboost]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':

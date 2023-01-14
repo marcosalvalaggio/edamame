@@ -27,6 +27,7 @@ dependencies = [
     "scipy",
     "phik",
     "ipywidgets",
+    "xgboost",
 ]
 
 
