@@ -419,7 +419,6 @@ def view_cardinality(data, col: list[str]) -> None:
     ---------------------------
     The function especially helps study the cardinalities of the categorical variables.
     """
-
     dataframe_review(data)
     # dataframe of the cardinalities 
     cardinality = pd.DataFrame()
