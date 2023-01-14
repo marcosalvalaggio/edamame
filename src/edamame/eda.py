@@ -298,6 +298,13 @@ def handling_missing(data, col: list[str], missing_val = np.nan, method: list[st
 # fast drop columns
 # --------------------- #
 def drop_columns(data, col: list[str]):
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of strings containing the names of columns to drop. 
+    ---------------------------
+    The function returns a pandas dataframe with the columns selected dropped.
+    """
     # dataframe control step 
     dataframe_review(data)
     for _,colname in enumerate(col):
@@ -312,6 +319,13 @@ def drop_columns(data, col: list[str]):
 # plot categorical columns 
 # --------------------- #
 def plot_categorical(data, col: list[str]) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of string containing the names of columns to plot
+    ---------------------------
+    The function returns a sequence of tables and plots.
+    """
     # dataframe check 
     dataframe_review(data)
     for _, col in enumerate(col):
@@ -355,6 +369,14 @@ def plot_categorical(data, col: list[str]) -> None:
 # plot quantitative columns 
 # --------------------- #
 def plot_numerical(data, col: list[str], bins: int = 50) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of string containing the names of columns to plot.
+    :bins - Number of bins to use in the histogram plot. 
+    ---------------------------
+    the function returns a sequence of tables and plots.
+    """
     # dataframe check 
     dataframe_review(data)
     for _, col in enumerate(col):
@@ -390,6 +412,14 @@ def plot_numerical(data, col: list[str], bins: int = 50) -> None:
 # view cardinalities of columns 
 # --------------------- #
 def view_cardinality(data, col: list[str]) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of strings containing the names of columns for which we want to show the number of unique values.  
+    ---------------------------
+    The function especially helps study the cardinalities of the categorical variables.
+    """
+
     dataframe_review(data)
     # dataframe of the cardinalities 
     cardinality = pd.DataFrame()
@@ -406,6 +436,14 @@ def view_cardinality(data, col: list[str]) -> None:
 # modify cardinalities of categorical columns 
 # --------------------- #
 def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of strings containing the names of columns for which we want to modify the cardinalities.
+    :threshold - A list of integer values containing the threshold values for every variable.
+    ---------------------------
+    The function returns a pandas dataframe with the cardinalities of the columns selected modified.
+    """
     # dataframe check 
     dataframe_review(data)
     data = data.copy()
@@ -440,6 +478,13 @@ def modify_cardinality(data, col: list[str], threshold: list[int]) -> None:
 # --------------------- #
 # correlation coefficients for numerical variables (Pearson, Kendall, Spearman)
 def correlation_pearson(data, threshold: float = 0.) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :threshold - Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. 
+    ---------------------------
+    The function performs the Pearson's correlation between the columns pairs. 
+    """
     # dataframe check 
     dataframe_review(data)
     # title 
@@ -464,6 +509,12 @@ def correlation_pearson(data, threshold: float = 0.) -> None:
 # correlation categorical (chisq test p-values)
 # --------------------- #
 def correlation_categorical(data) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
+    """
     # dataframe check 
     dataframe_review(data)
     # title 
@@ -505,6 +556,13 @@ def correlation_categorical(data) -> None:
 # --------------------- #
 # https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7
 def correlation_phik(data, theory: bool = False) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :theory - A boolean value for displaying insight into the theory of the Phik correlation index. By default is set to False.
+    ---------------------------
+    Paper link: https://arxiv.org/pdf/1811.11440.pdf
+    """
     # dataframe check 
     dataframe_review(data)
     # title 
@@ -572,6 +630,16 @@ def num_plot(data, col, bins) -> None:
 
 # useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot
 def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - The name of the dataframe column to study.
+    :bins - The number of bins used by the histograms. By default bins=50.
+    :epsilon - A constant for handle non strictly positive variables. By default epsilon = 0.0001
+    :theory - A boolean value for displaying insight into the transformations applied
+    ---------------------------
+    The function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x
+    """
     # dataframe chack step 
     dataframe_review(data)
     # response variable check step 
@@ -641,6 +709,12 @@ def num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, t
 # interactive scatterplot
 # --------------------- #
 def interaction(data) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
+    """
     # dataframe check 
     dataframe_review(data)
     # scatterplot function 
@@ -659,6 +733,15 @@ def interaction(data) -> None:
 # interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
 # --------------------- #
 def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.)) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :threshold - A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. 
+    :bins - The number of bins used by the histograms. By default bins=50.
+    :figsize - A tuple to determine the plot size.
+    ---------------------------
+    The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.
+    """
     # dataframe check 
     dataframe_review(data)
     # plot step
@@ -698,6 +781,16 @@ def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, 
 # split and scale dataset
 # --------------------- #
 def split_and_scaling(data, target: str):
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :target - The response variable column name.
+    ---------------------------
+    The function returns two pandas dataframes: 
+        * The regressor matrix X contains all the predictors for the model.
+        * The series y contains the values of the response variable.
+    In addition, the function applies a step of standard scaling on the numerical columns of the X matrix.
+    """
     # dataframe check 
     dataframe_review(data)
     # split step
