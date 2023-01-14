@@ -20,4 +20,4 @@ split_and_scaling)
 from .tools import (load_model, setup, scaling)
 
 
-__version__ = "0.36"
+__version__ = "0.37"

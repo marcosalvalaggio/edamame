@@ -244,6 +244,7 @@ class TrainRegressor:
         display(df_kfold_result)
         # boxplot on R2
         box = pd.DataFrame(score, index=regressor)
+        plt.figure(figsize=(10,8))
         box.T.boxplot()
         plt.show()
 

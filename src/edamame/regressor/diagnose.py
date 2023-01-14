@@ -15,8 +15,8 @@ def check_linear(model):
 
 def linear_coef(model):
     check_linear(model)
-    intercept = ('intercept',model.intercept_[0])
-    coef = list(zip(list(model.feature_names_in_), model.coef_[0]))
+    intercept = ('intercept',model.intercept_)
+    coef = list(zip(list(model.feature_names_in_), model.coef_))
     coef = [intercept, *coef]
     df_coef = pd.DataFrame(coef)
     df_coef.columns = ['Columns', 'Linear Coef']
@@ -33,7 +33,7 @@ def check_lasso(model):
 
 def lasso_coef(model):
     check_lasso(model)
-    intercept = ('intercept',model.intercept_[0])
+    intercept = ('intercept',model.intercept_)
     coef = list(zip(list(model.feature_names_in_), model.coef_))
     coef = [intercept, *coef]
     df_coef = pd.DataFrame(coef)
@@ -53,7 +53,7 @@ def check_ridge(model):
 
 def ridge_coef(model):
     check_ridge(model)
-    intercept = ('intercept',model.intercept_[0])
+    intercept = ('intercept',model.intercept_)
     coef = list(zip(list(model.feature_names_in_), model.coef_))
     coef = [intercept, *coef]
     df_coef = pd.DataFrame(coef)
