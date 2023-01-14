@@ -32,6 +32,12 @@ def display_side_by_side(dfs:list, captions:list) -> None:
 # Dataframe dimensions
 # --------------------- #
 def dimensions(data) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    The function displays the number of rows and columns of a pandas dataframe passed. 
+    """
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -45,6 +51,13 @@ def dimensions(data) -> None:
 # full describe function 
 # --------------------- #
 def describe_distribution(data) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    the function display the result of the describe() method applied to a pandas dataframe,
+    divided by numerical and object columns.
+    """
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -63,6 +76,13 @@ def describe_distribution(data) -> None:
 # variables types identifier 
 # --------------------- #
 def identify_types(data) -> list[list[str]]:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    the function display the result of the dtypes method and returns a list with the name of the numerical columns
+    and a list with the name of the columns identified as "object" by pandas. 
+    """
      # dataframe control step 
     dataframe_review(data)
     # display types 
@@ -90,6 +110,13 @@ def identify_types(data) -> list[list[str]]:
 # --------------------- #
 # modified to avoid side effect 
 def num_to_categorical(data, col: list[str]) -> None:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of strings containing the names of columns to convert.
+    ---------------------------
+    the function returns a dataframe with the columns transformed into an "object". 
+    """
     # dataframe check
     dataframe_review(data)
     # convert 
@@ -102,6 +129,16 @@ def num_to_categorical(data, col: list[str]) -> None:
 # missing, zeros and duplicates 
 # --------------------- #
 def missing(data) -> list[list[str]]:
+    """
+    Parameters:
+    :data - Pandas dataframe
+    ---------------------------
+    The function display the following elements:
+    - A table with the percentage of NA record for every column.
+    - A table with the percentage of **0** as a record for every column.
+    - A table with the percentage of duplicate rows.
+    - A list of lists that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record. 
+    """
     # dataframe control step 
     dataframe_review(data)
     # ---
@@ -127,7 +164,7 @@ def missing(data) -> list[list[str]]:
     # create table
     string = '### INFO table'
     display(Markdown(string))
-    info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Quantitative variables': num_quant_col, 'Categorical variables': num_qual_col}
+    info_table = {'Row': num_row, 'Col': num_col, 'Rows without NaN': num_rows_wnan, 'Numerical variables': num_quant_col, 'Categorical variables': num_qual_col}
     info_table = pd.DataFrame(data=info_table, index = ['0'])
     display(Markdown(info_table.to_markdown(index=False)))
     # ----------------------------- #
@@ -201,6 +238,17 @@ def missing(data) -> list[list[str]]:
 # --------------------- #
 # missing_cal = np.nan or 0 or other values
 def handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = []):
+    """
+    Parameters:
+    :data - Pandas dataframe
+    :col - A list of the names of the dataframe columns to handle.
+    :missing_val - The value that represents the NA in the columns passed. By default is equal to np.nan.
+    :method - A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default,
+              if nothing was indicated, the function applied the most_frequent method to all the columns passed. Indicating
+              fewer methods than the names of the columns leads to an autocompletion with the most_frequent method.
+    ---------------------------
+    The function returns a pandas dataframe with the columns selected modified to handle the nan values. 
+    """
     # dataframe control step 
     dataframe_review(data)
     data = data.copy()
