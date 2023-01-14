@@ -247,7 +247,7 @@ class TrainRegressor:
         box.T.boxplot()
         plt.show()
 
-        return [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit]
+        return [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
 
 
     # ------------ #
@@ -255,7 +255,7 @@ class TrainRegressor:
     # ------------ #
     def save_model(self, model_name: str = 'all'):
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
-        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit, self.xgboost]
+        model_list = [self.linear_fit, self.lasso_fit, self.ridge_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
