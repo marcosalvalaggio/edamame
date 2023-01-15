@@ -142,7 +142,6 @@ class TrainRegressor:
         return self.xgb_fit
 
 
-
     # ------------ #
     # model metrics
     # ------------ #

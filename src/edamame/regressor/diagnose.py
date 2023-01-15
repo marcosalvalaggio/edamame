@@ -1,6 +1,7 @@
 import pandas as pd 
 from IPython.display import display
 import numpy as np 
+import xgboost as xgb
 import matplotlib.pyplot as plt 
 
 
@@ -80,4 +81,19 @@ def random_forest_fi(model, figsize: tuple[float, float] = (12,10)):
     forest_importances.plot.bar(yerr=std)
     plt.title("Feature importances using mean decrease in impurity")
     plt.ylabel("Mean decrease in impurity")
+    plt.show()
+
+
+# ------------------- #
+#     XGBOOST 
+# ------------------- #
+def check_xgboost(model): 
+    if model.__class__.__name__ != 'XGBRegressor':
+        raise TypeError('The model passed isn\'t an xgboost')
+
+
+def xgboost_fi(model, figsize: tuple[float, float] = (12,10)):
+    check_xgboost(model)
+    xgb.plot_importance(model)
+    plt.rcParams['figure.figsize'] = [figsize[0], figsize[1]]
     plt.show()
