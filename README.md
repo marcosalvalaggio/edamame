@@ -45,7 +45,7 @@ Edamame is born under the inspiration of the [pandas-profiling](https://github.c
 
 ## Exploratory data analysis functions
 
-You can find an example of the EDA that uses the edamame package in the  [eda_example.ipynb](notebook/eda_example.ipynb) notebook. 
+You can find an example of the EDA that uses the edamame package in the [edamame-notebooks](https://github.com/marcosalvalaggio/edamame-notebooks) repository.
 
 ### Dimensions
 
