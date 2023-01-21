@@ -128,7 +128,7 @@ class TrainRegressor:
 
 
     # ------------ #
-    # Random forest
+    # Xgboost
     # ------------ #
     def xgboost(self, n_estimators: list[int, int, int] = [10, 100, 5], n_folds: int = 2):
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
@@ -198,7 +198,7 @@ class TrainRegressor:
     # ------------ #
     # auto_ml
     # ------------ #
-    def auto_ml(self, n_folds: int = 5, data: str = 'test'):
+    def auto_ml(self, n_folds: int = 5, data: str = 'train'):
         kfold = KFold(n_splits=n_folds)
         cv_mean = []
         score = []
