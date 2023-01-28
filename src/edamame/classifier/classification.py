@@ -34,12 +34,12 @@ class TrainClassifier:
         dummy_control(self.X_train)
         dummy_control(self.X_test)
         # init the model 
-        self.logistic_fit = {}
-        self.gaussian_nb_fit = {}
-        self.knn_fit = {}
-        self.tree_fit = {}
-        self.random_forest_fit = {}
-        self.xgb_fit = {}
+        self.__logistic_fit = {}
+        self.__gaussian_nb_fit = {}
+        self.__knn_fit = {}
+        self.__tree_fit = {}
+        self.__random_forest_fit = {}
+        self.__xgb_fit = {}
 
     # ------------ #
     # logistic model
@@ -48,9 +48,9 @@ class TrainClassifier:
         logistic = LogisticRegression()
         logistic.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.logistic_fit = logistic
+        self.__logistic_fit = logistic
         # return step 
-        return self.logistic_fit
+        return self.__logistic_fit
 
 
     # ------------ #
@@ -60,9 +60,9 @@ class TrainClassifier:
         gauss_nb = GaussianNB()
         gauss_nb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.gaussian_nb_fit = gauss_nb
+        self.__gaussian_nb_fit = gauss_nb
         # return step 
-        return self.gaussian_nb_fit
+        return self.__gaussian_nb_fit
 
 
     # ------------ #
@@ -75,9 +75,9 @@ class TrainClassifier:
         reg_knn = GridSearchCV(knn, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         reg_knn.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.knn_fit = reg_knn.best_estimator_
+        self.__knn_fit = reg_knn.best_estimator_
         # return step 
-        return self.knn_fit
+        return self.__knn_fit
 
 
     # ------------ #
@@ -91,9 +91,9 @@ class TrainClassifier:
         reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         reg_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.tree_fit = reg_tree.best_estimator_
+        self.__tree_fit = reg_tree.best_estimator_
         # return step 
-        return self.tree_fit
+        return self.__tree_fit
 
 
     # ------------ #
@@ -106,9 +106,9 @@ class TrainClassifier:
         reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         reg_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.random_forest_fit = reg_random_forest.best_estimator_
+        self.__random_forest_fit = reg_random_forest.best_estimator_
         # return step 
-        return self.random_forest_fit
+        return self.__random_forest_fit
 
 
     # ------------ #
@@ -121,9 +121,9 @@ class TrainClassifier:
         reg_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         reg_xgb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.xgb_fit = reg_xgb.best_estimator_
+        self.__xgb_fit = reg_xgb.best_estimator_
         # return step 
-        return self.xgb_fit
+        return self.__xgb_fit
 
 
     # ------------ #
@@ -131,7 +131,7 @@ class TrainClassifier:
     # ------------ #
     def model_metrics(self, model_name: str = 'all'):
         model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
+        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
@@ -189,10 +189,10 @@ class TrainClassifier:
         std = []
         classifier = ["Logistic", "Gaussian NB", "KNN", "Tree", "Random forest", "Xgboost"]
         try:
-            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
-                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
-                          RandomForestClassifier(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1), 
-                          XGBClassifier(n_estimators = self.xgb_fit.n_estimators)]
+            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.__knn_fit.n_neighbors),
+                          DecisionTreeClassifier(ccp_alpha=self.__tree_fit.ccp_alpha, min_impurity_decrease=self.__tree_fit.min_impurity_decrease),
+                          RandomForestClassifier(n_estimators = self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1), 
+                          XGBClassifier(n_estimators = self.__xgb_fit.n_estimators)]
         except:
             # find best hyperparameters
             self.logistic()
@@ -202,10 +202,10 @@ class TrainClassifier:
             self.random_forest()
             self.xgboost()
             # model list 
-            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.knn_fit.n_neighbors),
-                          DecisionTreeClassifier(ccp_alpha=self.tree_fit.ccp_alpha, min_impurity_decrease=self.tree_fit.min_impurity_decrease),
-                          RandomForestClassifier(n_estimators = self.random_forest_fit.n_estimators, warm_start=True, n_jobs=-1),
-                          XGBClassifier(n_estimators = self.xgb_fit.n_estimators)]
+            model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.__knn_fit.n_neighbors),
+                          DecisionTreeClassifier(ccp_alpha=self.__tree_fit.ccp_alpha, min_impurity_decrease=self.__tree_fit.min_impurity_decrease),
+                          RandomForestClassifier(n_estimators = self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1),
+                          XGBClassifier(n_estimators = self.__xgb_fit.n_estimators)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -229,7 +229,7 @@ class TrainClassifier:
         box.T.boxplot()
         plt.show()
 
-        return [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
+        return [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
 
 
     # ------------ #
@@ -237,7 +237,7 @@ class TrainClassifier:
     # ------------ #
     def save_model(self, model_name: str = 'all'):
         model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
-        model_list = [self.logistic_fit, self.gaussian_nb_fit, self.knn_fit, self.tree_fit, self.random_forest_fit, self.xgb_fit]
+        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
