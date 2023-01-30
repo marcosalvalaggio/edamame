@@ -1,4 +1,4 @@
-from .eda import (dimensions,
+from .__eda import (dimensions,
 describe_distribution,
 identify_types,
 num_to_categorical,
@@ -17,7 +17,7 @@ interaction,
 inspection,
 split_and_scaling)
 
-from .tools import (load_model, setup, scaling)
+from .__tools import (load_model, setup, scaling)
 
 
-__version__ = "0.38"
+__version__ = "0.39"

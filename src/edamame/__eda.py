@@ -9,7 +9,7 @@ import scipy as sp
 from itertools import product
 import phik
 from ipywidgets import interact
-from .tools import dataframe_review
+from .__tools import dataframe_review
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
