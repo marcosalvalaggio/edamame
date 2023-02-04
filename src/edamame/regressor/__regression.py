@@ -190,7 +190,7 @@ class TrainRegressor:
                 index_label = ['R2', 'MSE', 'MAE']
                 metrics = pd.DataFrame([[r2_train, r2_test], [mse_train, mse_test], [mae_train, mae_test]], index = index_label)
                 metrics.columns = [f'Train', 'Test']
-                string = f'### {key} model metrics:'
+                string = f'### {model_name} model metrics:'
                 display(Markdown(string))
                 display(metrics)
 

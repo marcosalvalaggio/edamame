@@ -36,7 +36,7 @@ def setup(X, y, dummy: bool = False, seed: int = 42, size: float = 0.25):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=size, random_state=seed)
     X_train = pd.get_dummies(data=X_train, drop_first=dummy)
     X_test = pd.get_dummies(data=X_test, drop_first=dummy)
-    return X_train, X_test, y_train, y_test
+    return X_train, y_train, X_test, y_test
 
 
 # --------------------- #
