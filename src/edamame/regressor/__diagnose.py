@@ -1,3 +1,5 @@
+#TODO - creare funzione prediction_error e residual_plot
+
 import pandas as pd 
 from IPython.display import display
 import numpy as np 
