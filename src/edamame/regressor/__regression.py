@@ -1,3 +1,6 @@
+#TODO - add SVM 
+#TODO - add parameteres "verbose" for logging message like unable to print/save
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 

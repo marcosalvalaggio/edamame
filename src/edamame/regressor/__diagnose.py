@@ -1,11 +1,13 @@
 #TODO - creare funzione prediction_error e residual_plot
 
 import pandas as pd 
+import numpy as np
 from IPython.display import display
-import numpy as np 
 import xgboost as xgb
 import matplotlib.pyplot as plt 
-
+from sklearn.metrics import r2_score
+import matplotlib.pyplot as plt 
+import seaborn as sns
 
 
 def check_random_forest(model): 
@@ -51,7 +53,7 @@ class Diagnose:
         # display step 
         display(df_coef)
 
-    def random_forest_fi(model, figsize: tuple[float, float] = (12,10)):
+    def random_forest_fi(self, model, figsize: tuple[float, float] = (12,10)):
         """
         Parameters:
         :model - A RF regression model
@@ -70,7 +72,7 @@ class Diagnose:
         plt.show()
 
 
-    def xgboost_fi(model, figsize: tuple[float, float] = (12,10)):
+    def xgboost_fi(self, model, figsize: tuple[float, float] = (14,12)):
         """
         Parameters:
         :model - A xgboost regression model
@@ -81,3 +83,34 @@ class Diagnose:
         xgb.plot_importance(model)
         plt.rcParams['figure.figsize'] = [figsize[0], figsize[1]]
         plt.show()
+
+    
+    def prediction_error(self, model, train: bool = True, figsize: tuple[float, float] = (8,6)):
+        """
+        Parameters: 
+        :model - A regression model to analyze. 
+        :train - A boolean value that defines if you want to plot the scatterplot on train or test data (train by default).
+        ---------------------------
+        Define a scatterpolot with ygt and ypred of the model passed.
+        """
+        if train: 
+            ypred = model.predict(self.X_train)
+            ygt = self.y_train.squeeze().to_numpy()
+            r2 = r2_score(self.y_train, ypred)
+            df = pd.DataFrame({"ypred": ypred, "y": ygt})
+            # scatterplot 
+            plt.figure(figsize=figsize)
+            sns.scatterplot(data=df, x="y", y="ypred")
+            plt.annotate(f"R2 train: {r2:.4f}", xy = (0.05, 0.95), xycoords='axes fraction', ha='left', va='top', fontsize=12)
+            plt.show()
+        else: 
+            ypred = model.predict(self.X_test)
+            ygt = self.y_test.squeeze().to_numpy()
+            r2 = r2_score(self.y_test, ypred)
+            df = pd.DataFrame({"ypred": ypred, "y": ygt})
+            # scatterplot 
+            plt.figure(figsize=figsize)
+            sns.scatterplot(data=df, x="y", y="ypred")
+            plt.annotate(f"R2 test: {r2:.4f}", xy = (0.05, 0.95), xycoords='axes fraction', ha='left', va='top', fontsize=12)
+            plt.show()
+

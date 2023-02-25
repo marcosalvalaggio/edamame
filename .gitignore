@@ -2,4 +2,4 @@ dist/
 src/edamame.egg-info
 notebooks/.DS_Store
 notebooks/
-src/edamame/regressor/__diagnose_v2.py
+__diagnose_old.py
