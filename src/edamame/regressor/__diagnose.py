@@ -10,12 +10,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def check_random_forest(model): 
+def check_random_forest(model) -> None: 
     """
-    Parameters:
-    :model - Sklearn model 
-    ---------------------------
-    The function checks if the model passed is a random forest regression.
+    Parameters
+    ----------
+    model:
+        A Sklearn model 
+    
+    Return
+    ----------
+    None
+        The function checks if the model passed is a random forest regression.
     """
     if model.__class__.__name__ != 'RandomForestRegressor':
         raise TypeError('The model passed isn\'t a ridge model')
@@ -43,7 +48,15 @@ class Diagnose:
     
     def coefficients(self, model):
         """
-        Display model coefficients 
+        Parameters
+        ----------
+        model: 
+            A RF regression model
+
+        Return
+        ----------
+        None
+            Display model coefficients 
         """
         intercept = ('intercept',model.intercept_)
         coef = list(zip(list(model.feature_names_in_), model.coef_))
@@ -55,10 +68,14 @@ class Diagnose:
 
     def random_forest_fi(self, model, figsize: tuple[float, float] = (12,10)):
         """
-        Parameters:
-        :model - A RF regression model
-        ---------------------------
-        The function displays the feature importance plot. 
+        Parameters
+        ----------
+            :model - A RF regression model
+
+        Return
+        ----------
+        None
+            The function displays the feature importance plot. 
         """
         check_random_forest(model)
         importances = model.feature_importances_
@@ -74,10 +91,13 @@ class Diagnose:
 
     def xgboost_fi(self, model, figsize: tuple[float, float] = (14,12)):
         """
-        Parameters:
-        :model - A xgboost regression model
-        ---------------------------
-        The function displays the feature importance plot. 
+        Parameters
+        ----------
+            :model - A xgboost regression model
+
+        Return
+        ----------
+            The function displays the feature importance plot. 
         """
         check_xgboost(model)
         xgb.plot_importance(model)
@@ -87,11 +107,14 @@ class Diagnose:
     
     def prediction_error(self, model, train: bool = True, figsize: tuple[float, float] = (8,6)):
         """
-        Parameters: 
-        :model - A regression model to analyze. 
-        :train - A boolean value that defines if you want to plot the scatterplot on train or test data (train by default).
-        ---------------------------
-        Define a scatterpolot with ygt and ypred of the model passed.
+        Parameters
+        ----------
+            :model - A regression model to analyze. 
+            :train - A boolean value that defines if you want to plot the scatterplot on train or test data (train by default).
+
+        Return 
+        ----------
+            Define a scatterpolot with ygt and ypred of the model passed.
         """
         if train: 
             ypred = model.predict(self.X_train)
