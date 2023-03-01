@@ -122,6 +122,8 @@ class Diagnose:
             A regression model to analyze. 
         train: bool
             Defines if you want to plot the scatterplot on train or test data (train by default).
+        figsize: tuple
+            Define the size of the prediction_erros plot   
 
         Return 
         ----------
