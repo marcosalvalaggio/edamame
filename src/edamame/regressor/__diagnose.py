@@ -29,10 +29,15 @@ def check_random_forest(model) -> None:
 
 def check_xgboost(model): 
     """
-    Parameters:
-    :model - xgboost model
-    ---------------------------
-    The function checks if the model passed is a xgboost regression.
+    Parameters
+    ----------
+    model: 
+        A xgboost model
+
+    Return
+    ----------
+    None
+        The function checks if the model passed is a xgboost regression.
     """
     if model.__class__.__name__ != 'XGBRegressor':
         raise TypeError('The model passed isn\'t an xgboost')
@@ -71,7 +76,8 @@ class Diagnose:
         """
         Parameters
         ----------
-            :model - A RF regression model
+        model: 
+            A RF regression model
 
         Return
         ----------
@@ -94,10 +100,12 @@ class Diagnose:
         """
         Parameters
         ----------
-            :model - A xgboost regression model
+        model: 
+            A xgboost regression model
 
         Return
         ----------
+        None
             The function displays the feature importance plot. 
         """
         check_xgboost(model)
@@ -110,11 +118,14 @@ class Diagnose:
         """
         Parameters
         ----------
-            :model - A regression model to analyze. 
-            :train - A boolean value that defines if you want to plot the scatterplot on train or test data (train by default).
+        model: 
+            A regression model to analyze. 
+        train: bool
+            Defines if you want to plot the scatterplot on train or test data (train by default).
 
         Return 
         ----------
+        None
             Define a scatterpolot with ygt and ypred of the model passed.
         """
         if train: 
