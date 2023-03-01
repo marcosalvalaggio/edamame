@@ -1,4 +1,5 @@
 #TODO - creare funzione prediction_error e residual_plot
+#TODO - modificare prediction_error aggiungendo legenda su train e test data
 
 import pandas as pd 
 import numpy as np
