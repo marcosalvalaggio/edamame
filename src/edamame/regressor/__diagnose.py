@@ -13,15 +13,21 @@ import seaborn as sns
 
 def check_random_forest(model) -> None: 
     """
+    The function checks if the model passed is a random forest regression.
+
     Parameters
     ----------
     model:
         A Sklearn model 
+
+    Raises
+    ----------
+    TypeError
+        Control the model type
     
     Return
     ----------
     None
-        The function checks if the model passed is a random forest regression.
     """
     if model.__class__.__name__ != 'RandomForestRegressor':
         raise TypeError('The model passed isn\'t a ridge model')
@@ -29,15 +35,21 @@ def check_random_forest(model) -> None:
 
 def check_xgboost(model): 
     """
+    The function checks if the model passed is a xgboost regression.
+
     Parameters
     ----------
     model: 
         A xgboost model
 
+    Raises
+    ----------
+    TypeError
+        Control the model type
+
     Return
     ----------
     None
-        The function checks if the model passed is a xgboost regression.
     """
     if model.__class__.__name__ != 'XGBRegressor':
         raise TypeError('The model passed isn\'t an xgboost')
@@ -54,6 +66,8 @@ class Diagnose:
     
     def coefficients(self, model):
         """
+        Display model coefficients 
+
         Parameters
         ----------
         model: 
@@ -62,7 +76,6 @@ class Diagnose:
         Return
         ----------
         None
-            Display model coefficients 
         """
         intercept = ('intercept',model.intercept_)
         coef = list(zip(list(model.feature_names_in_), model.coef_))
@@ -74,6 +87,8 @@ class Diagnose:
 
     def random_forest_fi(self, model, figsize: tuple[float, float] = (12,10)):
         """
+        The function displays the feature importance plot. 
+
         Parameters
         ----------
         model: 
@@ -82,7 +97,6 @@ class Diagnose:
         Return
         ----------
         None
-            The function displays the feature importance plot. 
         """
         check_random_forest(model)
         importances = model.feature_importances_
@@ -98,6 +112,8 @@ class Diagnose:
 
     def xgboost_fi(self, model, figsize: tuple[float, float] = (14,12)):
         """
+        The function displays the feature importance plot.
+
         Parameters
         ----------
         model: 
@@ -105,8 +121,7 @@ class Diagnose:
 
         Return
         ----------
-        None
-            The function displays the feature importance plot. 
+        None 
         """
         check_xgboost(model)
         xgb.plot_importance(model)
@@ -114,8 +129,10 @@ class Diagnose:
         plt.show()
 
     
-    def prediction_error(self, model, train: bool = True, figsize: tuple[float, float] = (8,6)):
+    def prediction_error(self, model, train_data: bool = True, figsize: tuple[float, float] = (8,6)):
         """
+        Define a scatterpolot with ygt and ypred of the model passed.
+
         Parameters
         ----------
         model: 
@@ -128,9 +145,8 @@ class Diagnose:
         Return 
         ----------
         None
-            Define a scatterpolot with ygt and ypred of the model passed.
         """
-        if train: 
+        if train_data: 
             ypred = model.predict(self.X_train)
             ygt = self.y_train.squeeze().to_numpy()
             r2 = r2_score(self.y_train, ypred)
