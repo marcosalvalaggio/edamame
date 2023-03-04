@@ -1,5 +1,5 @@
-#TODO - creare funzione prediction_error e residual_plot
-#TODO - modificare prediction_error aggiungendo legenda su train e test data
+#TODO - aggiungere al residual_plot l'opzione per il qqplot 
+#TODO - aggiungere se fattibili il plot per la cook distance
 
 import pandas as pd 
 import numpy as np
