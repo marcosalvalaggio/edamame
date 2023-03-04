@@ -136,7 +136,7 @@ class Diagnose:
         Parameters
         ----------
         model: 
-            A regression model to analyze. 
+            A model to analyze. 
         train: bool
             Defines if you want to plot the scatterplot on train or test data (train by default).
         figsize: tuple
@@ -167,3 +167,32 @@ class Diagnose:
             plt.annotate(f"R2 test: {r2:.4f}", xy = (0.05, 0.95), xycoords='axes fraction', ha='left', va='top', fontsize=12)
             plt.show()
 
+    def residual_plot(self, model):
+        """
+        Residual plot for train and test data
+
+        Parameters
+        ----------
+        model: 
+            A model to analyze. 
+
+        Return 
+        ----------
+        None
+        """
+        ypred_train = model.predict(self.X_train)
+        ypred_test = model.predict(self.X_test)
+        res_train = self.y_train.squeeze().to_numpy() - ypred_train
+        res_test = self.y_test.squeeze().to_numpy() - ypred_test
+        fig, (ax1, ax2) = plt.subplots(1, 2, gridspec_kw={"width_ratios": [2, 1]}, figsize=(8, 6))
+        sns.scatterplot(x=ypred_train, y=res_train, alpha=0.5, ax=ax1)
+        sns.scatterplot(x=ypred_test, y=res_test, color='red', alpha=0.5, ax=ax1)
+        ax1.axhline(y=0, color='black', linestyle='--')
+        ax1.set_xlabel('Predicted Values')
+        ax1.set_ylabel('Residuals')
+        ax1.set_title('Residual Plot')
+        sns.histplot(y=res_train, alpha=0.5, ax=ax2)
+        sns.histplot(y=res_test, color='red', alpha=0.5, ax=ax2)
+        ax2.axhline(y=0, color='black', linestyle='--')
+        ax2.set_xlabel('Distribution')
+        plt.show()
