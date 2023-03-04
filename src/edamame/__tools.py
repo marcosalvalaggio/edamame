@@ -8,10 +8,16 @@ import pandas as pd
 # ----------------- #
 def load_model(path: str):
     """
-    Parameters:
-    :path - Path to the model saved in .pkl
-    ---------------------------
     The function load the model saved previously in the pickle format.
+
+    Parameters
+    ----------
+    path: str
+        Path to the model saved in .pkl
+
+    Return
+    ----------
+        model loaded 
     """
     with open(path, 'rb') as file:
         model = pickle.load(file)
@@ -23,14 +29,24 @@ def load_model(path: str):
 # ----------------- #
 def setup(X, y, dummy: bool = False, seed: int = 42, size: float = 0.25):
     """
-    Parameters:
-    :X - The model matrix X (features matrix)
-    :y - The target variable 
-    :dummy - If False, the function produces the OHE. If True, the dummy encoding 
-    :seed - Random seed to apply at the train_test_split function 
-    :size - Size of the test dataset 
-    ---------------------------
-    The function returns the following elements: X_train, X_test, y_train, y_test.
+    The function returns the following elements: X_train, y_train, X_test, y_test.
+
+    Parameters
+    ----------
+    X: pandas.DataFrame
+        The model matrix X (features matrix)
+    y: pandas.DataFrame
+        The target variable 
+    dummy: bool
+        If False, the function produces the OHE. If True, the dummy encoding
+    seed: int
+        Random seed to apply at the train_test_split function
+    size: float
+        Size of the test dataset 
+
+    Return
+    ----------
+    pandas.DataFrame, pandas.DataFrame, pandas.DataFrame, pandas.DataFrame
     """
     # split dataset in train and test
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=size, random_state=seed)
@@ -44,10 +60,16 @@ def setup(X, y, dummy: bool = False, seed: int = 42, size: float = 0.25):
 # --------------------- #
 def scaling(X):
     """
-    Parameters:
-    :X - The model matrix X/X_train/X_test
-    ---------------------------
     The function returns the normalised matrix.
+
+    Parameters
+    ----------
+    X: pandas.DataFrame
+        The model matrix X/X_train/X_test
+
+    Return
+    ----------
+    pandas.DataFrame
     """
     # dataframe check 
     dataframe_review(X)
@@ -66,10 +88,16 @@ def scaling(X):
 # ----------------- #
 def dummy_control(data):
     """
-    Parameters:
-    :data - A Pandas dataframe 
-    ---------------------------
     The function checks if the Pandas dataframe passed is encoded with dummy or OHE. 
+    
+    Parameters
+    ----------
+    data: pandas.DataFrame 
+
+    Raises
+    ----------
+    TypeError
+        Dataframe with non-numerical columns
     """
     types = data.dtypes
     qual_col = types[types == 'object']
@@ -84,10 +112,16 @@ def dummy_control(data):
 # ----------------- #
 def dataframe_review(data) -> None:
     """
-    Parameters:
-    :data - A dataframe 
-    ---------------------------
     The function checks if the object passed is a Pandas dataframe.
+
+    Parameters
+    ----------
+    data: A pandas dataframe 
+
+    Raises
+    ----------
+    TypeError
+        The data loaded is not a DataFrame
     """
     if data.__class__.__name__ == 'DataFrame':
         pass
