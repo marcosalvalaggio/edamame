@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt 
 import seaborn as sns
+from scipy import stats
 
 
 def check_random_forest(model) -> None: 
@@ -195,4 +196,30 @@ class Diagnose:
         sns.histplot(y=res_test, color='red', alpha=0.5, ax=ax2)
         ax2.axhline(y=0, color='black', linestyle='--')
         ax2.set_xlabel('Distribution')
+        plt.show()
+
+
+    def qqplot(self, model):
+        """
+        QQplot for train and test data
+
+        Parameters
+        ----------
+        model: 
+            A model to analyze. 
+
+        Return 
+        ----------
+        None
+        """
+        ypred_train = model.predict(self.X_train)
+        ypred_test = model.predict(self.X_test)
+        res_train = self.y_train.squeeze().to_numpy() - ypred_train
+        res_test = self.y_test.squeeze().to_numpy() - ypred_test
+        fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(8, 6))
+        stats.probplot(res_train, plot=ax1)
+        ax1.set_title('Train Residuals QQ Plot')
+        stats.probplot(res_test, plot=ax2)
+        ax2.set_title('Test Residuals QQ Plot')
+        fig.tight_layout()
         plt.show()
