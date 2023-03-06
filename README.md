@@ -41,7 +41,7 @@ import edamame as eda
 ```
 # Why Edamame?
 
-Edamame is born under the inspiration of the [pandas-profiling](https://github.com/ydataai/pandas-profiling) and [pycaret](https://github.com/pycaret/pycaret) packages. The scope of edamame is to build friendly and helpful functions for handling the EDA (exploratory data analysis) step in a dataset studied and after that train and analyze a models battery for regression or classification problems. 
+Edamame is born under the inspiration of the [pandas-profiling](https://github.com/ydataai/pandas-profiling) and [pycaret](https://github.com/pycaret/pycaret) packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model's battery for regression or classification problems. 
 
 ## Exploratory data analysis functions
 
