@@ -33,10 +33,15 @@ def display_side_by_side(dfs:list, captions:list) -> None:
 # --------------------- #
 def dimensions(data) -> None:
     """
-    Parameters:
-    :data - Pandas dataframe
-    ---------------------------
     The function displays the number of rows and columns of a pandas dataframe passed. 
+
+    Parameters
+    ----------
+    data: pandas.core.frame.DataFrame
+
+    Returns
+    ----------
+    None
     """
     # dataframe control step 
     dataframe_review(data)
@@ -52,11 +57,15 @@ def dimensions(data) -> None:
 # --------------------- #
 def describe_distribution(data) -> None:
     """
-    Parameters:
-    :data - Pandas dataframe
-    ---------------------------
-    the function display the result of the describe() method applied to a pandas dataframe,
-    divided by numerical and object columns.
+    The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.
+    
+    Parameters
+    ----------
+    data: pandas.core.frame.DataFrame
+
+    Returns
+    ----------
+    None
     """
     # dataframe control step 
     dataframe_review(data)
@@ -77,11 +86,16 @@ def describe_distribution(data) -> None:
 # --------------------- #
 def identify_types(data) -> list[list[str]]:
     """
-    Parameters:
-    :data - Pandas dataframe
-    ---------------------------
-    the function display the result of the dtypes method and returns a list with the name of the numerical columns
-    and a list with the name of the columns identified as "object" by pandas. 
+    The function display the result of the dtypes method
+    
+    Parameters
+    ----------
+    data: pandas.core.frame.DataFrame
+
+    Returns
+    ----------
+    list
+        A list with the name of the numerical columns and a list with the name of the columns identified as "object" by pandas. 
     """
      # dataframe control step 
     dataframe_review(data)
@@ -109,13 +123,20 @@ def identify_types(data) -> list[list[str]]:
 # convert numeric to categorical  
 # --------------------- #
 # modified to avoid side effect 
-def num_to_categorical(data, col: list[str]) -> None:
+def num_to_categorical(data, col: list[str]):
     """
-    Parameters:
-    :data - Pandas dataframe
-    :col - A list of strings containing the names of columns to convert.
-    ---------------------------
-    the function returns a dataframe with the columns transformed into an "object". 
+    The function returns a dataframe with the columns transformed into an "object". 
+
+    Parameters
+    ----------
+    data: pandas.core.frame.DataFrame
+    col: list[str]
+        A list of strings containing the names of columns to convert.
+
+    Returns
+    ----------
+    pandas.core.frame.DataFrame
+        Dataframe with numerical columns passed converted to categorical
     """
     # dataframe check
     dataframe_review(data)
@@ -130,14 +151,20 @@ def num_to_categorical(data, col: list[str]) -> None:
 # --------------------- #
 def missing(data) -> list[list[str]]:
     """
-    Parameters:
-    :data - Pandas dataframe
-    ---------------------------
     The function display the following elements:
     - A table with the percentage of NA record for every column.
     - A table with the percentage of **0** as a record for every column.
     - A table with the percentage of duplicate rows.
     - A list of lists that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record. 
+
+    Parameters
+    ----------
+    data: pandas.core.frame.DataFrame
+   
+    Returns
+    ----------  
+    list
+        A list that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.
     """
     # dataframe control step 
     dataframe_review(data)

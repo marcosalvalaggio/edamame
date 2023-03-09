@@ -26,7 +26,7 @@ def check_random_forest(model) -> None:
     TypeError
         Control the model type
     
-    Return
+    Returns
     ----------
     None
     """
@@ -48,7 +48,7 @@ def check_xgboost(model):
     TypeError
         Control the model type
 
-    Return
+    Returns
     ----------
     None
     """
@@ -74,7 +74,7 @@ class Diagnose:
         model: 
             A RF regression model
 
-        Return
+        Returns
         ----------
         None
         """
@@ -95,7 +95,7 @@ class Diagnose:
         model: 
             A RF regression model
 
-        Return
+        Returns
         ----------
         None
         """
@@ -120,7 +120,7 @@ class Diagnose:
         model: 
             A xgboost regression model
 
-        Return
+        Returns
         ----------
         None 
         """
@@ -143,7 +143,7 @@ class Diagnose:
         figsize: tuple
             Define the size of the prediction_erros plot   
 
-        Return 
+        Returns
         ----------
         None
         """
@@ -177,7 +177,7 @@ class Diagnose:
         model: 
             A model to analyze. 
 
-        Return 
+        Returns 
         ----------
         None
         """
@@ -208,7 +208,7 @@ class Diagnose:
         model: 
             A model to analyze. 
 
-        Return 
+        Returns
         ----------
         None
         """
