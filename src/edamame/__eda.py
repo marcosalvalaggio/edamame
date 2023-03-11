@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sn
 from IPython.display import display, Markdown, HTML
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.impute import SimpleImputer
 import scipy as sp
 from itertools import product
@@ -886,7 +886,7 @@ def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, 
 # --------------------- #
 # split and scale dataset
 # --------------------- #
-def split_and_scaling(data, target: str):
+def split_and_scaling(data, target: str, minmaxscaler: bool = False):
     """
     The function returns two pandas dataframes: 
         * The regressor matrix X contains all the predictors for the model.
@@ -898,7 +898,9 @@ def split_and_scaling(data, target: str):
     data: pandas.core.frame.DataFrame
     target: str
         The response variable column name.
-
+    minmaxscaler: bool
+        Select the type of scaling to apply to the numerical columns. 
+        
     Returns
     ----------
     pandas.core.frame.DataFrame, pandas.core.frame.DataFrame 
@@ -912,7 +914,10 @@ def split_and_scaling(data, target: str):
     types = X.dtypes
     quant = types[types != 'object']
     quant_columns = list(quant.index)
-    scaler = StandardScaler()
+    if minmaxscaler:
+        scaler = MinMaxScaler()
+    else: 
+        scaler = StandardScaler()
     scaler.fit(X[quant_columns])
     X[quant_columns] = scaler.transform(X[quant_columns])
     # return step 
