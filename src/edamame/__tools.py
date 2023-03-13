@@ -1,6 +1,6 @@
 import pickle
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import pandas as pd
 
 # ----------------- #
@@ -58,7 +58,7 @@ def setup(X, y, dummy: bool = False, seed: int = 42, size: float = 0.25):
 # --------------------- #
 # scale X dataset
 # --------------------- #
-def scaling(X):
+def scaling(X, minmaxscaler: bool = False):
     """
     The function returns the normalised matrix.
 
@@ -66,6 +66,8 @@ def scaling(X):
     ----------
     X: pandas.DataFrame
         The model matrix X/X_train/X_test
+    minmaxscaler: bool
+        Select the type of scaling to apply to the numerical columns. 
 
     Return
     ----------
@@ -77,7 +79,10 @@ def scaling(X):
     types = X.dtypes
     quant = types[types != 'object']
     quant_columns = list(quant.index)
-    scaler = StandardScaler()
+    if minmaxscaler:
+        scaler = MinMaxScaler()
+    else: 
+        scaler = StandardScaler()
     scaler.fit(X[quant_columns])
     X[quant_columns] = scaler.transform(X[quant_columns])
     return X
