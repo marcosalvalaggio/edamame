@@ -1,3 +1,3 @@
-from .__regression import (TrainRegressor, regression_metrics)
+from .regression import (TrainRegressor, regression_metrics)
 
-from .__diagnose import Diagnose
+from .diagnose import Diagnose
