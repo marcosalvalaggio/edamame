@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edamame.regressor package &mdash; Edamame 0.42 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="edamame.classifier package" href="edamame.classifier.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Edamame
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">edamame</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="edamame.html">edamame package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="edamame.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="edamame.classifier.html">edamame.classifier package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">edamame.regressor package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="edamame.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edamame.html#module-edamame.eda">edamame.eda module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edamame.html#module-edamame.tools">edamame.tools module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="edamame.html#module-edamame">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Edamame</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">edamame</a></li>
+          <li class="breadcrumb-item"><a href="edamame.html">edamame package</a></li>
+      <li class="breadcrumb-item active">edamame.regressor package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/edamame.regressor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="edamame-regressor-package">
+<h1>edamame.regressor package<a class="headerlink" href="#edamame-regressor-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-edamame.regressor.diagnose">
+<span id="edamame-regressor-diagnose-module"></span><h2>edamame.regressor.diagnose module<a class="headerlink" href="#module-edamame.regressor.diagnose" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.regressor.diagnose.</span></span><span class="sig-name descname"><span class="pre">Diagnose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.coefficients">
+<span class="sig-name descname"><span class="pre">coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.coefficients"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.coefficients" title="Permalink to this definition"></a></dt>
+<dd><p>Display model coefficients</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A RF regression model</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.prediction_error">
+<span class="sig-name descname"><span class="pre">prediction_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(8,</span> <span class="pre">6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.prediction_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.prediction_error" title="Permalink to this definition"></a></dt>
+<dd><p>Define a scatterpolot with ygt and ypred of the model passed.</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A model to analyze.</p>
+</dd>
+<dt>train: bool</dt><dd><p>Defines if you want to plot the scatterplot on train or test data (train by default).</p>
+</dd>
+<dt>figsize: tuple</dt><dd><p>Define the size of the prediction_erros plot</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.qqplot">
+<span class="sig-name descname"><span class="pre">qqplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.qqplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.qqplot" title="Permalink to this definition"></a></dt>
+<dd><p>QQplot for train and test data</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A model to analyze.</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.random_forest_fi">
+<span class="sig-name descname"><span class="pre">random_forest_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.random_forest_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.random_forest_fi" title="Permalink to this definition"></a></dt>
+<dd><p>The function displays the feature importance plot.</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A RF regression model</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.residual_plot">
+<span class="sig-name descname"><span class="pre">residual_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.residual_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.residual_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Residual plot for train and test data</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A model to analyze.</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.Diagnose.xgboost_fi">
+<span class="sig-name descname"><span class="pre">xgboost_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">12)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#Diagnose.xgboost_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.Diagnose.xgboost_fi" title="Permalink to this definition"></a></dt>
+<dd><p>The function displays the feature importance plot.</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A xgboost regression model</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.check_random_forest">
+<span class="sig-prename descclassname"><span class="pre">edamame.regressor.diagnose.</span></span><span class="sig-name descname"><span class="pre">check_random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#check_random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.check_random_forest" title="Permalink to this definition"></a></dt>
+<dd><p>The function checks if the model passed is a random forest regression.</p>
+<dl class="simple">
+<dt>model:</dt><dd><p>A Sklearn model</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>TypeError</dt><dd><p>Control the model type</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.regressor.diagnose.check_xgboost">
+<span class="sig-prename descclassname"><span class="pre">edamame.regressor.diagnose.</span></span><span class="sig-name descname"><span class="pre">check_xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#check_xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.diagnose.check_xgboost" title="Permalink to this definition"></a></dt>
+<dd><p>The function checks if the model passed is a xgboost regression.</p>
+<dl class="simple">
+<dt>model: </dt><dd><p>A xgboost model</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>TypeError</dt><dd><p>Control the model type</p>
+</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+</section>
+<section id="module-edamame.regressor.regression">
+<span id="edamame-regressor-regression-module"></span><h2>edamame.regressor.regression module<a class="headerlink" href="#module-edamame.regressor.regression" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.regressor.regression.</span></span><span class="sig-name descname"><span class="pre">TrainRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.auto_ml">
+<span class="sig-name descname"><span class="pre">auto_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'train'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.auto_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.auto_ml" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.lasso">
+<span class="sig-name descname"><span class="pre">lasso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0001,</span> <span class="pre">10.0,</span> <span class="pre">50]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.lasso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.lasso" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.linear">
+<span class="sig-name descname"><span class="pre">linear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.linear" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.model_metrics">
+<span class="sig-name descname"><span class="pre">model_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.model_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.model_metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.random_forest">
+<span class="sig-name descname"><span class="pre">random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[50,</span> <span class="pre">1000,</span> <span class="pre">5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.random_forest" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.ridge">
+<span class="sig-name descname"><span class="pre">ridge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.1,</span> <span class="pre">50,</span> <span class="pre">50]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.ridge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.ridge" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.save_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.tree">
+<span class="sig-name descname"><span class="pre">tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0.001,</span> <span class="pre">5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impurity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1e-05,</span> <span class="pre">5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.tree" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.regression.TrainRegressor.xgboost">
+<span class="sig-name descname"><span class="pre">xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[10,</span> <span class="pre">100,</span> <span class="pre">5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.TrainRegressor.xgboost" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.regressor.regression.regression_metrics">
+<span class="sig-prename descclassname"><span class="pre">edamame.regressor.regression.</span></span><span class="sig-name descname"><span class="pre">regression_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#regression_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression.regression_metrics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-edamame.regressor">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edamame.regressor" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="edamame.classifier.html" class="btn btn-neutral float-left" title="edamame.classifier package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Marco Salvalaggio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

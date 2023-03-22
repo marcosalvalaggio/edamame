@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edamame.eda &mdash; Edamame 0.42 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Edamame
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">edamame</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Edamame</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edamame.eda</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for edamame.eda</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sn</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">phik</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="kn">import</span> <span class="n">dataframe_review</span>
+<span class="c1"># pandas options</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.width&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># display dataframe side by side</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="display_side_by_side"><a class="viewcode-back" href="../../edamame.html#edamame.eda.display_side_by_side">[docs]</a><span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="n">dfs</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">captions</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">captions</span><span class="p">,</span> <span class="n">dfs</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">caption</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">combined</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_attributes</span><span class="p">(</span><span class="s2">&quot;style=&#39;display:inline&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\xa0\xa0\xa0</span><span class="s2">&quot;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">output</span><span class="p">))</span></div>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># Dataframe dimensions</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="dimensions"><a class="viewcode-back" href="../../edamame.html#edamame.eda.dimensions">[docs]</a><span class="k">def</span> <span class="nf">dimensions</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function displays the number of rows and columns of a pandas dataframe passed. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># ---</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Rows: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, Columns: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span></div>
+
+<span class="c1"># test</span>
+<span class="c1">#dimensions(data)</span>
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># full describe function </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="describe_distribution"><a class="viewcode-back" href="../../edamame.html#edamame.eda.describe_distribution">[docs]</a><span class="k">def</span> <span class="nf">describe_distribution</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># ---</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Quantitative columns&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Categorical columns&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O&quot;</span><span class="p">]))</span></div>
+
+<span class="c1"># test</span>
+<span class="c1">#describeDistribution(data)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># variables types identifier </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="identify_types"><a class="viewcode-back" href="../../edamame.html#edamame.eda.identify_types">[docs]</a><span class="k">def</span> <span class="nf">identify_types</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function display the result of the dtypes method</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list</span>
+<span class="sd">        A list with the name of the numerical columns and a list with the name of the columns identified as &quot;object&quot; by pandas. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+     <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># display types </span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+    <span class="n">types</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;variable type&#39;</span><span class="p">]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">()))</span>
+    <span class="c1"># quantitative variables columns </span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">quant_col</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">!=</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">quant_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">quant_col</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># categorical variables columns</span>
+    <span class="n">qual_col</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">qual_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qual_col</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+     <span class="c1"># return step </span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">quant_col</span><span class="p">,</span> <span class="n">qual_col</span><span class="p">]</span></div>
+
+<span class="c1"># test</span>
+<span class="c1">#quant_col, qual_col = identify_types(data)</span>
+<span class="c1">#print(quant_col)</span>
+<span class="c1">#print(qual_col)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># convert numeric to categorical  </span>
+<span class="c1"># --------------------- #</span>
+<span class="c1"># modified to avoid side effect </span>
+<div class="viewcode-block" id="num_to_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_to_categorical">[docs]</a><span class="k">def</span> <span class="nf">num_to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a dataframe with the columns transformed into an &quot;object&quot;. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str]</span>
+<span class="sd">        A list of strings containing the names of columns to convert.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">        Dataframe with numerical columns passed converted to categorical</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check</span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># convert </span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># missing, zeros and duplicates </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="missing"><a class="viewcode-back" href="../../edamame.html#edamame.eda.missing">[docs]</a><span class="k">def</span> <span class="nf">missing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function display the following elements:</span>
+<span class="sd">    - A table with the percentage of NA record for every column.</span>
+<span class="sd">    - A table with the percentage of **0** as a record for every column.</span>
+<span class="sd">    - A table with the percentage of duplicate rows.</span>
+<span class="sd">    - A list of lists that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">   </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ----------  </span>
+<span class="sd">    list</span>
+<span class="sd">        A list that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># ---</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># info table </span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># num_row</span>
+    <span class="n">num_row</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># num_col</span>
+    <span class="n">num_col</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># num rows without na</span>
+    <span class="n">num_rows_wnan</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># num_quant_col</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">quant_col</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">!=</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">quant_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">quant_col</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">num_quant_col</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quant_col</span><span class="p">)</span>
+    <span class="c1"># num_qual_col</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">qual_col</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">qual_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qual_col</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">num_qual_col</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qual_col</span><span class="p">)</span>
+    <span class="c1"># create table</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### INFO table&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">info_table</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Row&#39;</span><span class="p">:</span> <span class="n">num_row</span><span class="p">,</span> <span class="s1">&#39;Col&#39;</span><span class="p">:</span> <span class="n">num_col</span><span class="p">,</span> <span class="s1">&#39;Rows without NaN&#39;</span><span class="p">:</span> <span class="n">num_rows_wnan</span><span class="p">,</span> <span class="s1">&#39;Numerical variables&#39;</span><span class="p">:</span> <span class="n">num_quant_col</span><span class="p">,</span> <span class="s1">&#39;Categorical variables&#39;</span><span class="p">:</span> <span class="n">num_qual_col</span><span class="p">}</span>
+    <span class="n">info_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">info_table</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">])</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">info_table</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># null or blank values in columns </span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Check blank, null or empty values&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">nan</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">((</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">),</span><span class="n">name</span> <span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">nan</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;columns&#39;</span>
+    <span class="n">nan</span> <span class="o">=</span> <span class="n">nan</span><span class="p">[</span><span class="n">nan</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">nan</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">()))</span>
+    <span class="n">nan_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nan</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># nan quantitative cols</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">nan_col</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">nan_quant</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">!=</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">nan_quant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nan_quant</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># nan qualitative cols</span>
+    <span class="n">nan_qual</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">nan_qual</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nan_qual</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># rows with zeros </span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Check zeros&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">zero</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">((</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">zero</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;columns&#39;</span>
+    <span class="n">zero</span> <span class="o">=</span> <span class="n">zero</span><span class="p">[</span><span class="n">zero</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">zero</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">()))</span>
+    <span class="n">zero_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">zero</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># duplicates rows</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Check duplicates rows&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">dupli</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">dupli</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span> 
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># summary </span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### SUMMARY table&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">zero_row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">zero_row</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;zero&quot;</span><span class="p">])</span>
+    <span class="n">summary</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+    <span class="c1"># values of nan</span>
+    <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;nan&#39;</span><span class="p">,</span><span class="n">nan_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">nan</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span><span class="n">zero_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">zero</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">/</span><span class="mi">100</span>
+    <span class="c1"># background color refactor</span>
+    <span class="k">def</span> <span class="nf">highlight_cells</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1">#set default color</span>
+        <span class="c1">#set particular cell colors</span>
+        <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;nan&#39;</span><span class="p">,</span><span class="n">nan_col</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;background-color: red&#39;</span>
+        <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;zero&#39;</span><span class="p">,</span><span class="n">zero_col</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;background-color: orange&#39;</span>
+        <span class="k">return</span> <span class="n">summary</span> 
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_cells</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># return step</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">nan_quant</span><span class="p">,</span> <span class="n">nan_qual</span><span class="p">,</span> <span class="n">zero_col</span><span class="p">]</span></div>
+
+<span class="c1"># test</span>
+<span class="c1">#nan_quant, nan_qual, zero_col = missing(data)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># handling missing and zeros</span>
+<span class="c1"># --------------------- #</span>
+<span class="c1"># missing_cal = np.nan or 0 or other values</span>
+<div class="viewcode-block" id="handling_missing"><a class="viewcode-back" href="../../edamame.html#edamame.eda.handling_missing">[docs]</a><span class="k">def</span> <span class="nf">handling_missing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">missing_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a pandas dataframe with the columns selected modified to handle the nan values. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str]</span>
+<span class="sd">        A list of the names of the dataframe columns to handle.</span>
+<span class="sd">    missing_val: </span>
+<span class="sd">        The value that represents the NA in the columns passed. By default is equal to np.nan.</span>
+<span class="sd">    method: </span>
+<span class="sd">        A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default,</span>
+<span class="sd">        if nothing was indicated, the function applied the most_frequent method to all the columns passed. Indicating</span>
+<span class="sd">        fewer methods than the names of the columns leads to an autocompletion with the most_frequent method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># ---</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># check method </span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># possible method: mean, median, most_frequent, drop</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">num_method</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">add_method</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_method</span>
+        <span class="n">method</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">add_method</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;the length of the methods list must be at least the same length as the column with missing values&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># imputation loop</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">method</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;drop&#39;</span><span class="p">:</span>
+            <span class="c1">#print(&#39;traccia&#39;)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1">#print(data.shape)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">method</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">missing_values</span><span class="o">=</span><span class="n">missing_val</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))[:,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1">#print(data.shape)</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="c1"># return step</span>
+    <span class="c1"># ----------------------------- #</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+<span class="c1"># test </span>
+<span class="c1">#data_test = data.copy()</span>
+<span class="c1"># quant variables</span>
+<span class="c1">#data_test = handlingMissing(data_test, col = nan_quant, missing_val = np.nan, method = [&#39;mean&#39;]*len(nan_quant))</span>
+<span class="c1"># qual variables </span>
+<span class="c1">#data_test = handlingMissing(data_test, col = nan_qual, missing_val=np.nan, method=[&#39;most_frequent&#39;]*len(nan_qual))</span>
+<span class="c1"># zero variables</span>
+<span class="c1">#data_test = handlingMissing(data_test, col = zero_col, missing_val=0, method=[&#39;mean&#39;]*len(zero_col))</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># fast drop columns</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="drop_columns"><a class="viewcode-back" href="../../edamame.html#edamame.eda.drop_columns">[docs]</a><span class="k">def</span> <span class="nf">drop_columns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a pandas dataframe with the columns selected dropped.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col:  list[str]</span>
+<span class="sd">        A list of strings containing the names of columns to drop. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe control step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">colname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">colname</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+<span class="c1"># test </span>
+<span class="c1">#train = drop_column(train_df, col = [&#39;Name&#39;, &#39;Cabin&#39;, &#39;PassengerId&#39;, &#39;Ticket&#39;])</span>
+
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># plot categorical columns </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="plot_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.plot_categorical">[docs]</a><span class="k">def</span> <span class="nf">plot_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a sequence of tables and plots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str]</span>
+<span class="sd">        A list of string containing the names of columns to plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="c1"># title</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### &#39;</span> <span class="o">+</span> <span class="n">col</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="c1"># info table</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+        <span class="c1"># cardinality table </span>
+        <span class="n">df_c</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+        <span class="n">df_c</span> <span class="o">=</span> <span class="n">df_c</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df_c</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">,</span> <span class="s1">&#39;Top cardinalities&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># plot</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;***too many unique values***&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<span class="c1"># test </span>
+<span class="c1">#quant_col, qual_col = variables_type(data_test)</span>
+<span class="c1">#plot_categorical(data_test, qual_col)</span>
+
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># plot quantitative columns </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="plot_numerical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.plot_numerical">[docs]</a><span class="k">def</span> <span class="nf">plot_numerical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a sequence of tables and plots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str]</span>
+<span class="sd">        A list of string containing the names of columns to plot.</span>
+<span class="sd">    bins: int </span>
+<span class="sd">        Number of bins to use in the histogram plot. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="c1"># title</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### &#39;</span> <span class="o">+</span> <span class="n">col</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="c1"># info table</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+        <span class="c1"># add unique value</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">unique</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">8</span><span class="p">:</span><span class="s1">&#39;unique&#39;</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># add skewness value</span>
+        <span class="n">sk</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sk</span><span class="p">]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">9</span><span class="p">:</span><span class="s1">&#39;skew&#39;</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">])</span>
+         <span class="c1"># plot </span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_box</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">.15</span><span class="p">,</span> <span class="mf">.85</span><span class="p">)})</span>
+        <span class="c1"># assigning a graph to each ax</span>
+        <span class="n">sn</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_box</span><span class="p">)</span>
+        <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_hist</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Remove x axis name for the boxplot</span>
+        <span class="n">ax_box</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+<span class="c1"># test </span>
+<span class="c1">#quant_col, qual_col = variables_type(data_test)</span>
+<span class="c1">#plot_quantitative(data_test, quant_col, bins = 100)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># view cardinalities of columns </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="view_cardinality"><a class="viewcode-back" href="../../edamame.html#edamame.eda.view_cardinality">[docs]</a><span class="k">def</span> <span class="nf">view_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function especially helps study the cardinalities of the categorical variables.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str]</span>
+<span class="sd">        A list of strings containing the names of columns for which we want to show the number of unique values.  </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># dataframe of the cardinalities </span>
+    <span class="n">cardinality</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">cardinality</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+    <span class="n">cardinality</span><span class="p">[</span><span class="s1">&#39;cardinality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))]</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">cardinality</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span></div>
+    
+<span class="c1"># test </span>
+<span class="c1">#quant_col, qual_col = variables_type(data_test)</span>
+<span class="c1">#view_cardinality(data_test, qual_col)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># modify cardinalities of categorical columns </span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="modify_cardinality"><a class="viewcode-back" href="../../edamame.html#edamame.eda.modify_cardinality">[docs]</a><span class="k">def</span> <span class="nf">modify_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns a pandas dataframe with the cardinalities of the columns selected modified.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: list[str] </span>
+<span class="sd">        A list of strings containing the names of columns for which we want to modify the cardinalities.</span>
+<span class="sd">    threshold: list[int]</span>
+<span class="sd">        A list of integer values containing the threshold values for every variable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># parameters check</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must pass the same number of values in the [col] parameter and in the [thresholds] parameter&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">pass</span>
+    <span class="c1"># dataframe of old cardinalities </span>
+    <span class="n">cardinality</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">cardinality</span><span class="p">[</span><span class="s1">&#39;columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+    <span class="n">cardinality</span><span class="p">[</span><span class="s1">&#39;old_cardinalities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))]</span>
+    <span class="c1">#display(Markdown(cardinality.to_markdown()))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">colname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+        <span class="n">listCat</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        <span class="n">listCat</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">listCat</span><span class="p">[</span><span class="n">listCat</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">listCat</span><span class="p">),</span> <span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Other&quot;</span>
+    <span class="c1"># add new cardinalities </span>
+    <span class="n">cardinality</span><span class="p">[</span><span class="s1">&#39;new_cardinalities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))]</span>
+    <span class="c1"># display</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">cardinality</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+    <span class="c1"># return step </span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+<span class="c1"># test </span>
+<span class="c1">#data_cpy = data_test.copy()</span>
+<span class="c1">#modify_cardinality(data_cpy, col = [&#39;SellerG&#39;,&#39;Suburb&#39;], threshold=[400,200])</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># correlation pearson (quantitative colum)</span>
+<span class="c1"># --------------------- #</span>
+<span class="c1"># correlation coefficients for numerical variables (Pearson, Kendall, Spearman)</span>
+<div class="viewcode-block" id="correlation_pearson"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_pearson">[docs]</a><span class="k">def</span> <span class="nf">correlation_pearson</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function performs the Pearson&#39;s correlation between the columns pairs. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    threshold: float</span>
+<span class="sd">        Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># title </span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;### Pearson&#39;s correlation matrix&quot;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="c1"># correlation matrix </span>
+    <span class="n">corr_mtr</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+    <span class="c1"># graph style </span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">:</span> 
+        <span class="n">corr_mtr</span> <span class="o">=</span> <span class="n">corr_mtr</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">()</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">corr_mtr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">corr_mtr</span> <span class="o">=</span> <span class="n">corr_mtr</span><span class="p">[(</span><span class="n">corr_mtr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:]</span><span class="o">&gt;</span><span class="n">threshold</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">corr_mtr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:]</span><span class="o">&lt;-</span><span class="n">threshold</span><span class="p">)]</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">corr_mtr</span><span class="p">)</span></div>
+
+<span class="c1"># test</span>
+<span class="c1">#quant_col, qual_col = variables_type(data_cpy)</span>
+<span class="c1">#correlation(data_cpy, quant_col)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># correlation categorical (chisq test p-values)</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="correlation_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_categorical">[docs]</a><span class="k">def</span> <span class="nf">correlation_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function performs the Chi-Square Test of Independence between categorical variables of the dataset. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># title </span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### $\chi^2$ test statistic $p$-values&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="c1"># list of categorical columns </span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">qual</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">qual</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qual</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="c1"># pairs of variable </span>
+    <span class="n">var_prod</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">qual</span><span class="p">,</span> <span class="n">qual</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1"># calculate chisq p-value </span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">var_prod</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">crosstab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">chisq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">crosstab</span><span class="p">))</span>
+            <span class="n">pval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">chisq</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">pval</span><span class="p">))</span>
+    <span class="c1"># create the matrix </span>
+    <span class="n">chi_test_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span> <span class="s1">&#39;var2&#39;</span><span class="p">,</span> <span class="s1">&#39;coeff&#39;</span><span class="p">])</span>
+    <span class="n">chi_test_output</span> <span class="o">=</span> <span class="n">chi_test_output</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">&#39;var1&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;var2&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;coeff&#39;</span><span class="p">)</span>
+    <span class="n">chi_test_output</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">chi_test_output</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># style</span>
+    <span class="k">def</span> <span class="nf">highlight_pvalue</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">is_rej</span> <span class="o">=</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;background-color: orange&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="k">else</span> <span class="s1">&#39;background-color:&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">is_rej</span><span class="p">]</span>
+    <span class="n">chi_test_output</span> <span class="o">=</span> <span class="n">chi_test_output</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_pvalue</span><span class="p">)</span>
+    <span class="c1"># display </span>
+    <span class="n">display</span><span class="p">(</span><span class="n">chi_test_output</span><span class="p">)</span></div>
+
+<span class="c1"># test   </span>
+<span class="c1">#correlation_categorical(data_cpy)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># correlation phik (quantitative and categorical columns)</span>
+<span class="c1"># --------------------- #</span>
+<span class="c1"># https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7</span>
+<div class="viewcode-block" id="correlation_phik"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_phik">[docs]</a><span class="k">def</span> <span class="nf">correlation_phik</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Paper link: https://arxiv.org/pdf/1811.11440.pdf</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    theory: bool</span>
+<span class="sd">        A boolean value for displaying insight into the theory of the Phik correlation index. By default is set to False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># title </span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### $\phi_K$ correlation matrix&#39;</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="c1"># interval columns </span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">quant</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">!=</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">quant</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">quant</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">interval_cols</span> <span class="o">=</span> <span class="n">quant</span>
+    <span class="c1"># call method (if categorical columns has many cardinalities slow down the execution)</span>
+    <span class="n">phik_overview</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">phik_matrix</span><span class="p">(</span><span class="n">interval_cols</span> <span class="o">=</span> <span class="n">interval_cols</span><span class="p">)</span>
+    <span class="n">phik_overview</span> <span class="o">=</span> <span class="n">phik_overview</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">()</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># display</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">phik_overview</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* the calculation of $\phi_K$ is computationally expensive&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* no indication of direction&#39;</span>
+        <span class="n">string3</span> <span class="o">=</span> <span class="s1">&#39;* no closed-form formula&#39;</span>
+        <span class="n">string4</span> <span class="o">=</span> <span class="s1">&#39;* when working with numeric-only variables, other correlation coefficients will be more precise, especially for small samples.&#39;</span>
+        <span class="n">string5</span> <span class="o">=</span> <span class="s1">&#39;* it is based on several refinements to Pearson’s $\chi^2$ contingency test&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string3</span><span class="p">),</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">string4</span><span class="p">),</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">string5</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+        
+<span class="c1"># test </span>
+<span class="c1">#correlation_phik(train_df, theory= True)</span>
+
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># Study distribution of a quatitative variable</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="num_plot"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_plot">[docs]</a><span class="k">def</span> <span class="nf">num_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># figure dim</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+    <span class="c1"># original</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+    <span class="c1"># log price</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$log(x)$&#39;</span><span class="p">)</span>
+    <span class="c1"># square root</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$\mathregular{\sqrt</span><span class="si">{x}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+    <span class="c1"># square </span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$\mathregular{{x}^2}$&#39;</span><span class="p">)</span>
+    <span class="c1"># box-cox (with lambda=none, array must be positive)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">boxcox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">lmbda</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Box-Cox with $\lambda$ = </span><span class="si">{</span><span class="n">lmbda</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># reciprocal </span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$1/x$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<span class="c1"># useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot</span>
+<div class="viewcode-block" id="num_variable_study"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_variable_study">[docs]</a><span class="k">def</span> <span class="nf">num_variable_study</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    col: str</span>
+<span class="sd">        The name of the dataframe column to study.</span>
+<span class="sd">    bins: int</span>
+<span class="sd">        The number of bins used by the histograms. By default bins=50.</span>
+<span class="sd">    epsilon: float</span>
+<span class="sd">        A constant for handle non strictly positive variables. By default epsilon = 0.0001</span>
+<span class="sd">    theory: bool</span>
+<span class="sd">        A boolean value for displaying insight into the transformations applied</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe chack step </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># response variable check step </span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;you must pass a quantitative variable&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="c1"># check</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Variable with negative values&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;* applied the transformation $x^{&#39;}=x-min(x)+\epsilon$&quot;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">+</span><span class="n">epsilon</span>
+        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Variable with zeros values&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">epsilon</span>
+        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Strickt positive variable&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># theory behind transformation </span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Effects of transformations:&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### log transformation&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* positive effect on right-skewed distributions and de-emphasize outliers&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* gets worse when applied to distributions left-skewed or already normal&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Square root transformation&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* normalizing effect on right-skewed distributions, it is weaker than the logarithm and cube root&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* variables with a left skew will become worst after a square root transformation.&#39;</span>
+        <span class="n">string3</span> <span class="o">=</span> <span class="s1">&#39;* high values get compressed and low values become more spread out&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string3</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Square transformation&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* used to reduce left skewness&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* gets worse when applied to distributions without skewness&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Box-Cox&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* if $\lambda$ is a non-zero number, then the transformed variable may be more difficult to interpret than if we simply applied a log transform.&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* works well for left and right skewness&#39;</span>
+        <span class="n">string3</span> <span class="o">=</span> <span class="s1">&#39;* only works for positive data&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string3</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Reciprocal&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;* It can not be applied to zero values&#39;</span>
+        <span class="n">string2</span> <span class="o">=</span> <span class="s1">&#39;* The reciprocal reverses order among values of the same sign: largestbecomes smallest, etc.&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">),</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string2</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">pass</span></div>
+<span class="c1"># test </span>
+<span class="c1">#quant_variable_study(data_test, &#39;Price&#39;, bins = 50, theory=True)</span>
+
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># interactive scatterplot</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="interaction"><a class="viewcode-back" href="../../edamame.html#edamame.eda.interaction">[docs]</a><span class="k">def</span> <span class="nf">interaction</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># scatterplot function </span>
+    <span class="nd">@interact</span>
+    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">column1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> 
+                <span class="n">column2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="c1"># scatterplot</span>
+        <span class="n">sn</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">column1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">column2</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+        
+<span class="c1"># test </span>
+<span class="c1">#interactions(X)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="inspection"><a class="viewcode-back" href="../../edamame.html#edamame.eda.inspection">[docs]</a><span class="k">def</span> <span class="nf">inspection</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    threshold: int</span>
+<span class="sd">        A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. </span>
+<span class="sd">    bins: int</span>
+<span class="sd">        The number of bins used by the histograms. By default bins=50.</span>
+<span class="sd">    figsize: tuple[float, float]</span>
+<span class="sd">        A tuple to determine the plot size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># plot step</span>
+    <span class="nd">@interact</span>
+    <span class="k">def</span> <span class="nf">inspect</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">target</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="c1"># useful info</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39; ### Variable type info:&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">title</span><span class="p">))</span>
+        <span class="n">column_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">target_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;**column**: </span><span class="si">{</span><span class="n">column_type</span><span class="si">}</span><span class="s1">, **target**: </span><span class="si">{</span><span class="n">target_type</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="c1"># check column variable type</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;too many unique values in the target variable&#39;</span><span class="p">)</span>
+        <span class="c1"># check column variable type</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;O&#39;</span><span class="p">:</span>
+            <span class="c1">#barplot </span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+            <span class="n">sn</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>           
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># histplot</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">kde</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+    
+<span class="c1"># test  </span>
+<span class="c1">#inspections(X)</span>
+
+
+<span class="c1"># --------------------- #</span>
+<span class="c1"># split and scale dataset</span>
+<span class="c1"># --------------------- #</span>
+<div class="viewcode-block" id="split_and_scaling"><a class="viewcode-back" href="../../edamame.html#edamame.eda.split_and_scaling">[docs]</a><span class="k">def</span> <span class="nf">split_and_scaling</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function returns two pandas dataframes: </span>
+<span class="sd">        * The regressor matrix X contains all the predictors for the model.</span>
+<span class="sd">        * The series y contains the values of the response variable.</span>
+<span class="sd">    In addition, the function applies a step of standard scaling on the numerical columns of the X matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    target: str</span>
+<span class="sd">        The response variable column name.</span>
+<span class="sd">    minmaxscaler: bool</span>
+<span class="sd">        Select the type of scaling to apply to the numerical columns. </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pandas.core.frame.DataFrame, pandas.core.frame.DataFrame </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># dataframe check </span>
+    <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># split step</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># scaling quantitative variables </span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dtypes</span>
+    <span class="n">quant</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">!=</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
+    <span class="n">quant_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">quant</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">minmaxscaler</span><span class="p">:</span>
+        <span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+    <span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">quant_columns</span><span class="p">])</span>
+    <span class="n">X</span><span class="p">[</span><span class="n">quant_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">quant_columns</span><span class="p">])</span>
+    <span class="c1"># return step </span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span><span class="n">y</span></div>
+
+<span class="c1"># test </span>
+<span class="c1">#X, y = split_and_scaling(data_cpy, &#39;Price&#39;)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Marco Salvalaggio.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
