@@ -1,1 +1,1 @@
-from .__classification import TrainClassifier
+from .classification import TrainClassifier
