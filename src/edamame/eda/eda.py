@@ -9,7 +9,7 @@ import scipy as sp
 from itertools import product
 import phik
 from ipywidgets import interact
-from .tools import dataframe_review
+from edamame.eda.tools import dataframe_review
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -19,7 +19,7 @@ pd.set_option('display.max_colwidth', None)
 # --------------------- #
 # display dataframe side by side
 # --------------------- #
-def display_side_by_side(dfs:list, captions:list) -> None:
+def __display_side_by_side(dfs:list, captions:list) -> None:
     output = ""
     combined = dict(zip(captions, dfs))
     for caption, df in combined.items():
@@ -384,7 +384,7 @@ def plot_categorical(data, col: list[str]) -> None:
         # cardinality table 
         df_c = pd.DataFrame(data[col].value_counts())
         df_c = df_c.head(10)
-        display_side_by_side([df, df_c], ['Info', 'Top cardinalities'])
+        __display_side_by_side([df, df_c], ['Info', 'Top cardinalities'])
         print('\n')
         # plot
         if len(data[col].value_counts().index) > 1000:
@@ -447,7 +447,7 @@ def plot_numerical(data, col: list[str], bins: int = 50) -> None:
         sk = data[col].skew()
         df.loc[len(df.index)] = [sk]
         df.rename(index={9:'skew'},inplace=True)
-        display_side_by_side([df], ['Info'])
+        __display_side_by_side([df], ['Info'])
          # plot 
         fig = plt.figure(figsize = (8, 4))
         f, (ax_box, ax_hist) = plt.subplots(2, sharex=True, gridspec_kw={"height_ratios": (.15, .85)})
@@ -679,7 +679,7 @@ def correlation_phik(data, theory: bool = False) -> None:
 # --------------------- #
 # Study distribution of a quatitative variable
 # --------------------- #
-def num_plot(data, col, bins) -> None:
+def __num_plot(data, col, bins) -> None:
     # figure dim
     plt.figure(figsize = (22, 12))
     # original
@@ -748,18 +748,18 @@ def num_variable_study(data, col: str, bins: int = 50, epsilon: float = 0.0001, 
         display(Markdown(string))
         x = data[col]
         x = x + abs(min(x))+epsilon
-        num_plot(data = x, col = col, bins = bins)
+        __num_plot(data = x, col = col, bins = bins)
     elif data[data[col] == 0].shape[0] > 0:
         string = '## Variable with zeros values'
         display(Markdown(string))
         x = data[col]
         x[x==0] = epsilon
-        num_plot(data = x, col = col, bins = bins)
+        __num_plot(data = x, col = col, bins = bins)
     else:
         string = '## Strickt positive variable'
         display(Markdown(string))
         x = data[col]
-        num_plot(data = x, col = col, bins = bins)
+        __num_plot(data = x, col = col, bins = bins)
     if theory == True:
         # theory behind transformation 
         string = '## Effects of transformations:'
