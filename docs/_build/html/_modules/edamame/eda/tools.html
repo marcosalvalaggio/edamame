@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>edamame.tools &mdash; Edamame 0.42 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>edamame.eda.tools &mdash; Edamame 0.43 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,11 +27,11 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             Edamame
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -40,7 +40,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">edamame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">edamame</a></li>
 </ul>
 
         </div>
@@ -49,16 +49,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Edamame</a>
+          <a href="../../../index.html">Edamame</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">edamame.tools</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edamame.eda.tools</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,7 +67,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for edamame.tools</h1><div class="highlight"><pre>
+  <h1>Source code for edamame.eda.tools</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
@@ -76,7 +76,7 @@
 <span class="c1"># ----------------- #</span>
 <span class="c1"># load model </span>
 <span class="c1"># ----------------- #</span>
-<div class="viewcode-block" id="load_model"><a class="viewcode-back" href="../../edamame.html#edamame.tools.load_model">[docs]</a><span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="load_model"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.load_model">[docs]</a><span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function load the model saved previously in the pickle format.</span>
 
@@ -97,7 +97,7 @@
 <span class="c1"># ----------------- #</span>
 <span class="c1"># setup data for train </span>
 <span class="c1"># ----------------- #</span>
-<div class="viewcode-block" id="setup"><a class="viewcode-back" href="../../edamame.html#edamame.tools.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
+<div class="viewcode-block" id="setup"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns the following elements: X_train, y_train, X_test, y_test.</span>
 
@@ -128,7 +128,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># scale X dataset</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="scaling"><a class="viewcode-back" href="../../edamame.html#edamame.tools.scaling">[docs]</a><span class="k">def</span> <span class="nf">scaling</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="scaling"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.scaling">[docs]</a><span class="k">def</span> <span class="nf">scaling</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns the normalised matrix.</span>
 
@@ -161,7 +161,7 @@
 <span class="c1"># ----------------- #</span>
 <span class="c1"># OHE check</span>
 <span class="c1"># ----------------- #</span>
-<div class="viewcode-block" id="dummy_control"><a class="viewcode-back" href="../../edamame.html#edamame.tools.dummy_control">[docs]</a><span class="k">def</span> <span class="nf">dummy_control</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="dummy_control"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.dummy_control">[docs]</a><span class="k">def</span> <span class="nf">dummy_control</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function checks if the Pandas dataframe passed is encoded with dummy or OHE. </span>
 <span class="sd">    </span>
@@ -185,7 +185,7 @@
 <span class="c1"># ----------------- #</span>
 <span class="c1">#  pandas dataframe check</span>
 <span class="c1"># ----------------- #</span>
-<div class="viewcode-block" id="dataframe_review"><a class="viewcode-back" href="../../edamame.html#edamame.tools.dataframe_review">[docs]</a><span class="k">def</span> <span class="nf">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="dataframe_review"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.dataframe_review">[docs]</a><span class="k">def</span> <span class="nf">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function checks if the object passed is a Pandas dataframe.</span>
 

@@ -1,5 +1,5 @@
 .. Edamame documentation master file, created by
-   sphinx-quickstart on Wed Mar 22 23:17:09 2023.
+   sphinx-quickstart on Thu Mar 23 23:45:49 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

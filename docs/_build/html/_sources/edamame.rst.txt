@@ -8,26 +8,8 @@ Subpackages
    :maxdepth: 4
 
    edamame.classifier
+   edamame.eda
    edamame.regressor
-
-Submodules
-----------
-
-edamame.eda module
-------------------
-
-.. automodule:: edamame.eda
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-edamame.tools module
---------------------
-
-.. automodule:: edamame.tools
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 Module contents
 ---------------

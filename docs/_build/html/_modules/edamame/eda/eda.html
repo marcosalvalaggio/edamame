@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>edamame.eda &mdash; Edamame 0.42 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <title>edamame.eda.eda &mdash; Edamame 0.43 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,11 +27,11 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             Edamame
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -40,7 +40,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">edamame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">edamame</a></li>
 </ul>
 
         </div>
@@ -49,16 +49,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Edamame</a>
+          <a href="../../../index.html">Edamame</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">edamame.eda</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edamame.eda.eda</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,7 +67,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for edamame.eda</h1><div class="highlight"><pre>
+  <h1>Source code for edamame.eda.eda</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
@@ -79,39 +79,42 @@
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 <span class="kn">import</span> <span class="nn">phik</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
-<span class="kn">from</span> <span class="nn">.tools</span> <span class="kn">import</span> <span class="n">dataframe_review</span>
+<span class="kn">from</span> <span class="nn">edamame.eda.tools</span> <span class="kn">import</span> <span class="n">dataframe_review</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+
 <span class="c1"># pandas options</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.width&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
 
-<span class="c1"># --------------------- #</span>
-<span class="c1"># display dataframe side by side</span>
-<span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="display_side_by_side"><a class="viewcode-back" href="../../edamame.html#edamame.eda.display_side_by_side">[docs]</a><span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="n">dfs</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">captions</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">__display_side_by_side</span><span class="p">(</span><span class="n">dfs</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">captions</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">combined</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">captions</span><span class="p">,</span> <span class="n">dfs</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">caption</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">combined</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">output</span> <span class="o">+=</span> <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_table_attributes</span><span class="p">(</span><span class="s2">&quot;style=&#39;display:inline&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
         <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\xa0\xa0\xa0</span><span class="s2">&quot;</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">output</span><span class="p">))</span></div>
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
 
 
-<span class="c1"># --------------------- #</span>
-<span class="c1"># Dataframe dimensions</span>
-<span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="dimensions"><a class="viewcode-back" href="../../edamame.html#edamame.eda.dimensions">[docs]</a><span class="k">def</span> <span class="nf">dimensions</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="dimensions"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.dimensions">[docs]</a><span class="k">def</span> <span class="nf">dimensions</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function displays the number of rows and columns of a pandas dataframe passed. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    data: pd.Dataframe</span>
+<span class="sd">        A pandas DataFrame passed in input</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
 <span class="sd">    None</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;category&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;A&#39;, &#39;B&#39;], &#39;value&#39;: [1, 2, 3, 4]})</span>
+<span class="sd">    &gt;&gt;&gt; eda.dimensions(df)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dataframe control step </span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -119,27 +122,28 @@
     <span class="n">dim</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Rows: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, Columns: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span></div>
 
-<span class="c1"># test</span>
-<span class="c1">#dimensions(data)</span>
 
-<span class="c1"># --------------------- #</span>
-<span class="c1"># full describe function </span>
-<span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="describe_distribution"><a class="viewcode-back" href="../../edamame.html#edamame.eda.describe_distribution">[docs]</a><span class="k">def</span> <span class="nf">describe_distribution</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="describe_distribution"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.describe_distribution">[docs]</a><span class="k">def</span> <span class="nf">describe_distribution</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">        A pandas DataFrame passed in input</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
 <span class="sd">    None</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;category&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;A&#39;, &#39;B&#39;], &#39;value&#39;: [1, 2, 3, 4]})</span>
+<span class="sd">    &gt;&gt;&gt; eda.describe_distribution(df)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dataframe control step </span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="c1"># ---</span>
     <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;### Quantitative columns&#39;</span>
     <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
     <span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
@@ -147,25 +151,26 @@
     <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
     <span class="n">display</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;O&quot;</span><span class="p">]))</span></div>
 
-<span class="c1"># test</span>
-<span class="c1">#describeDistribution(data)</span>
 
-
-<span class="c1"># --------------------- #</span>
-<span class="c1"># variables types identifier </span>
-<span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="identify_types"><a class="viewcode-back" href="../../edamame.html#edamame.eda.identify_types">[docs]</a><span class="k">def</span> <span class="nf">identify_types</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="identify_types"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.identify_types">[docs]</a><span class="k">def</span> <span class="nf">identify_types</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The function display the result of the dtypes method</span>
+<span class="sd">    The function display the result of the dtypes method.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">        A pandas DataFrame passed in input</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
-<span class="sd">    list</span>
-<span class="sd">        A list with the name of the numerical columns and a list with the name of the columns identified as &quot;object&quot; by pandas. </span>
+<span class="sd">    Tuple[List[str], List[str]]</span>
+<span class="sd">        A tuple contains a list with the numerical columns and a list with the categorical/object column</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;category&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;A&#39;, &#39;B&#39;], &#39;value&#39;: [1, 2, 3, 4]})</span>
+<span class="sd">    &gt;&gt;&gt; quant_col, qual_col = eda.identify_types(data)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
      <span class="c1"># dataframe control step </span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -181,32 +186,30 @@
     <span class="n">qual_col</span> <span class="o">=</span> <span class="n">types</span><span class="p">[</span><span class="n">types</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span>
     <span class="n">qual_col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qual_col</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
      <span class="c1"># return step </span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">quant_col</span><span class="p">,</span> <span class="n">qual_col</span><span class="p">]</span></div>
-
-<span class="c1"># test</span>
-<span class="c1">#quant_col, qual_col = identify_types(data)</span>
-<span class="c1">#print(quant_col)</span>
-<span class="c1">#print(qual_col)</span>
+    <span class="k">return</span> <span class="n">quant_col</span><span class="p">,</span> <span class="n">qual_col</span></div>
 
 
-<span class="c1"># --------------------- #</span>
-<span class="c1"># convert numeric to categorical  </span>
-<span class="c1"># --------------------- #</span>
-<span class="c1"># modified to avoid side effect </span>
-<div class="viewcode-block" id="num_to_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_to_categorical">[docs]</a><span class="k">def</span> <span class="nf">num_to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<div class="viewcode-block" id="num_to_categorical"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.num_to_categorical">[docs]</a><span class="k">def</span> <span class="nf">num_to_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns a dataframe with the columns transformed into an &quot;object&quot;. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
-<span class="sd">    col: list[str]</span>
-<span class="sd">        A list of strings containing the names of columns to convert.</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">        A pandas DataFrame passed in input</span>
+<span class="sd">    col: List[str]</span>
+<span class="sd">        A list of strings containing the names of columns to convert</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">    pd.DataFrame</span>
 <span class="sd">        Dataframe with numerical columns passed converted to categorical</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;category&#39;: [&#39;0&#39;, &#39;1&#39;, &#39;0&#39;, &#39;1&#39;], &#39;value&#39;: [1, 2, 3, 4]})</span>
+<span class="sd">    &gt;&gt;&gt; df = eda.num_to_categorical(df, col=[&quot;category&quot;])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dataframe check</span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -219,7 +222,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># missing, zeros and duplicates </span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="missing"><a class="viewcode-back" href="../../edamame.html#edamame.eda.missing">[docs]</a><span class="k">def</span> <span class="nf">missing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="missing"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.missing">[docs]</a><span class="k">def</span> <span class="nf">missing</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function display the following elements:</span>
 <span class="sd">    - A table with the percentage of NA record for every column.</span>
@@ -229,12 +232,18 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">         A pandas DataFrame passed in input</span>
 <span class="sd">   </span>
 <span class="sd">    Returns</span>
 <span class="sd">    ----------  </span>
-<span class="sd">    list</span>
-<span class="sd">        A list that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.</span>
+<span class="sd">    Tuple[List[str], List[str], List[str]]</span>
+<span class="sd">        A Tuple that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.</span>
+<span class="sd">    </span>
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; nan_quant, nan_qual, zero_col = eda.missing(data)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dataframe control step </span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -321,43 +330,42 @@
     <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_cells</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2%}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="c1"># ----------------------------- #</span>
-    <span class="c1"># return step</span>
-    <span class="c1"># ----------------------------- #</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">nan_quant</span><span class="p">,</span> <span class="n">nan_qual</span><span class="p">,</span> <span class="n">zero_col</span><span class="p">]</span></div>
-
-<span class="c1"># test</span>
-<span class="c1">#nan_quant, nan_qual, zero_col = missing(data)</span>
+    <span class="k">return</span> <span class="n">nan_quant</span><span class="p">,</span> <span class="n">nan_qual</span><span class="p">,</span> <span class="n">zero_col</span></div>
 
 
-<span class="c1"># --------------------- #</span>
-<span class="c1"># handling missing and zeros</span>
-<span class="c1"># --------------------- #</span>
 <span class="c1"># missing_cal = np.nan or 0 or other values</span>
-<div class="viewcode-block" id="handling_missing"><a class="viewcode-back" href="../../edamame.html#edamame.eda.handling_missing">[docs]</a><span class="k">def</span> <span class="nf">handling_missing</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">missing_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+<div class="viewcode-block" id="handling_missing"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.handling_missing">[docs]</a><span class="k">def</span> <span class="nf">handling_missing</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">missing_val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The function returns a pandas dataframe with the columns selected modified to handle the nan values. </span>
+<span class="sd">    The function returns a pandas dataframe with the columns selected modified to handle the NaN values. It&#39;s easy to use after the execution of the missing function.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data: pandas.core.frame.DataFrame</span>
-<span class="sd">    col: list[str]</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">        A pandas DataFrame passed in input</span>
+<span class="sd">    col: List[str]</span>
 <span class="sd">        A list of the names of the dataframe columns to handle.</span>
-<span class="sd">    missing_val: </span>
-<span class="sd">        The value that represents the NA in the columns passed. By default is equal to np.nan.</span>
-<span class="sd">    method: </span>
+<span class="sd">    missing_val: Union[float, int] </span>
+<span class="sd">        The value that represents the NA in the columns passed. By default is equal to np.nan but can be set as other value like 0</span>
+<span class="sd">    method: List[str]</span>
 <span class="sd">        A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default,</span>
 <span class="sd">        if nothing was indicated, the function applied the most_frequent method to all the columns passed. Indicating</span>
 <span class="sd">        fewer methods than the names of the columns leads to an autocompletion with the most_frequent method.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ----------</span>
-<span class="sd">    pandas.core.frame.DataFrame</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Return the processed dataframe</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">    &gt;&gt;&gt; df = eda.handling_missing(df, col = nan_quant, missing_val = np.nan, method = [&#39;mean&#39;]*len(nan_quant)) # handle NaN for numerical columns</span>
+<span class="sd">    &gt;&gt;&gt; df = eda.handling_missing(df, col = nan_qual, missing_val=np.nan, method=[&#39;most_frequent&#39;]*len(nan_qual)) # handle NaN for categorical columns</span>
+<span class="sd">    &gt;&gt;&gt; df = eda.handling_missing(df, col = zero_col, missing_val=0, method=[&#39;mean&#39;]*len(zero_col)) # handle O for columns with too many zeros </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dataframe control step </span>
     <span class="n">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="c1"># ---</span>
     <span class="c1"># ----------------------------- #</span>
     <span class="c1"># check method </span>
     <span class="c1"># ----------------------------- #</span>
@@ -383,26 +391,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">method</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">missing_values</span><span class="o">=</span><span class="n">missing_val</span><span class="p">)</span>
             <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">imputer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))[:,</span><span class="mi">0</span><span class="p">]</span>
-            <span class="c1">#print(data.shape)</span>
-    <span class="c1"># ----------------------------- #</span>
-    <span class="c1"># return step</span>
-    <span class="c1"># ----------------------------- #</span>
+
     <span class="k">return</span> <span class="n">data</span></div>
 
-<span class="c1"># test </span>
-<span class="c1">#data_test = data.copy()</span>
-<span class="c1"># quant variables</span>
-<span class="c1">#data_test = handlingMissing(data_test, col = nan_quant, missing_val = np.nan, method = [&#39;mean&#39;]*len(nan_quant))</span>
-<span class="c1"># qual variables </span>
-<span class="c1">#data_test = handlingMissing(data_test, col = nan_qual, missing_val=np.nan, method=[&#39;most_frequent&#39;]*len(nan_qual))</span>
-<span class="c1"># zero variables</span>
-<span class="c1">#data_test = handlingMissing(data_test, col = zero_col, missing_val=0, method=[&#39;mean&#39;]*len(zero_col))</span>
+
 
 
 <span class="c1"># --------------------- #</span>
 <span class="c1"># fast drop columns</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="drop_columns"><a class="viewcode-back" href="../../edamame.html#edamame.eda.drop_columns">[docs]</a><span class="k">def</span> <span class="nf">drop_columns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<div class="viewcode-block" id="drop_columns"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.drop_columns">[docs]</a><span class="k">def</span> <span class="nf">drop_columns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns a pandas dataframe with the columns selected dropped.</span>
 
@@ -429,7 +427,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># plot categorical columns </span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="plot_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.plot_categorical">[docs]</a><span class="k">def</span> <span class="nf">plot_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="plot_categorical"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.plot_categorical">[docs]</a><span class="k">def</span> <span class="nf">plot_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns a sequence of tables and plots.</span>
 
@@ -454,7 +452,7 @@
         <span class="c1"># cardinality table </span>
         <span class="n">df_c</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
         <span class="n">df_c</span> <span class="o">=</span> <span class="n">df_c</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df_c</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">,</span> <span class="s1">&#39;Top cardinalities&#39;</span><span class="p">])</span>
+        <span class="n">__display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df_c</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">,</span> <span class="s1">&#39;Top cardinalities&#39;</span><span class="p">])</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="c1"># plot</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
@@ -485,7 +483,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># plot quantitative columns </span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="plot_numerical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.plot_numerical">[docs]</a><span class="k">def</span> <span class="nf">plot_numerical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="plot_numerical"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.plot_numerical">[docs]</a><span class="k">def</span> <span class="nf">plot_numerical</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns a sequence of tables and plots.</span>
 
@@ -517,7 +515,7 @@
         <span class="n">sk</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
         <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sk</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">9</span><span class="p">:</span><span class="s1">&#39;skew&#39;</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">])</span>
+        <span class="n">__display_side_by_side</span><span class="p">([</span><span class="n">df</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Info&#39;</span><span class="p">])</span>
          <span class="c1"># plot </span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
         <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_box</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">.15</span><span class="p">,</span> <span class="mf">.85</span><span class="p">)})</span>
@@ -535,7 +533,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># view cardinalities of columns </span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="view_cardinality"><a class="viewcode-back" href="../../edamame.html#edamame.eda.view_cardinality">[docs]</a><span class="k">def</span> <span class="nf">view_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="view_cardinality"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.view_cardinality">[docs]</a><span class="k">def</span> <span class="nf">view_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function especially helps study the cardinalities of the categorical variables.</span>
 
@@ -564,7 +562,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># modify cardinalities of categorical columns </span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="modify_cardinality"><a class="viewcode-back" href="../../edamame.html#edamame.eda.modify_cardinality">[docs]</a><span class="k">def</span> <span class="nf">modify_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+<div class="viewcode-block" id="modify_cardinality"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.modify_cardinality">[docs]</a><span class="k">def</span> <span class="nf">modify_cardinality</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns a pandas dataframe with the cardinalities of the columns selected modified.</span>
 
@@ -613,7 +611,7 @@
 <span class="c1"># correlation pearson (quantitative colum)</span>
 <span class="c1"># --------------------- #</span>
 <span class="c1"># correlation coefficients for numerical variables (Pearson, Kendall, Spearman)</span>
-<div class="viewcode-block" id="correlation_pearson"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_pearson">[docs]</a><span class="k">def</span> <span class="nf">correlation_pearson</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="correlation_pearson"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.correlation_pearson">[docs]</a><span class="k">def</span> <span class="nf">correlation_pearson</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function performs the Pearson&#39;s correlation between the columns pairs. </span>
 
@@ -650,7 +648,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># correlation categorical (chisq test p-values)</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="correlation_categorical"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_categorical">[docs]</a><span class="k">def</span> <span class="nf">correlation_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="correlation_categorical"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.correlation_categorical">[docs]</a><span class="k">def</span> <span class="nf">correlation_categorical</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function performs the Chi-Square Test of Independence between categorical variables of the dataset. </span>
 
@@ -702,7 +700,7 @@
 <span class="c1"># correlation phik (quantitative and categorical columns)</span>
 <span class="c1"># --------------------- #</span>
 <span class="c1"># https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7</span>
-<div class="viewcode-block" id="correlation_phik"><a class="viewcode-back" href="../../edamame.html#edamame.eda.correlation_phik">[docs]</a><span class="k">def</span> <span class="nf">correlation_phik</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="correlation_phik"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.correlation_phik">[docs]</a><span class="k">def</span> <span class="nf">correlation_phik</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Paper link: https://arxiv.org/pdf/1811.11440.pdf</span>
 
@@ -749,7 +747,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># Study distribution of a quatitative variable</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="num_plot"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_plot">[docs]</a><span class="k">def</span> <span class="nf">num_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">__num_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># figure dim</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
     <span class="c1"># original</span>
@@ -779,11 +777,11 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
     <span class="n">sn</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$1/x$&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
 <span class="c1"># useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot</span>
-<div class="viewcode-block" id="num_variable_study"><a class="viewcode-back" href="../../edamame.html#edamame.eda.num_variable_study">[docs]</a><span class="k">def</span> <span class="nf">num_variable_study</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="num_variable_study"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.num_variable_study">[docs]</a><span class="k">def</span> <span class="nf">num_variable_study</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x</span>
 
@@ -818,18 +816,18 @@
         <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">+</span><span class="n">epsilon</span>
-        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+        <span class="n">__num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Variable with zeros values&#39;</span>
         <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
         <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">epsilon</span>
-        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+        <span class="n">__num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Strickt positive variable&#39;</span>
         <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-        <span class="n">num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
+        <span class="n">__num_plot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">theory</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># theory behind transformation </span>
         <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;## Effects of transformations:&#39;</span>
@@ -871,7 +869,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># interactive scatterplot</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="interaction"><a class="viewcode-back" href="../../edamame.html#edamame.eda.interaction">[docs]</a><span class="k">def</span> <span class="nf">interaction</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="interaction"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.interaction">[docs]</a><span class="k">def</span> <span class="nf">interaction</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.</span>
 
@@ -900,7 +898,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="inspection"><a class="viewcode-back" href="../../edamame.html#edamame.eda.inspection">[docs]</a><span class="k">def</span> <span class="nf">inspection</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="inspection"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.inspection">[docs]</a><span class="k">def</span> <span class="nf">inspection</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.</span>
 
@@ -956,7 +954,7 @@
 <span class="c1"># --------------------- #</span>
 <span class="c1"># split and scale dataset</span>
 <span class="c1"># --------------------- #</span>
-<div class="viewcode-block" id="split_and_scaling"><a class="viewcode-back" href="../../edamame.html#edamame.eda.split_and_scaling">[docs]</a><span class="k">def</span> <span class="nf">split_and_scaling</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="split_and_scaling"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.eda.split_and_scaling">[docs]</a><span class="k">def</span> <span class="nf">split_and_scaling</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The function returns two pandas dataframes: </span>
 <span class="sd">        * The regressor matrix X contains all the predictors for the model.</span>
