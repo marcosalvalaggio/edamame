@@ -1,5 +1,2 @@
 dist/
-src/edamame.egg-info
-notebooks/.DS_Store
-notebooks/
-__diagnose_old.py
+edamame.egg-info/
