@@ -31,20 +31,17 @@ def dimensions(data: pd.DataFrame) -> None:
     """
     The function displays the number of rows and columns of a pandas dataframe passed. 
 
-    Parameters
-    ----------
-    data: pd.Dataframe
-        A pandas DataFrame passed in input
+    Args:
+        data (pd.Dataframe): A pandas DataFrame passed in input.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
 
     Example
     ----------
-    >>> import edamame.eda as eda
-    >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
-    >>> eda.dimensions(df)
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
+        >>> eda.dimensions(df)
     """
     # dataframe control step 
     dataframe_review(data)
@@ -57,20 +54,16 @@ def describe_distribution(data: pd.DataFrame) -> None:
     """
     The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.
     
-    Parameters
-    ----------
-    data: pd.DataFrame
-        A pandas DataFrame passed in input
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
 
-    Returns
-    ----------
-    None
+    Returns: 
+        None
 
     Example
-    ----------
-    >>> import edamame.eda as eda
-    >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
-    >>> eda.describe_distribution(df)
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
+        >>> eda.describe_distribution(df)
     """
     # dataframe control step 
     dataframe_review(data)
@@ -86,21 +79,16 @@ def identify_types(data: pd.DataFrame) -> Tuple[List[str], List[str]]:
     """
     The function display the result of the dtypes method.
     
-    Parameters
-    ----------
-    data: pd.DataFrame
-        A pandas DataFrame passed in input
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
 
-    Returns
-    ----------
-    Tuple[List[str], List[str]]
-        A tuple contains a list with the numerical columns and a list with the categorical/object column
+    Returns:
+        Tuple[List[str], List[str]]: A tuple contains a list with the numerical columns and a list with the categorical/object column.
 
-    Example
-    ----------
-    >>> import edamame.eda as eda
-    >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
-    >>> quant_col, qual_col = eda.identify_types(data)
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
+        >>> quant_col, qual_col = eda.identify_types(data)
     """
      # dataframe control step 
     dataframe_review(data)
@@ -123,23 +111,17 @@ def num_to_categorical(data: pd.DataFrame, col: List[str]) -> pd.DataFrame:
     """
     The function returns a dataframe with the columns transformed into an "object". 
 
-    Parameters
-    ----------
-    data: pd.DataFrame
-        A pandas DataFrame passed in input
-    col: List[str]
-        A list of strings containing the names of columns to convert
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of strings containing the names of columns to convert.
 
-    Returns
-    ----------
-    pd.DataFrame
-        Dataframe with numerical columns passed converted to categorical
+    Returns:
+        pd.DataFrame: Dataframe with numerical columns passed converted to categorical.
 
-    Example
-    ----------
-    >>> import edamame.eda as eda
-    >>> df = pd.DataFrame({'category': ['0', '1', '0', '1'], 'value': [1, 2, 3, 4]})
-    >>> df = eda.num_to_categorical(df, col=["category"])
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['0', '1', '0', '1'], 'value': [1, 2, 3, 4]})
+        >>> df = eda.num_to_categorical(df, col=["category"])
     """
     # dataframe check
     dataframe_review(data)
@@ -155,29 +137,24 @@ def num_to_categorical(data: pd.DataFrame, col: List[str]) -> pd.DataFrame:
 def missing(data: pd.DataFrame) -> Tuple[List[str], List[str], List[str]]:
     """
     The function display the following elements:
+
     - A table with the percentage of NA record for every column.
     - A table with the percentage of **0** as a record for every column.
     - A table with the percentage of duplicate rows.
     - A list of lists that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record. 
 
-    Parameters
-    ----------
-    data: pd.DataFrame
-         A pandas DataFrame passed in input
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
    
-    Returns
-    ----------  
-    Tuple[List[str], List[str], List[str]]
-        A Tuple that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.
+    Returns: 
+        Tuple[List[str], List[str], List[str]]: A Tuple that contains the name of the numerical columns with NA, the name of the categorical columns with NA and the name of the columns with 0 as a record.
     
-    Example
-    ----------
-    >>> import edamame.eda as eda
-    >>> nan_quant, nan_qual, zero_col = eda.missing(data)
+    Example:
+        >>> import edamame.eda as eda
+        >>> nan_quant, nan_qual, zero_col = eda.missing(data)
     """
     # dataframe control step 
     dataframe_review(data)
-    # ---
     # ----------------------------- #
     # info table 
     # ----------------------------- #
@@ -268,30 +245,20 @@ def handling_missing(data: pd.DataFrame, col: List[str], missing_val: Union[floa
     """
     The function returns a pandas dataframe with the columns selected modified to handle the NaN values. It's easy to use after the execution of the missing function.
 
-    Parameters
-    ----------
-    data: pd.DataFrame
-        A pandas DataFrame passed in input
-    col: List[str]
-        A list of the names of the dataframe columns to handle.
-    missing_val: Union[float, int] 
-        The value that represents the NA in the columns passed. By default is equal to np.nan but can be set as other value like 0
-    method: List[str]
-        A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default,
-        if nothing was indicated, the function applied the most_frequent method to all the columns passed. Indicating
-        fewer methods than the names of the columns leads to an autocompletion with the most_frequent method.
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of the names of the dataframe columns to handle.
+        missing_val (Union[float, int]): The value that represents the NA in the columns passed. By default is equal to np.nan but can be set as other value like 0.
+        method (List[str]): A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the most_frequent method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the most_frequent method.
 
-    Returns
-    ----------
-    pd.DataFrame
-        Return the processed dataframe
+    Returns:
+        pd.DataFrame: Return the processed dataframe
 
-    Example
-    ----------
-    >>> import edamame.eda as eda
-    >>> df = eda.handling_missing(df, col = nan_quant, missing_val = np.nan, method = ['mean']*len(nan_quant)) # handle NaN for numerical columns
-    >>> df = eda.handling_missing(df, col = nan_qual, missing_val=np.nan, method=['most_frequent']*len(nan_qual)) # handle NaN for categorical columns
-    >>> df = eda.handling_missing(df, col = zero_col, missing_val=0, method=['mean']*len(zero_col)) # handle O for columns with too many zeros 
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = eda.handling_missing(df, col = nan_quant, missing_val = np.nan, method = ['mean']*len(nan_quant)) # handle NaN for numerical columns
+        >>> df = eda.handling_missing(df, col = nan_qual, missing_val=np.nan, method=['most_frequent']*len(nan_qual)) # handle NaN for categorical columns
+        >>> df = eda.handling_missing(df, col = zero_col, missing_val=0, method=['mean']*len(zero_col)) # handle O for columns with too many zeros 
     """
     # dataframe control step 
     dataframe_review(data)
@@ -334,15 +301,17 @@ def drop_columns(data, col: list[str]):
     """
     The function returns a pandas dataframe with the columns selected dropped.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col:  list[str]
-        A list of strings containing the names of columns to drop. 
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of strings containing the names of columns to drop. 
 
-    Returns
-    ----------
-    pandas.core.frame.DataFrame
+    Returns:
+        pd.DataFrame
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4], 'type': [0,1,0,1]})
+        >>> df = eda.drop_columns(df, col=["category", "type"])
     """
     # dataframe control step 
     dataframe_review(data)
