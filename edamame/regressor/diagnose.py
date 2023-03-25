@@ -79,18 +79,6 @@ class Diagnose:
         >>> diagnose.qqplot(model=linear)
     """
     def __init__(self, X_train: pd.DataFrame, y_train: pd.DataFrame, X_test: pd.DataFrame, y_test: pd.DataFrame) -> None:
-        """
-        Initializes the Diagnose object with training and test data.
-
-        Args:
-            X_train (pd.DataFrame): The input training data.
-            y_train (pd.Series): The target training data.
-            X_test (pd.DataFrame): The input test data.
-            y_test (pd.Series): The target test data.
-
-        Returns:
-            None
-        """
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
