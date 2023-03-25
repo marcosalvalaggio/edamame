@@ -10,9 +10,12 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt 
 import seaborn as sns
 from scipy import stats
-from typing import Tuple, List, Union
+from typing import Tuple, Union
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
 import xgboost as xgb
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+
 
 def check_random_forest(model: RandomForestRegressor) -> None: 
     """
@@ -57,18 +60,15 @@ class Diagnose:
         self.y_test = y_test
 
     
-    def coefficients(self, model):
+    def coefficients(self, model: Union[LinearRegression, Lasso, Ridge]) -> None:
         """
-        Display model coefficients 
+        Display coefficients for Linear, Lasso, and Ridge model.
 
-        Parameters
-        ----------
-        model: 
-            A RF regression model
+        Args:
+            model (Union[LinearRegression, Lasso, Ridge]): The input model for which coefficients need to be displayed.
 
-        Returns
-        ----------
-        None
+        Returns:
+            None
         """
         intercept = ('intercept',model.intercept_)
         coef = list(zip(list(model.feature_names_in_), model.coef_))
@@ -78,18 +78,16 @@ class Diagnose:
         # display step 
         display(df_coef)
 
-    def random_forest_fi(self, model, figsize: tuple[float, float] = (12,10)):
+
+    def random_forest_fi(self, model: RandomForestRegressor, figsize: Tuple[float, float] = (12,10)) -> None:
         """
         The function displays the feature importance plot. 
 
-        Parameters
-        ----------
-        model: 
-            A RF regression model
+        Args:
+            model (RandomForestRegressor): The input random forest model.
 
-        Returns
-        ----------
-        None
+        Returns:
+            None
         """
         check_random_forest(model)
         importances = model.feature_importances_
@@ -103,18 +101,15 @@ class Diagnose:
         plt.show()
 
 
-    def xgboost_fi(self, model, figsize: tuple[float, float] = (14,12)):
+    def xgboost_fi(self, model: xgb.XGBRegressor, figsize: tuple[float, float] = (14,12)) -> None:
         """
         The function displays the feature importance plot.
 
-        Parameters
-        ----------
-        model: 
-            A xgboost regression model
+        Args:
+            model (xgb.XGBRegressor): The input xgboost model.
 
-        Returns
-        ----------
-        None 
+        Returns:
+            None
         """
         check_xgboost(model)
         xgb.plot_importance(model)
@@ -122,22 +117,17 @@ class Diagnose:
         plt.show()
 
     
-    def prediction_error(self, model, train_data: bool = True, figsize: tuple[float, float] = (8,6)):
+    def prediction_error(self, model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor], train_data: bool = True, figsize: Tuple[float, float] = (8.,6.)) -> None:
         """
         Define a scatterpolot with ygt and ypred of the model passed.
 
-        Parameters
-        ----------
-        model: 
-            A model to analyze. 
-        train: bool
-            Defines if you want to plot the scatterplot on train or test data (train by default).
-        figsize: tuple
-            Define the size of the prediction_erros plot   
+        Args:
+            model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model.
+            train (bool): Defines if you want to plot the scatterplot on train or test data (train by default).
+            figsize (Tuple[float, float]): Define the size of the prediction_erros plot.
 
-        Returns
-        ----------
-        None
+        Returns:
+            None
         """
         if train_data: 
             ypred = model.predict(self.X_train)
@@ -160,18 +150,16 @@ class Diagnose:
             plt.annotate(f"R2 test: {r2:.4f}", xy = (0.05, 0.95), xycoords='axes fraction', ha='left', va='top', fontsize=12)
             plt.show()
 
-    def residual_plot(self, model):
+
+    def residual_plot(self, model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]) -> None:
         """
         Residual plot for train and test data
 
-        Parameters
-        ----------
-        model: 
-            A model to analyze. 
+        Args:
+            model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model. 
 
-        Returns 
-        ----------
-        None
+        Returns:
+            None
         """
         ypred_train = model.predict(self.X_train)
         ypred_test = model.predict(self.X_test)
@@ -191,18 +179,15 @@ class Diagnose:
         plt.show()
 
 
-    def qqplot(self, model):
+    def qqplot(self, model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]) -> None:
         """
-        QQplot for train and test data
+        QQplot for train and test data.
 
-        Parameters
-        ----------
-        model: 
-            A model to analyze. 
+        Args:
+            model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model. 
 
-        Returns
-        ----------
-        None
+        Returns:
+            None
         """
         ypred_train = model.predict(self.X_train)
         ypred_test = model.predict(self.X_test)
