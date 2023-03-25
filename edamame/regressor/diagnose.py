@@ -10,47 +10,39 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt 
 import seaborn as sns
 from scipy import stats
+from typing import Tuple, List, Union
+from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 
-
-def check_random_forest(model) -> None: 
+def check_random_forest(model: RandomForestRegressor) -> None: 
     """
     The function checks if the model passed is a random forest regression.
 
-    Parameters
-    ----------
-    model:
-        A Sklearn model 
+    Args:
+        model (RandomForestRegressor): The input model to be checked.
 
-    Raises
-    ----------
-    TypeError
-        Control the model type
+    Raises:
+            TypeError: If the input model is not a random forest regression model.
     
-    Returns
-    ----------
-    None
+    Returns:
+        None
     """
     if model.__class__.__name__ != 'RandomForestRegressor':
         raise TypeError('The model passed isn\'t a ridge model')
     
 
-def check_xgboost(model): 
+def check_xgboost(model: xgb.XGBRegressor) -> None: 
     """
     The function checks if the model passed is a xgboost regression.
 
-    Parameters
-    ----------
-    model: 
-        A xgboost model
+    Args:
+        model (xgb.XGBRegressor): The input model to be checked.
 
-    Raises
-    ----------
-    TypeError
-        Control the model type
+    Raises:
+        TypeError: If the input model is not an XGBoost regression model.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
     """
     if model.__class__.__name__ != 'XGBRegressor':
         raise TypeError('The model passed isn\'t an xgboost')
