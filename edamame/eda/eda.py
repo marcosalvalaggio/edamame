@@ -39,8 +39,7 @@ def dimensions(data: pd.DataFrame) -> None:
     Returns:
         None
 
-    Example
-    ----------
+    Example:
         >>> import edamame.eda as eda
         >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
         >>> eda.dimensions(df)
@@ -63,7 +62,7 @@ def describe_distribution(data: pd.DataFrame) -> None:
     Returns: 
         None
 
-    Example
+    Example:
         >>> import edamame.eda as eda
         >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4]})
         >>> eda.describe_distribution(df)
@@ -453,7 +452,7 @@ def view_cardinality(data: pd.DataFrame, col: List[str]) -> None:
 
 
 
-def modify_cardinality(data: pd.DataFrame, col: list[str], threshold: list[int]) -> pd.DataFrame:
+def modify_cardinality(data: pd.DataFrame, col: List[str], threshold: List[int]) -> pd.DataFrame:
     """
     The function returns a pandas dataframe with the cardinalities of the columns selected modified.
 
@@ -624,7 +623,7 @@ def correlation_phik(data: pd.DataFrame, theory: bool = False) -> None:
 
 
 
-def __num_plot(data, col, bins) -> None:
+def __num_plot(data: pd.DataFrame, col: str, bins: int) -> None:
     # figure dim
     plt.figure(figsize = (22, 12))
     # original
@@ -657,26 +656,26 @@ def __num_plot(data, col, bins) -> None:
     plt.show()
 
 
+
 # useful tests for normality check: shapiro-wilk, wilcoxon, qq-plot
-def num_variable_study(data, col: str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
+def num_variable_study(data: pd.DataFrame, col: str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False) -> None:
     """
     The function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col: str
-        The name of the dataframe column to study.
-    bins: int
-        The number of bins used by the histograms. By default bins=50.
-    epsilon: float
-        A constant for handle non strictly positive variables. By default epsilon = 0.0001
-    theory: bool
-        A boolean value for displaying insight into the transformations applied
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (str): The name of the dataframe column to study.
+        bins (int): The number of bins used by the histograms. By default bins=50.
+        epsilon (float): A constant for handle non strictly positive variables. By default epsilon = 0.0001 
+        theory (bool): A boolean value for displaying insight into the transformations applied.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+    
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5]})
+        >>> eda.num_variable_study(df, 'value', bins = 50, theory=True)
     """
     # dataframe chack step 
     dataframe_review(data)
@@ -738,25 +737,23 @@ def num_variable_study(data, col: str, bins: int = 50, epsilon: float = 0.0001, 
         display(Markdown(string),Markdown(string2))
     else: 
         pass
-# test 
-#quant_variable_study(data_test, 'Price', bins = 50, theory=True)
 
 
 
-# --------------------- #
-# interactive scatterplot
-# --------------------- #
-def interaction(data) -> None:
+def interaction(data: pd.DataFrame) -> None:
     """
     The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5]})
+        >>> eda.interaction(df)
     """
     # dataframe check 
     dataframe_review(data)
@@ -767,31 +764,26 @@ def interaction(data) -> None:
         # scatterplot
         sn.jointplot(x=data[column1], y=data[column2], kind='scatter')
         plt.show()
-        
-# test 
-#interactions(X)
 
 
-# --------------------- #
-# interactive scatterplot barplot with hue for categorical, histplot with hue for quantitative
-# --------------------- #
-def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.)) -> None:
+
+def inspection(data: pd.DataFrame, threshold: int = 10, bins: int = 50, figsize: Tuple[float, float] = (6., 4.)) -> None:
     """
     The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    threshold: int
-        A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. 
-    bins: int
-        The number of bins used by the histograms. By default bins=50.
-    figsize: tuple[float, float]
-        A tuple to determine the plot size.
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        threshold (int): A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. 
+        bins (int): The number of bins used by the histograms. By default bins=50.
+        figsize (Tuple[float, float]): A tuple to determine the plot size.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5]})
+        >>> eda.inspection(df)
     """
     # dataframe check 
     dataframe_review(data)
@@ -823,32 +815,33 @@ def inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, 
             except:
                 sn.histplot(x=data[column], hue=data[target], bins = bins)
             plt.show()
-    
-# test  
-#inspections(X)
+
 
 
 # --------------------- #
 # split and scale dataset
 # --------------------- #
-def split_and_scaling(data, target: str, minmaxscaler: bool = False):
+def split_and_scaling(data: pd.DataFrame, target: str, minmaxscaler: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     The function returns two pandas dataframes: 
+
         * The regressor matrix X contains all the predictors for the model.
         * The series y contains the values of the response variable.
+
     In addition, the function applies a step of standard scaling on the numerical columns of the X matrix.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    target: str
-        The response variable column name.
-    minmaxscaler: bool
-        Select the type of scaling to apply to the numerical columns. 
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        target (str): The response variable column name.
+        minmaxscaler (bool): Select the type of scaling to apply to the numerical columns. 
         
-    Returns
-    ----------
-    pandas.core.frame.DataFrame, pandas.core.frame.DataFrame 
+    Returns:
+        Tuple[pd.DataFrame, pd.DataFrame]
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'category_2': ['A2', 'A2', 'B2', 'B2', 'A2', 'B2']})
+        >>> X, y = eda.split_and_scaling(df, 'value')
     """
     # dataframe check 
     dataframe_review(data)
