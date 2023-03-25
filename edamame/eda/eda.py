@@ -818,9 +818,6 @@ def inspection(data: pd.DataFrame, threshold: int = 10, bins: int = 50, figsize:
 
 
 
-# --------------------- #
-# split and scale dataset
-# --------------------- #
 def split_and_scaling(data: pd.DataFrame, target: str, minmaxscaler: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     The function returns two pandas dataframes: 
@@ -836,12 +833,12 @@ def split_and_scaling(data: pd.DataFrame, target: str, minmaxscaler: bool = Fals
         minmaxscaler (bool): Select the type of scaling to apply to the numerical columns. 
         
     Returns:
-        Tuple[pd.DataFrame, pd.DataFrame]
+        Tuple[pd.DataFrame, pd.DataFrame]: Return the regression matrix and the target column. 
 
     Example:
         >>> import edamame.eda as eda
-        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'category_2': ['A2', 'A2', 'B2', 'B2', 'A2', 'B2']})
-        >>> X, y = eda.split_and_scaling(df, 'value')
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'target': ['A2', 'A2', 'B2', 'B2', 'A2', 'B2']})
+        >>> X, y = eda.split_and_scaling(df, 'target')
     """
     # dataframe check 
     dataframe_review(data)
@@ -860,6 +857,3 @@ def split_and_scaling(data: pd.DataFrame, target: str, minmaxscaler: bool = Fals
     X[quant_columns] = scaler.transform(X[quant_columns])
     # return step 
     return X,y
-
-# test 
-#X, y = split_and_scaling(data_cpy, 'Price')
