@@ -18,6 +18,7 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
 
+
 def __display_side_by_side(dfs: List, captions: List) -> None:
     output = ""
     combined = dict(zip(captions, dfs))
@@ -25,6 +26,7 @@ def __display_side_by_side(dfs: List, captions: List) -> None:
         output += df.style.set_table_attributes("style='display:inline'").set_caption(caption)._repr_html_()
         output += "\xa0\xa0\xa0"
     display(HTML(output))
+
 
 
 def dimensions(data: pd.DataFrame) -> None:
@@ -50,6 +52,7 @@ def dimensions(data: pd.DataFrame) -> None:
     display(Markdown(dim))
 
 
+
 def describe_distribution(data: pd.DataFrame) -> None:
     """
     The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.
@@ -73,6 +76,7 @@ def describe_distribution(data: pd.DataFrame) -> None:
     string = '### Categorical columns'
     display(Markdown(string))
     display(data.describe(include=["O"]))
+
 
 
 def identify_types(data: pd.DataFrame) -> Tuple[List[str], List[str]]:
@@ -107,6 +111,7 @@ def identify_types(data: pd.DataFrame) -> Tuple[List[str], List[str]]:
     return quant_col, qual_col
 
 
+
 def num_to_categorical(data: pd.DataFrame, col: List[str]) -> pd.DataFrame:
     """
     The function returns a dataframe with the columns transformed into an "object". 
@@ -131,9 +136,7 @@ def num_to_categorical(data: pd.DataFrame, col: List[str]) -> pd.DataFrame:
     return data
 
 
-# --------------------- #
-# missing, zeros and duplicates 
-# --------------------- #
+
 def missing(data: pd.DataFrame) -> Tuple[List[str], List[str], List[str]]:
     """
     The function display the following elements:
@@ -151,7 +154,10 @@ def missing(data: pd.DataFrame) -> Tuple[List[str], List[str], List[str]]:
     
     Example:
         >>> import edamame.eda as eda
-        >>> nan_quant, nan_qual, zero_col = eda.missing(data)
+        >>> import pandas as pd
+        >>> import numpy as np 
+        >>> df = pd.DataFrame({'category': ['0', '1', '0', '1', np.nan], 'value': [1, 2, 3, 4, np.nan]})
+        >>> nan_quant, nan_qual, zero_col = eda.missing(df)
     """
     # dataframe control step 
     dataframe_review(data)
@@ -240,6 +246,7 @@ def missing(data: pd.DataFrame) -> Tuple[List[str], List[str], List[str]]:
     return nan_quant, nan_qual, zero_col
 
 
+
 # missing_cal = np.nan or 0 or other values
 def handling_missing(data: pd.DataFrame, col: List[str], missing_val: Union[float, int] = np.nan, method: List[str] = []) -> pd.DataFrame:
     """
@@ -256,6 +263,10 @@ def handling_missing(data: pd.DataFrame, col: List[str], missing_val: Union[floa
 
     Example:
         >>> import edamame.eda as eda
+        >>> import pandas as pd
+        >>> import numpy as np 
+        >>> df = pd.DataFrame({'category': ['0', '1', '0', '1', np.nan], 'value': [1, 2, 3, 4, np.nan], 'value_2': [-1,-2,0,0,0]})
+        >>> nan_quant, nan_qual, zero_col = eda.missing(df)
         >>> df = eda.handling_missing(df, col = nan_quant, missing_val = np.nan, method = ['mean']*len(nan_quant)) # handle NaN for numerical columns
         >>> df = eda.handling_missing(df, col = nan_qual, missing_val=np.nan, method=['most_frequent']*len(nan_qual)) # handle NaN for categorical columns
         >>> df = eda.handling_missing(df, col = zero_col, missing_val=0, method=['mean']*len(zero_col)) # handle O for columns with too many zeros 
@@ -293,11 +304,7 @@ def handling_missing(data: pd.DataFrame, col: List[str], missing_val: Union[floa
 
 
 
-
-# --------------------- #
-# fast drop columns
-# --------------------- #
-def drop_columns(data, col: list[str]):
+def drop_columns(data: pd.DataFrame, col: List[str]):
     """
     The function returns a pandas dataframe with the columns selected dropped.
 
@@ -318,27 +325,25 @@ def drop_columns(data, col: list[str]):
     for _,colname in enumerate(col):
         data = data.drop(colname, axis=1)
     return data
-# test 
-#train = drop_column(train_df, col = ['Name', 'Cabin', 'PassengerId', 'Ticket'])
 
 
 
-# --------------------- #
-# plot categorical columns 
-# --------------------- #
-def plot_categorical(data, col: list[str]) -> None:
+def plot_categorical(data: pd.DataFrame, col: List[str]) -> None:
     """
     The function returns a sequence of tables and plots.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col: list[str]
-        A list of string containing the names of columns to plot
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of string containing the names of columns to plot.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+    
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4], 'type': [0,1,0,1]})
+        >>> num_col, qual_col = eda.variables_type(df)
+        >>> eda.plot_categorical(df, qual_col)
     """
     # dataframe check 
     dataframe_review(data)
@@ -373,30 +378,25 @@ def plot_categorical(data, col: list[str]) -> None:
             plt.show()
         print('\n')
 
-# test 
-#quant_col, qual_col = variables_type(data_test)
-#plot_categorical(data_test, qual_col)
 
 
-
-# --------------------- #
-# plot quantitative columns 
-# --------------------- #
-def plot_numerical(data, col: list[str], bins: int = 50) -> None:
+def plot_numerical(data: pd.DataFrame, col: List[str], bins: int = 50) -> None:
     """
     The function returns a sequence of tables and plots.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col: list[str]
-        A list of string containing the names of columns to plot.
-    bins: int 
-        Number of bins to use in the histogram plot. 
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of string containing the names of columns to plot.
+        bins (int): Number of bins to use in the histogram plot. 
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+    
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4], 'type': [0,1,0,1]})
+        >>> num_col, qual_col = eda.variables_type(df)
+        >>> eda.plot_numerical(df, num_col, bins = 100)
     """
     # dataframe check 
     dataframe_review(data)
@@ -424,27 +424,25 @@ def plot_numerical(data, col: list[str], bins: int = 50) -> None:
         # Remove x axis name for the boxplot
         ax_box.set(xlabel='')
         plt.show()
-# test 
-#quant_col, qual_col = variables_type(data_test)
-#plot_quantitative(data_test, quant_col, bins = 100)
 
 
-# --------------------- #
-# view cardinalities of columns 
-# --------------------- #
-def view_cardinality(data, col: list[str]) -> None:
+
+def view_cardinality(data: pd.DataFrame, col: List[str]) -> None:
     """
     The function especially helps study the cardinalities of the categorical variables.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col: list[str]
-        A list of strings containing the names of columns for which we want to show the number of unique values.  
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of strings containing the names of columns for which we want to show the number of unique values.  
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B'], 'value': [1, 2, 3, 4], 'type': [0,1,0,1]})
+        >>> num_col, qual_col = eda.variables_type(df)
+        >>> eda.view_cardinality(df, qual_col)
     """
     dataframe_review(data)
     # dataframe of the cardinalities 
@@ -452,30 +450,25 @@ def view_cardinality(data, col: list[str]) -> None:
     cardinality['columns'] = col
     cardinality['cardinality'] = [data[col[i]].value_counts().count() for i in range(len(col))]
     display(Markdown(cardinality.to_markdown(index=False)))
-    
-# test 
-#quant_col, qual_col = variables_type(data_test)
-#view_cardinality(data_test, qual_col)
 
 
-# --------------------- #
-# modify cardinalities of categorical columns 
-# --------------------- #
-def modify_cardinality(data, col: list[str], threshold: list[int]):
+
+def modify_cardinality(data: pd.DataFrame, col: list[str], threshold: list[int]) -> pd.DataFrame:
     """
     The function returns a pandas dataframe with the cardinalities of the columns selected modified.
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    col: list[str] 
-        A list of strings containing the names of columns for which we want to modify the cardinalities.
-    threshold: list[int]
-        A list of integer values containing the threshold values for every variable.
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        col (List[str]): A list of strings containing the names of columns for which we want to modify the cardinalities.
+        threshold (List[int]): A list of integer values containing the threshold values for every variable.
 
-    Returns
-    ----------
-    pandas.core.frame.DataFrame
+    Returns:
+        pd.DataFrame
+    
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'type': [0,1,0,1,0,1]})
+        >>> df = eda.modify_cardinality(data_cpy, col = ['category'], threshold=[3])
     """
     # dataframe check 
     dataframe_review(data)
@@ -492,7 +485,7 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
     #display(Markdown(cardinality.to_markdown()))
     for i, colname in enumerate(col):
         listCat = data[colname].value_counts()
-        listCat = list(listCat[listCat > threshold[i]].index)
+        listCat = list(listCat[listCat >= threshold[i]].index)
         data.loc[~data.loc[:,colname].isin(listCat), colname] = "Other"
     # add new cardinalities 
     cardinality['new_cardinalities'] = [data[col[i]].value_counts().count() for i in range(len(col))]
@@ -501,28 +494,25 @@ def modify_cardinality(data, col: list[str], threshold: list[int]):
     # return step 
     return data
 
-# test 
-#data_cpy = data_test.copy()
-#modify_cardinality(data_cpy, col = ['SellerG','Suburb'], threshold=[400,200])
 
 
-# --------------------- #
-# correlation pearson (quantitative colum)
-# --------------------- #
 # correlation coefficients for numerical variables (Pearson, Kendall, Spearman)
-def correlation_pearson(data, threshold: float = 0.) -> None:
+def correlation_pearson(data: pd.DataFrame, threshold: float = 0.) -> None:
     """
     The function performs the Pearson's correlation between the columns pairs. 
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    threshold: float
-        Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. 
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        threshold (float): Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. 
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example: 
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'type': [0,1,0,1,0,1]})
+        >>> num_col, qual_col = eda.variables_type(df)
+        >>> eda.correlation_pearson(df, num_col)
     """
     # dataframe check 
     dataframe_review(data)
@@ -539,25 +529,22 @@ def correlation_pearson(data, threshold: float = 0.) -> None:
         corr_mtr = corr_mtr[(corr_mtr.iloc[:,:]>threshold) | (corr_mtr.iloc[:,:]<-threshold)]
         display(corr_mtr)
 
-# test
-#quant_col, qual_col = variables_type(data_cpy)
-#correlation(data_cpy, quant_col)
 
 
-# --------------------- #
-# correlation categorical (chisq test p-values)
-# --------------------- #
-def correlation_categorical(data) -> None:
+def correlation_categorical(data: pd.DataFrame) -> None:
     """
     The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'category_2': ['A2', 'A2', 'B2', 'B2', 'A2', 'B2']})
+        >>> eda.correlation_categorical(df)
     """
     # dataframe check 
     dataframe_review(data)
@@ -591,27 +578,24 @@ def correlation_categorical(data) -> None:
     # display 
     display(chi_test_output)
 
-# test   
-#correlation_categorical(data_cpy)
 
 
-# --------------------- #
-# correlation phik (quantitative and categorical columns)
-# --------------------- #
 # https://towardsdatascience.com/phik-k-get-familiar-with-the-latest-correlation-coefficient-9ba0032b37e7
-def correlation_phik(data, theory: bool = False) -> None:
+def correlation_phik(data: pd.DataFrame, theory: bool = False) -> None:
     """
     Paper link: https://arxiv.org/pdf/1811.11440.pdf
 
-    Parameters
-    ----------
-    data: pandas.core.frame.DataFrame
-    theory: bool
-        A boolean value for displaying insight into the theory of the Phik correlation index. By default is set to False.
+    Args:
+        data (pd.DataFrame): A pandas DataFrame passed in input.
+        theory (bool): A boolean value for displaying insight into the theory of the Phik correlation index. By default is set to False.
 
-    Returns
-    ----------
-    None
+    Returns:
+        None
+
+    Example:
+        >>> import edamame.eda as eda
+        >>> df = pd.DataFrame({'category': ['A', 'B', 'A', 'B', 'C', 'A'], 'value': [1, 2, 3, 4, 4, 5], 'category_2': ['A2', 'A2', 'B2', 'B2', 'A2', 'B2']})
+        >>> eda.correlation_phik(df, theory=True)
     """
     # dataframe check 
     dataframe_review(data)
@@ -637,15 +621,9 @@ def correlation_phik(data, theory: bool = False) -> None:
         display(Markdown(string),Markdown(string2),Markdown(string3), Markdown(string4), Markdown(string5))
     else:
         pass
-        
-# test 
-#correlation_phik(train_df, theory= True)
 
 
 
-# --------------------- #
-# Study distribution of a quatitative variable
-# --------------------- #
 def __num_plot(data, col, bins) -> None:
     # figure dim
     plt.figure(figsize = (22, 12))
