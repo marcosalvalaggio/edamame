@@ -1,4 +1,3 @@
-#TODO - aggiungere al residual_plot l'opzione per il qqplot 
 #TODO - aggiungere se fattibili il plot per la cook distance
 
 import pandas as pd 
