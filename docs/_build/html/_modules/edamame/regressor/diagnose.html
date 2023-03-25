@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>edamame.regressor.diagnose &#8212; Test-Doc 0.0.1 documentation</title>
+    <title>edamame.regressor.diagnose &#8212; Edamame 0.45 documentation</title>
   
   
   
@@ -114,7 +114,7 @@
   
   
   
-    <p class="title logo__title">Test-Doc 0.0.1 documentation</p>
+    <p class="title logo__title">Edamame 0.45 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -296,14 +296,6 @@ document.write(`
 <span class="sd">        X_test (pd.DataFrame): The input test data.</span>
 <span class="sd">        y_test (pd.Series): The target test data.</span>
 
-<span class="sd">    Methods:</span>
-<span class="sd">        coefficients: Display coefficients for Linear, Lasso, and Ridge model.</span>
-<span class="sd">        random_forest_fi: The function displays the feature importance plot. </span>
-<span class="sd">        xgboost_fi: The function displays the feature importance plot.</span>
-<span class="sd">        prediction_error: Define a scatterpolot with ygt and ypred of the model passed.</span>
-<span class="sd">        residual_plot:  Residual plot for train and test data.</span>
-<span class="sd">        qqplot: QQplot for train and test data.</span>
-
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; from edamame.regressor import TrainRegressor, Diagnose</span>
 <span class="sd">        &gt;&gt;&gt; regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))</span>
@@ -315,18 +307,6 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; diagnose.qqplot(model=linear)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the Diagnose object with training and test data.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            X_train (pd.DataFrame): The input training data.</span>
-<span class="sd">            y_train (pd.Series): The target training data.</span>
-<span class="sd">            X_test (pd.DataFrame): The input test data.</span>
-<span class="sd">            y_test (pd.Series): The target test data.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span>

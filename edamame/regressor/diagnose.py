@@ -60,14 +60,6 @@ class Diagnose:
         X_test (pd.DataFrame): The input test data.
         y_test (pd.Series): The target test data.
 
-    Methods:
-        coefficients: Display coefficients for Linear, Lasso, and Ridge model.
-        random_forest_fi: The function displays the feature importance plot. 
-        xgboost_fi: The function displays the feature importance plot.
-        prediction_error: Define a scatterpolot with ygt and ypred of the model passed.
-        residual_plot:  Residual plot for train and test data.
-        qqplot: QQplot for train and test data.
-
     Example:
         >>> from edamame.regressor import TrainRegressor, Diagnose
         >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
