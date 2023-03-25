@@ -101,9 +101,7 @@ def dummy_control(data: pd.DataFrame) -> None:
         pass
 
 
-# ----------------- #
-#  pandas dataframe check
-# ----------------- #
+
 def dataframe_review(data: pd.DataFrame) -> None:
     """
     The function checks if the object passed is a Pandas dataframe.
@@ -113,7 +111,7 @@ def dataframe_review(data: pd.DataFrame) -> None:
 
     Raises:
         TypeError: If the input DataFrame contains non-numerical columns.
-        
+
     Returns:
         None
     """
