@@ -52,8 +52,46 @@ def check_xgboost(model: xgb.XGBRegressor) -> None:
 
 
 class Diagnose:
+    """
+    A class for diagnosing regression models.
 
-    def __init__(self, X_train, y_train, X_test, y_test):
+    Attributes:
+        X_train (pd.DataFrame): The input training data.
+        y_train (pd.Series): The target training data.
+        X_test (pd.DataFrame): The input test data.
+        y_test (pd.Series): The target test data.
+
+    Methods:
+        coefficients: Display coefficients for Linear, Lasso, and Ridge model.
+        random_forest_fi: The function displays the feature importance plot. 
+        xgboost_fi: The function displays the feature importance plot.
+        prediction_error: Define a scatterpolot with ygt and ypred of the model passed.
+        residual_plot:  Residual plot for train and test data.
+        qqplot: QQplot for train and test data.
+
+    Example:
+        >>> from edamame.regressor import TrainRegressor, Diagnose
+        >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+        >>> linear = regressor.linear()
+        >>> diagnose = Diagnose(X_train, np.log(y_train), X_test, np.log(y_test))
+        >>> diagnose.coefficients()
+        >>> diagnose.prediction_error(model=linear)
+        >>> diagnose.residual_plot(model=linear)
+        >>> diagnose.qqplot(model=linear)
+    """
+    def __init__(self, X_train: pd.DataFrame, y_train: pd.DataFrame, X_test: pd.DataFrame, y_test: pd.DataFrame) -> None:
+        """
+        Initializes the Diagnose object with training and test data.
+
+        Args:
+            X_train (pd.DataFrame): The input training data.
+            y_train (pd.Series): The target training data.
+            X_test (pd.DataFrame): The input test data.
+            y_test (pd.Series): The target test data.
+
+        Returns:
+            None
+        """
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
@@ -153,7 +191,7 @@ class Diagnose:
 
     def residual_plot(self, model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]) -> None:
         """
-        Residual plot for train and test data
+        Residual plot for train and test data.
 
         Args:
             model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model. 
