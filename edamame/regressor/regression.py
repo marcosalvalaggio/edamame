@@ -13,7 +13,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, g
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
 from edamame.eda.tools import dataframe_review, dummy_control, setup
-from typing import Tuple, List
+from typing import Tuple, List, Literal
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -246,7 +246,18 @@ class TrainRegressor:
     # ------------ #
     # model metrics
     # ------------ #
-    def model_metrics(self, model_name: str = 'all'):
+    def model_metrics(self, model_name: Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"] = 'all') -> None:
+        """
+        Displays the metrics of a trained regression model. The metrics displayed are R2, MSE, and MAE for both the training
+        and test sets.
+
+        Args:
+            model_name: The name of the model to display metrics for. Can be one of 'all', 'linear', 'lasso', 'ridge', 'tree',
+                        'random_forest', or 'xgboost'. Defaults to 'all'.
+
+        Returns:
+            None
+        """
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__linear_fit, self.__lasso_fit, self.__ridge_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
@@ -299,7 +310,18 @@ class TrainRegressor:
     # ------------ #
     # auto_ml
     # ------------ #
-    def auto_ml(self, n_folds: int = 5, data: str = 'train'):
+    def auto_ml(self, n_folds: int = 5, data: Literal['train', 'test'] = 'train') -> List:
+        """
+        Perform automated machine learning with cross validation on a list of regression models.
+        
+        Args:
+            n_folds (int, optional): Number of cross-validation folds. Defaults to 5.
+            data (Literal['train', 'test'], optional): Target dataset for cross-validation. 
+                Must be either 'train' or 'test'. Defaults to 'train'.
+        
+        Returns:
+            List: List of best-fit regression models for each algorithm.
+        """
         kfold = KFold(n_splits=n_folds)
         cv_mean = []
         score = []
