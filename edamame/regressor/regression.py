@@ -252,7 +252,7 @@ class TrainRegressor:
         and test sets.
 
         Args:
-            model_name: The name of the model to display metrics for. Can be one of 'all', 'linear', 'lasso', 'ridge', 'tree',
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): The name of the model to display metrics for. Can be one of 'all', 'linear', 'lasso', 'ridge', 'tree',
                         'random_forest', or 'xgboost'. Defaults to 'all'.
 
         Returns:
@@ -315,8 +315,8 @@ class TrainRegressor:
         Perform automated machine learning with cross validation on a list of regression models.
         
         Args:
-            n_folds (int, optional): Number of cross-validation folds. Defaults to 5.
-            data (Literal['train', 'test'], optional): Target dataset for cross-validation. 
+            n_folds (int): Number of cross-validation folds. Defaults to 5.
+            data (Literal['train', 'test']): Target dataset for cross-validation. 
                 Must be either 'train' or 'test'. Defaults to 'train'.
         
         Returns:
