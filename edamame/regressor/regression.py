@@ -13,7 +13,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, g
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
 from edamame.eda.tools import dataframe_review, dummy_control, setup
-from typing import Tuple, List, Literal
+from typing import Tuple, List, Literal, Union
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -376,7 +376,17 @@ class TrainRegressor:
     # ------------ #
     # save model
     # ------------ #
-    def save_model(self, model_name: str = 'all'):
+    def save_model(self, model_name: Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"] = 'all') -> None:
+        """
+        Saves the specified machine learning model or all models in the instance to a pickle file.
+
+        Args:
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"], optional): 
+                The name of the model to save. Defaults to 'all'.
+            
+        Returns:
+            None
+        """
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__linear_fit, self.__lasso_fit, self.__ridge_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
@@ -401,7 +411,18 @@ class TrainRegressor:
 # ----------------- #
 # view model metrics on data passed
 # ----------------- #
-def regression_metrics(model, X, y):
+def regression_metrics(model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor], X: pd.DataFrame, y: pd.DataFrame) -> None:
+        """
+        Compute and display the regression metrics R2, MSE and MAE of the input model.
+    
+        Args:
+            model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): Regression model.
+            X (pd.DataFrame): Input features.
+            y (pd.DataFrame): Target feature.
+        
+        Returns:
+            None
+        """
         # dataframe check
         dataframe_review(X)
         dummy_control(X)
