@@ -13,6 +13,7 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, g
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
 from edamame.eda.tools import dataframe_review, dummy_control, setup
+from typing import Tuple, List
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -30,8 +31,34 @@ pd.set_option('display.max_colwidth', None)
 # REGRESSOR CLASS
 # ----------------- #
 class TrainRegressor:
+    """
+    This class represents a pipeline for training and handling regression models.
+
+    Attributes: 
+        X_train (pd.DataFrame): The input training data.
+        y_train (pd.Series): The target training data.
+        X_test (pd.DataFrame): The input test data.
+        y_test (pd.Series): The target test data.
+
+    Example: 
+        >>> from edamame.regressor import TrainRegressor, Diagnose
+        >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+        >>> linear = regressor.linear()
+        >>> regressor.model_metrics(model_name="linear")
+        >>> regressor.save_model(model_name="linear")
+        >>> lasso = regressor.lasso()
+        >>> ridge = regressor.ridge()
+        >>> tree = regressor.tree()
+        >>> rf = regressor.random_forest()
+        >>> xgb = regressor.xgboost()
+        >>> regressor.model_metrics()
+        >>> # using AutoML
+        >>> models = regressor.auto_ml()
+        >>> regressor.model_metrics()
+        >>> regressor.save_model()
+    """
     
-    def __init__(self, X_train, y_train, X_test, y_test):
+    def __init__(self, X_train: pd.DataFrame, y_train: pd.DataFrame, X_test, y_test):
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
@@ -54,7 +81,13 @@ class TrainRegressor:
     # ------------ #
     # linear model
     # ------------ #
-    def linear(self):
+    def linear(self) -> LinearRegression:
+        """
+        Train a linear regression model using the training data and return the fitted model.
+
+        Returns:
+            LinearRegression: The trained linear regression model.
+        """
         linear = LinearRegression()
         linear.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -66,7 +99,17 @@ class TrainRegressor:
     # ------------ #
     # Lasso model
     # ------------ #
-    def lasso(self, alpha: list[float, float, int] = [0.0001, 10., 50],  n_folds: int = 5):
+    def lasso(self, alpha: Tuple[float, float, int] = (0.0001, 10., 50), n_folds: int = 5) -> Lasso:
+        """
+        Train a Lasso regression model using the training data and return the fitted model.
+
+        Args:
+            alpha (Tuple[float, float, int]): The range of alpha values to test for hyperparameter tuning. Default is (0.0001, 10., 50).
+            n_folds (int): The number of cross-validation folds to use for hyperparameter tuning. Default is 5.
+
+        Returns:
+            Lasso: The trained Lasso regression model.
+        """
         # lasso hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         # hyperparameter gridsearch
@@ -83,7 +126,17 @@ class TrainRegressor:
     # ------------ #
     # Ridge model
     # ------------ #
-    def ridge(self, alpha: list[float, float, int] = [0.1, 50, 50], n_folds: int = 5):
+    def ridge(self, alpha: Tuple[float, float, int] = (0.1, 50., 50), n_folds: int = 5) -> Ridge:
+        """
+        Train a Ridge regression model using the training data and return the fitted model.
+
+        Args:
+            alpha (Tuple[float, float, int]): The range of alpha values to test for hyperparameter tuning. Default is (0.1, 50, 50).
+            n_folds (int): The number of cross-validation folds to use for hyperparameter tuning. Default is 5.
+
+        Returns:
+            Ridge: The trained Ridge regression model.
+        """
         # ridge hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         # hyperparameter gridsearch
@@ -100,8 +153,25 @@ class TrainRegressor:
     # ------------ #
     # TREE model
     # ------------ #
-    def tree(self, alpha: list[float, float, int] = [0, 0.001, 5], impurity: list = [0, 0.00001, 5],
-             n_folds: int = 5):
+    def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5),
+            n_folds: int = 5) -> DecisionTreeRegressor:
+        """
+        Fits a decision tree regression model using the provided training data and hyperparameters.
+
+        Args:
+            alpha (Tuple[float, float, int]): A tuple specifying the range of values to use for the ccp_alpha 
+                hyperparameter. The range is given as a tuple (start, stop, num), where `start` is the start
+                of the range, `stop` is the end of the range, and `num` is the number of values to generate
+                within the range. Defaults to (0., 0.001, 5).
+            impurity (Tuple[float, float, int]): A tuple specifying the range of values to use for the 
+                min_impurity_decrease hyperparameter. The range is given as a tuple (start, stop, num), where 
+                `start` is the start of the range, `stop` is the end of the range, and `num` is the number of 
+                values to generate within the range. Defaults to (0., 0.00001, 5).
+            n_folds (int): The number of folds to use for cross-validation. Defaults to 5.
+
+        Returns:
+            DecisionTreeRegressor: The fitted decision tree regressor model.
+        """
         # hyperparameters gridsearch
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
@@ -118,7 +188,18 @@ class TrainRegressor:
     # ------------ #
     # Random forest
     # ------------ #
-    def random_forest(self, n_estimators: list[int, int, int] = [50, 1000, 5], n_folds: int = 2):
+    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestRegressor:
+        """
+        Trains a Random Forest regression model on the training data and returns the best estimator found by GridSearchCV.
+
+        Args:
+            n_estimators (Tuple[int, int, int]): A tuple of integers specifying the minimum and maximum number of trees
+                to include in the forest, and the step size between them.
+            n_folds (int): The number of cross-validation folds to use when evaluating models.
+
+        Returns:
+            RandomForestRegressor: The best Random Forest model found by GridSearchCV.
+        """
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestRegressor(warm_start=True, n_jobs=-1)
@@ -133,7 +214,23 @@ class TrainRegressor:
     # ------------ #
     # Xgboost
     # ------------ #
-    def xgboost(self, n_estimators: list[int, int, int] = [10, 100, 5], n_folds: int = 2):
+    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2) -> xgb.XGBRegressor:
+        """
+        Trains an XGBoost model using the specified hyperparameters.
+
+        Args:
+            n_estimators (Tuple[int, int, int]): A tuple containing the start, end and step values for number of estimators.
+                Default is (10, 100, 5).
+            n_folds (int): The number of folds to use in the cross-validation process. Default is 2.
+
+        Returns:
+            xgb.XGBRegressor: The trained XGBoost model.
+
+        Example:
+            >>> from my_module import MyModel
+            >>> model = MyModel()
+            >>> model.xgboost(n_estimators=(10, 200, 10), n_folds=5)
+        """
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
         xgb_m = xgb.XGBRegressor(objective ='reg:squarederror')
@@ -143,6 +240,7 @@ class TrainRegressor:
         self.__xgb_fit = reg_xgb.best_estimator_
         # return step 
         return self.__xgb_fit
+
 
 
     # ------------ #
