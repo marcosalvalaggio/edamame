@@ -1,4 +1,3 @@
-#TODO - add SVM 
 #TODO - add parameteres "verbose" for logging message like unable to print/save
 
 import numpy as np
@@ -22,14 +21,7 @@ pd.set_option('display.max_colwidth', None)
 # list of metrics
 #get_scorer_names()
 
-# ----------------- #
-# DUBBI/RIFLESSIONI 
-# riflettere se mettere i modelli come membri privati/protetti della classe 
-# ----------------- #
 
-# ----------------- #
-# REGRESSOR CLASS
-# ----------------- #
 class TrainRegressor:
     """
     This class represents a pipeline for training and handling regression models.
@@ -41,7 +33,7 @@ class TrainRegressor:
         y_test (pd.Series): The target test data.
 
     Example: 
-        >>> from edamame.regressor import TrainRegressor, Diagnose
+        >>> from edamame.regressor import TrainRegressor
         >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
         >>> linear = regressor.linear()
         >>> regressor.model_metrics(model_name="linear")
@@ -57,7 +49,6 @@ class TrainRegressor:
         >>> regressor.model_metrics()
         >>> regressor.save_model()
     """
-    
     def __init__(self, X_train: pd.DataFrame, y_train: pd.DataFrame, X_test, y_test):
         self.X_train = X_train
         self.y_train = y_train
@@ -78,15 +69,17 @@ class TrainRegressor:
         self.__xgb_fit = {}
 
 
-    # ------------ #
-    # linear model
-    # ------------ #
     def linear(self) -> LinearRegression:
         """
         Train a linear regression model using the training data and return the fitted model.
 
         Returns:
             LinearRegression: The trained linear regression model.
+        
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> linear = regressor.linear()
         """
         linear = LinearRegression()
         linear.fit(self.X_train, self.y_train.squeeze())
@@ -96,9 +89,6 @@ class TrainRegressor:
         return self.__linear_fit
 
 
-    # ------------ #
-    # Lasso model
-    # ------------ #
     def lasso(self, alpha: Tuple[float, float, int] = (0.0001, 10., 50), n_folds: int = 5) -> Lasso:
         """
         Train a Lasso regression model using the training data and return the fitted model.
@@ -123,9 +113,6 @@ class TrainRegressor:
         return self.__lasso_fit
 
 
-    # ------------ #
-    # Ridge model
-    # ------------ #
     def ridge(self, alpha: Tuple[float, float, int] = (0.1, 50., 50), n_folds: int = 5) -> Ridge:
         """
         Train a Ridge regression model using the training data and return the fitted model.
@@ -150,9 +137,6 @@ class TrainRegressor:
         return self.__ridge_fit
     
     
-    # ------------ #
-    # TREE model
-    # ------------ #
     def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5),
             n_folds: int = 5) -> DecisionTreeRegressor:
         """
@@ -185,9 +169,6 @@ class TrainRegressor:
         return self.__tree_fit
 
 
-    # ------------ #
-    # Random forest
-    # ------------ #
     def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestRegressor:
         """
         Trains a Random Forest regression model on the training data and returns the best estimator found by GridSearchCV.
@@ -211,9 +192,6 @@ class TrainRegressor:
         return self.__random_forest_fit
 
 
-    # ------------ #
-    # Xgboost
-    # ------------ #
     def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2) -> xgb.XGBRegressor:
         """
         Trains an XGBoost model using the specified hyperparameters.
@@ -242,10 +220,6 @@ class TrainRegressor:
         return self.__xgb_fit
 
 
-
-    # ------------ #
-    # model metrics
-    # ------------ #
     def model_metrics(self, model_name: Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"] = 'all') -> None:
         """
         Displays the metrics of a trained regression model. The metrics displayed are R2, MSE, and MAE for both the training
@@ -307,9 +281,6 @@ class TrainRegressor:
                 display(metrics)
 
 
-    # ------------ #
-    # auto_ml
-    # ------------ #
     def auto_ml(self, n_folds: int = 5, data: Literal['train', 'test'] = 'train') -> List:
         """
         Perform automated machine learning with cross validation on a list of regression models.
@@ -373,9 +344,6 @@ class TrainRegressor:
         return [self.__linear_fit, self.__lasso_fit, self.__ridge_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
 
 
-    # ------------ #
-    # save model
-    # ------------ #
     def save_model(self, model_name: Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"] = 'all') -> None:
         """
         Saves the specified machine learning model or all models in the instance to a pickle file.
@@ -408,9 +376,6 @@ class TrainRegressor:
 
 
 
-# ----------------- #
-# view model metrics on data passed
-# ----------------- #
 def regression_metrics(model: Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor], X: pd.DataFrame, y: pd.DataFrame) -> None:
         """
         Compute and display the regression metrics R2, MSE and MAE of the input model.

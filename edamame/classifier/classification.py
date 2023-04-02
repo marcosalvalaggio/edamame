@@ -1,3 +1,5 @@
+#TODO - add SVM method
+
 import numpy as np
 import pandas as pd
 from  edamame.eda.tools import dataframe_review, dummy_control
@@ -21,7 +23,20 @@ pd.set_option('display.max_colwidth', None)
 
 
 class TrainClassifier:
+    """
+    This class represents a pipeline for training and handling classification models.
 
+    Attributes: 
+        X_train (pd.DataFrame): The input training data.
+        y_train (pd.Series): The target training data.
+        X_test (pd.DataFrame): The input test data.
+        y_test (pd.Series): The target test data.
+        
+    Example:
+        >>> from edamame.classifier import TrainClassifier
+        >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+        >>> logistic = classifier.logistic()
+    """
     def __init__(self, X_train, y_train, X_test, y_test):
         self.X_train = X_train
         self.y_train = y_train
@@ -41,10 +56,19 @@ class TrainClassifier:
         self.__random_forest_fit = {}
         self.__xgb_fit = {}
 
-    # ------------ #
-    # logistic model
-    # ------------ #
-    def logistic(self):
+
+    def logistic(self) -> LogisticRegression:
+        """
+        Trains a logistic regression model using the training data and returns the fitted model.
+
+        Returns:
+            LogisticRegression: The trained logistic regression model.
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> logistic = classifier.logistic()
+        """
         logistic = LogisticRegression()
         logistic.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -53,10 +77,18 @@ class TrainClassifier:
         return self.__logistic_fit
 
 
-    # ------------ #
-    # Naive gaussian Bayes
-    # ------------ #
-    def gaussian_nb(self):
+    def gaussian_nb(self) -> GaussianNB:
+        """
+        Trains a Gaussian Naive Bayes classifier using the training data and returns the fitted model.
+
+        Returns:
+            GaussianNB: The trained Gaussian Naive Bayes classifier.
+        
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> nb = classifier.gaussian_nb()
+        """
         gauss_nb = GaussianNB()
         gauss_nb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes

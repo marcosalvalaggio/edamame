@@ -50,7 +50,7 @@ def check_xgboost(model: xgb.XGBRegressor) -> None:
         raise TypeError('The model passed isn\'t an xgboost')
 
 
-class Diagnose:
+class RegressorDiagnose:
     """
     A class for diagnosing regression models.
 
