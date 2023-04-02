@@ -16,6 +16,7 @@ import seaborn as sns
 import pickle
 from IPython.display import display, Markdown
 import matplotlib.pyplot as plt 
+from typing import Tuple, List
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -100,7 +101,26 @@ class TrainClassifier:
     # ------------ #
     # KNN
     # ------------ #
-    def knn(self, n_neighbors: int = [1, 50, 50], n_folds: int = 5):
+    def knn(self, n_neighbors: Tuple[int, int, int] = (1, 50, 50), n_folds: int = 5) -> KNeighborsClassifier:
+        """
+        Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the
+        best value of 'n_neighbors' hyperparameter. 
+
+        Args:
+            n_neighbors (Tuple[int, int, int]): A tuple with three integers. The first and second integers are the range of the 
+                'n_neighbors' hyperparameter that will be searched by the grid search, and the third integer is the 
+                number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. Default is [1, 50, 50].
+            n_folds (int): The number of cross-validation folds to use for the grid search. Default is 5.
+
+        Returns:
+            KNeighborsClassifier: The trained k-Nearest Neighbors classification model with the best 'n_neighbors' 
+                hyperparameter found by the grid search. 
+        
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> nb = classifier.knn(n_neighbors=(1,50,50), n_folds=3) 
+        """
         n_n = np.linspace(n_neighbors[0], n_neighbors[1], n_neighbors[2]).astype(np.int32)
         knn = KNeighborsClassifier()
         tuned_parameters = [{"n_neighbors": n_n}]
@@ -112,10 +132,23 @@ class TrainClassifier:
         return self.__knn_fit
 
 
-    # ------------ #
-    # Tree
-    # ------------ #
-    def tree(self, n_folds: int = 5, alpha: list[float, float, int] = [0, 0.001, 5], impurity: list = [0, 0.00001, 5]):
+    def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5), n_folds: int = 5) -> DecisionTreeClassifier:
+        """
+        Trains a decision tree classifier using the training data and returns the fitted model.
+    
+        Args:
+            alpha (Tuple[float, float, int]): A tuple containing the minimum and maximum values of ccp_alpha and the number of values to try (default: (0., 0.001, 5)).
+            impurity (Tuple[float, float, int]): A tuple containing the minimum and maximum values of min_impurity_decrease and the number of values to try (default: (0., 0.00001, 5)).
+            n_folds (int): The number of cross-validation folds to use for grid search (default: 5).
+
+        Returns:
+            DecisionTreeClassifier: The trained decision tree classifier model.
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> nb = classifier.tree(alpha=(0., 0.001, 5), impurity=(0., 0.00001, 5), n_folds=3) 
+        """
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
         tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
@@ -131,7 +164,7 @@ class TrainClassifier:
     # ------------ #
     # Random Forest 
     # ------------ #
-    def random_forest(self, n_estimators: list[int, int, int] = [50, 1000, 5], n_folds: int = 2):
+    def random_forest(self, n_estimators: Tuple(int, int, int) = [50, 1000, 5], n_folds: int = 2) -> RandomForestClassifier:
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)

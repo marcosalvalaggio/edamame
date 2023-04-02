@@ -99,6 +99,11 @@ class TrainRegressor:
 
         Returns:
             Lasso: The trained Lasso regression model.
+
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> lasso = regressor.lasso(alpha=(0.0001, 10., 50), n_folds=5)
         """
         # lasso hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
@@ -123,6 +128,11 @@ class TrainRegressor:
 
         Returns:
             Ridge: The trained Ridge regression model.
+
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> ridge = regressor.ridge(alpha=((0.1, 50., 50), n_folds=5)
         """
         # ridge hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
@@ -155,6 +165,11 @@ class TrainRegressor:
 
         Returns:
             DecisionTreeRegressor: The fitted decision tree regressor model.
+
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> tree = regressor.tree(alpha=(0., 0.001, 5), impurity=(0., 0.00001, 5), n_folds=3)
         """
         # hyperparameters gridsearch
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
