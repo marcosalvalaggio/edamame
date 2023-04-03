@@ -119,7 +119,7 @@ class TrainClassifier:
         Example:
             >>> from edamame.classifier import TrainClassifier
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
-            >>> nb = classifier.knn(n_neighbors=(1,50,50), n_folds=3) 
+            >>> knn = classifier.knn(n_neighbors=(1,50,50), n_folds=3) 
         """
         n_n = np.linspace(n_neighbors[0], n_neighbors[1], n_neighbors[2]).astype(np.int32)
         knn = KNeighborsClassifier()
@@ -147,7 +147,7 @@ class TrainClassifier:
         Example:
             >>> from edamame.classifier import TrainClassifier
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
-            >>> nb = classifier.tree(alpha=(0., 0.001, 5), impurity=(0., 0.00001, 5), n_folds=3) 
+            >>> tree = classifier.tree(alpha=(0., 0.001, 5), impurity=(0., 0.00001, 5), n_folds=3) 
         """
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
@@ -161,10 +161,22 @@ class TrainClassifier:
         return self.__tree_fit
 
 
-    # ------------ #
-    # Random Forest 
-    # ------------ #
     def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestClassifier:
+        """
+        Train a Random Forest classifier using the training data and return the fitted model.
+
+        Args:
+            n_estimators (Tuple[int, int, int]): The range of the number of trees in the forest. Default is (50, 1000, 5).
+            n_folds (int): The number of folds in cross-validation. Default is 2.
+
+        Returns:
+            RandomForestClassifier: The trained Random Forest classifier.
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> rf = classifier.random_forest(n_estimators=(50, 1000, 5), n_folds=2) 
+        """
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)
@@ -176,10 +188,22 @@ class TrainClassifier:
         return self.__random_forest_fit
 
 
-    # ------------ #
-    # xgboost
-    # ------------ #
-    def xgboost(self, n_estimators: list[int, int, int] = [10, 100, 5], n_folds: int = 2):
+    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2) -> XGBClassifier:
+        """
+        Train an XGBoost classifier using the training data and return the fitted model.
+
+        Args:
+            n_estimators (Tuple[int, int, int]): The range of the number of boosting rounds. Default is (10, 100, 5).
+            n_folds (int): The number of folds in cross-validation. Default is 2.
+
+        Returns:
+            XGBClassifier: The trained XGBoost classifier.
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> xgboost = classifier.xgboost(n_estimators=(10, 100, 5), n_folds=2) 
+        """
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
         xgb_m = XGBClassifier()
