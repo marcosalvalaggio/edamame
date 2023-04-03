@@ -220,9 +220,9 @@ class TrainRegressor:
             xgb.XGBRegressor: The trained XGBoost model.
 
         Example:
-            >>> from my_module import MyModel
-            >>> model = MyModel()
-            >>> model.xgboost(n_estimators=(10, 200, 10), n_folds=5)
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> xgboost = regressor.xgboost(n_estimators=(10, 200, 10), n_folds=5)
         """
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
@@ -246,6 +246,12 @@ class TrainRegressor:
 
         Returns:
             None
+        
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> xgboost = regressor.xgboost(n_estimators=(10, 200, 10), n_folds=5)
+            >>> regressor.model_metrics(model_name="xgboost")
         """
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__linear_fit, self.__lasso_fit, self.__ridge_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]

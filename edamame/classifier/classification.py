@@ -16,7 +16,7 @@ import seaborn as sns
 import pickle
 from IPython.display import display, Markdown
 import matplotlib.pyplot as plt 
-from typing import Tuple, List
+from typing import Tuple, Literal
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -215,10 +215,22 @@ class TrainClassifier:
         return self.__xgb_fit
 
 
-    # ------------ #
-    # model metrics
-    # ------------ #
-    def model_metrics(self, model_name: str = 'all'):
+    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"] = 'all') -> None:
+        """
+        Display classification metrics (confusion matrix and classification report) for specified or all trained models.
+
+        Args:
+            model_name (Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"]): The name of the model to display the metrics for. Defaults to 'all'.
+
+        Returns:
+            None
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> xgboost = classifier.xgboost(n_estimators=(10, 100, 5), n_folds=2) 
+            >>> classifier.model_metrics(model_name="xgboost")
+        """
         model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
