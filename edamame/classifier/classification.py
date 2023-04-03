@@ -164,7 +164,7 @@ class TrainClassifier:
     # ------------ #
     # Random Forest 
     # ------------ #
-    def random_forest(self, n_estimators: Tuple(int, int, int) = [50, 1000, 5], n_folds: int = 2) -> RandomForestClassifier:
+    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestClassifier:
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)

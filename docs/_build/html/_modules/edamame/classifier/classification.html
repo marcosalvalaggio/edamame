@@ -68,7 +68,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for edamame.classifier.classification</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="c1">#TODO - add SVM method</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span>  <span class="nn">edamame.eda.tools</span> <span class="kn">import</span> <span class="n">dataframe_review</span><span class="p">,</span> <span class="n">dummy_control</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -84,6 +86,7 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
 <span class="c1"># pandas options</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.width&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -91,7 +94,20 @@
 
 
 <div class="viewcode-block" id="TrainClassifier"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier">[docs]</a><span class="k">class</span> <span class="nc">TrainClassifier</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents a pipeline for training and handling classification models.</span>
 
+<span class="sd">    Attributes: </span>
+<span class="sd">        X_train (pd.DataFrame): The input training data.</span>
+<span class="sd">        y_train (pd.Series): The target training data.</span>
+<span class="sd">        X_test (pd.DataFrame): The input test data.</span>
+<span class="sd">        y_test (pd.Series): The target test data.</span>
+<span class="sd">        </span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">        &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">        &gt;&gt;&gt; logistic = classifier.logistic()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
@@ -111,10 +127,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__random_forest_fit</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__xgb_fit</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># ------------ #</span>
-    <span class="c1"># logistic model</span>
-    <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.logistic"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.logistic">[docs]</a>    <span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TrainClassifier.logistic"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.logistic">[docs]</a>    <span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LogisticRegression</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains a logistic regression model using the training data and returns the fitted model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LogisticRegression: The trained logistic regression model.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; logistic = classifier.logistic()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logistic</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
         <span class="n">logistic</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
         <span class="c1"># save the model in the instance attributes</span>
@@ -123,10 +148,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logistic_fit</span></div>
 
 
-    <span class="c1"># ------------ #</span>
-    <span class="c1"># Naive gaussian Bayes</span>
-    <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.gaussian_nb"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.gaussian_nb">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_nb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainClassifier.gaussian_nb"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.gaussian_nb">[docs]</a>    <span class="k">def</span> <span class="nf">gaussian_nb</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GaussianNB</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains a Gaussian Naive Bayes classifier using the training data and returns the fitted model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            GaussianNB: The trained Gaussian Naive Bayes classifier.</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; nb = classifier.gaussian_nb()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gauss_nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
         <span class="n">gauss_nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
         <span class="c1"># save the model in the instance attributes</span>
@@ -138,7 +171,26 @@
     <span class="c1"># ------------ #</span>
     <span class="c1"># KNN</span>
     <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.knn"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.knn">[docs]</a>    <span class="k">def</span> <span class="nf">knn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainClassifier.knn"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.knn">[docs]</a>    <span class="k">def</span> <span class="nf">knn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">KNeighborsClassifier</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the</span>
+<span class="sd">        best value of &#39;n_neighbors&#39; hyperparameter. </span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_neighbors (Tuple[int, int, int]): A tuple with three integers. The first and second integers are the range of the </span>
+<span class="sd">                &#39;n_neighbors&#39; hyperparameter that will be searched by the grid search, and the third integer is the </span>
+<span class="sd">                number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. Default is [1, 50, 50].</span>
+<span class="sd">            n_folds (int): The number of cross-validation folds to use for the grid search. Default is 5.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            KNeighborsClassifier: The trained k-Nearest Neighbors classification model with the best &#39;n_neighbors&#39; </span>
+<span class="sd">                hyperparameter found by the grid search. </span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; nb = classifier.knn(n_neighbors=(1,50,50), n_folds=3) </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">n_neighbors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_neighbors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_neighbors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
         <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
         <span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;n_neighbors&quot;</span><span class="p">:</span> <span class="n">n_n</span><span class="p">}]</span>
@@ -150,10 +202,23 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__knn_fit</span></div>
 
 
-    <span class="c1"># ------------ #</span>
-    <span class="c1"># Tree</span>
-    <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.tree"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.tree">[docs]</a>    <span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">impurity</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="mi">5</span><span class="p">]):</span>
+<div class="viewcode-block" id="TrainClassifier.tree"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.tree">[docs]</a>    <span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">impurity</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecisionTreeClassifier</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains a decision tree classifier using the training data and returns the fitted model.</span>
+<span class="sd">    </span>
+<span class="sd">        Args:</span>
+<span class="sd">            alpha (Tuple[float, float, int]): A tuple containing the minimum and maximum values of ccp_alpha and the number of values to try (default: (0., 0.001, 5)).</span>
+<span class="sd">            impurity (Tuple[float, float, int]): A tuple containing the minimum and maximum values of min_impurity_decrease and the number of values to try (default: (0., 0.00001, 5)).</span>
+<span class="sd">            n_folds (int): The number of cross-validation folds to use for grid search (default: 5).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DecisionTreeClassifier: The trained decision tree classifier model.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; nb = classifier.tree(alpha=(0., 0.001, 5), impurity=(0., 0.00001, 5), n_folds=3) </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">impurities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">impurity</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">impurity</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">impurity</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;ccp_alpha&quot;</span><span class="p">:</span> <span class="n">alphas</span><span class="p">,</span> <span class="s1">&#39;min_impurity_decrease&#39;</span><span class="p">:</span> <span class="n">impurities</span><span class="p">}]</span>
@@ -169,7 +234,7 @@
     <span class="c1"># ------------ #</span>
     <span class="c1"># Random Forest </span>
     <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.random_forest"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.random_forest">[docs]</a>    <span class="k">def</span> <span class="nf">random_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_estimators</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainClassifier.random_forest"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.random_forest">[docs]</a>    <span class="k">def</span> <span class="nf">random_forest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_estimators</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RandomForestClassifier</span><span class="p">:</span>
         <span class="n">n_estimators</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">n_estimators</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_estimators</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_estimators</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
         <span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">:</span> <span class="n">n_estimators</span><span class="p">}]</span>
         <span class="n">random_forest</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">warm_start</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
