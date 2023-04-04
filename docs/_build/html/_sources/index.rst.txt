@@ -35,6 +35,10 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **missing**: Check if any missing data is present in the dataset.
    - **handling_missing**: Replace or remove missing values in the dataset.
    - **drop_columns**: Remove specific columns from the dataset.
+   - **num_to_categorical**: The function returns a dataframe with the columns transformed into an "object".
+   - **interaction**: The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
+   - **inspection**: The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.
+   - **split_and_scaling**: The function returns two pandas dataframes: the regressor matrix X contains all the predictors for the model, the series y contains the values of the response variable.
 
 * Descriptive Statistics functions:
 
@@ -48,6 +52,7 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **correlation_pearson**: The function performs the Pearson's correlation between the columns pairs. 
    - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
    - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Papaer link <https://arxiv.org/pdf/1811.11440.pdf>`_).
+
 
 .. toctree::
    :maxdepth: 2
