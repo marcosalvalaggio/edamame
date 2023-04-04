@@ -383,6 +383,11 @@
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            List: List of best-fit regression models for each algorithm.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.regressor import TrainRegressor</span>
+<span class="sd">            &gt;&gt;&gt; regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))</span>
+<span class="sd">            &gt;&gt;&gt; model_list = regressor.auto_ml()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_folds</span><span class="p">)</span>
         <span class="n">cv_mean</span> <span class="o">=</span> <span class="p">[]</span>
@@ -440,11 +445,17 @@
 <span class="sd">        Saves the specified machine learning model or all models in the instance to a pickle file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            model_name (Literal[&quot;all&quot;, &quot;linear&quot;, &quot;lasso&quot;, &quot;ridge&quot;, &quot;tree&quot;, &quot;random_forest&quot;, &quot;xgboost&quot;], optional): </span>
+<span class="sd">            model_name (Literal[&quot;all&quot;, &quot;linear&quot;, &quot;lasso&quot;, &quot;ridge&quot;, &quot;tree&quot;, &quot;random_forest&quot;, &quot;xgboost&quot;]): </span>
 <span class="sd">                The name of the model to save. Defaults to &#39;all&#39;.</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.regressor import TrainRegressor</span>
+<span class="sd">            &gt;&gt;&gt; regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))</span>
+<span class="sd">            &gt;&gt;&gt; model_list = regressor.auto_ml()</span>
+<span class="sd">            &gt;&gt;&gt; regressor.save_model(model_name=&quot;all&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">model_dct</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;linear&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;lasso&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;ridge&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;tree&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;random_forest&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;xgboost&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
         <span class="n">model_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__linear_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lasso_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ridge_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tree_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__random_forest_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xgb_fit</span><span class="p">]</span>

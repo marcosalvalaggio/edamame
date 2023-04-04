@@ -6,13 +6,18 @@
 Welcome to Edamame's documentation!
 ===================================
 
-Edamame is born under the inspiration of the https://github.com/ydataai/pandas-profiling and https://github.com/pycaret/pycaret packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model's battery for regression or classification problems.
+Edamame is born under the inspiration of the `pandas-profiling <https://github.com/ydataai/pandas-profiling>`_ , `pycaret <https://github.com/pycaret/pycaret>`_, and `yellowbrick <https://github.com/DistrictDataLabs/yellowbrick>`_ packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model's battery for regression or classification problems.
 
 To install the package,
 
 ``pip install edamame``
 
 the edamame package works correctly inside a jupyter-notebook.
+
+Edamame functionalities
+=======================
+
+The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively.
 
 .. toctree::
    :maxdepth: 2

@@ -86,7 +86,7 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
 <span class="c1"># pandas options</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.width&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -353,7 +353,23 @@
     <span class="c1"># ------------ #</span>
     <span class="c1"># auto_ml</span>
     <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.auto_ml"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.auto_ml">[docs]</a>    <span class="k">def</span> <span class="nf">auto_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;train&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainClassifier.auto_ml"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.auto_ml">[docs]</a>    <span class="k">def</span> <span class="nf">auto_ml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;train&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform automated machine learning with cross validation on a list of classification models.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            n_folds (int): Number of cross-validation folds. Defaults to 5.</span>
+<span class="sd">            data (Literal[&#39;train&#39;, &#39;test&#39;]): Target dataset for cross-validation. </span>
+<span class="sd">                Must be either &#39;train&#39; or &#39;test&#39;. Defaults to &#39;train&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            List: List of best-fit classification models for each algorithm.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; model_list = classifier.auto_ml()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_folds</span><span class="p">)</span>
         <span class="n">cv_mean</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">score</span> <span class="o">=</span> <span class="p">[]</span>
@@ -406,7 +422,23 @@
     <span class="c1"># ------------ #</span>
     <span class="c1"># save model</span>
     <span class="c1"># ------------ #</span>
-<div class="viewcode-block" id="TrainClassifier.save_model"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainClassifier.save_model"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;logistic&quot;</span><span class="p">,</span> <span class="s2">&quot;guassian_nb&quot;</span><span class="p">,</span> <span class="s2">&quot;knn&quot;</span><span class="p">,</span> <span class="s2">&quot;tree&quot;</span><span class="p">,</span> <span class="s2">&quot;random_forest&quot;</span><span class="p">,</span> <span class="s2">&quot;xgboost&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the specified machine learning model or all models in the instance to a pickle file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_name (Literal[&quot;all&quot;, &quot;linear&quot;, &quot;lasso&quot;, &quot;ridge&quot;, &quot;tree&quot;, &quot;random_forest&quot;, &quot;xgboost&quot;]): </span>
+<span class="sd">                The name of the model to save. Defaults to &#39;all&#39;.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
+<span class="sd">            &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
+<span class="sd">            &gt;&gt;&gt; model_list = classifier.auto_ml()</span>
+<span class="sd">            &gt;&gt;&gt; classifier.save_model(model_name=&quot;all&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">model_dct</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;logistic&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;guassian_nb&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;knn&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;tree&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;random_forest&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;xgboost&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
         <span class="n">model_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__logistic_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__gaussian_nb_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__knn_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tree_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__random_forest_fit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xgb_fit</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
