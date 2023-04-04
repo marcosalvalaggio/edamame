@@ -19,6 +19,36 @@ Edamame functionalities
 
 The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively.
 
+Eda module
+----------
+
+``import edamame.eda as eda``
+
+The **eda** module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The "eda" module offers the following functionalities:
+
+* Data Exploration and Manipulation functions:
+
+   - **dimensions**: The function displays the number of rows and columns of a pandas dataframe passed. 
+   - **identify_types**: Identify the data types of each column.
+   - **view_cardinality**: View the number of unique values in each column.
+   - **modify_cardinality**: Modify the number of unique values in a column.
+   - **missing**: Check if any missing data is present in the dataset.
+   - **handling_missing**: Replace or remove missing values in the dataset.
+   - **drop_columns**: Remove specific columns from the dataset.
+
+* Descriptive Statistics functions:
+
+   - **describe_distribution**: The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.
+   - **plot_categorical**: The function returns a sequence of tables and plots for the categorical variables.
+   - **plot_numerical**:  The function returns a sequence of tables and plots for the numerical variables.
+   - **num_variable_study**: he function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x.
+
+* Correlation Analysis functions:
+
+   - **correlation_pearson**: The function performs the Pearson's correlation between the columns pairs. 
+   - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
+   - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Papaer link <https://arxiv.org/pdf/1811.11440.pdf>`_).
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

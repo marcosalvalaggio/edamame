@@ -79,6 +79,44 @@
 <section id="edamame-functionalities">
 <h1>Edamame functionalities<a class="headerlink" href="#edamame-functionalities" title="Permalink to this headline"></a></h1>
 <p>The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively.</p>
+<section id="eda-module">
+<h2>Eda module<a class="headerlink" href="#eda-module" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">edamame.eda</span> <span class="pre">as</span> <span class="pre">eda</span></code></p>
+<p>The <strong>eda</strong> module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The “eda” module offers the following functionalities:</p>
+<ul>
+<li><p>Data Exploration and Manipulation functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>dimensions</strong>: The function displays the number of rows and columns of a pandas dataframe passed.</p></li>
+<li><p><strong>identify_types</strong>: Identify the data types of each column.</p></li>
+<li><p><strong>view_cardinality</strong>: View the number of unique values in each column.</p></li>
+<li><p><strong>modify_cardinality</strong>: Modify the number of unique values in a column.</p></li>
+<li><p><strong>missing</strong>: Check if any missing data is present in the dataset.</p></li>
+<li><p><strong>handling_missing</strong>: Replace or remove missing values in the dataset.</p></li>
+<li><p><strong>drop_columns</strong>: Remove specific columns from the dataset.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Descriptive Statistics functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>describe_distribution</strong>: The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.</p></li>
+<li><p><strong>plot_categorical</strong>: The function returns a sequence of tables and plots for the categorical variables.</p></li>
+<li><p><strong>plot_numerical</strong>:  The function returns a sequence of tables and plots for the numerical variables.</p></li>
+<li><p><strong>num_variable_study</strong>: he function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Correlation Analysis functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>correlation_pearson</strong>: The function performs the Pearson’s correlation between the columns pairs.</p></li>
+<li><p><strong>correlation_categorical</strong>: The function performs the Chi-Square Test of Independence between categorical variables of the dataset.</p></li>
+<li><p><strong>correlation_phik</strong>: Calculate the Phik correlation coefficient between all pairs of columns (<a class="reference external" href="https://arxiv.org/pdf/1811.11440.pdf">Papaer link</a>).</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -91,6 +129,7 @@
 </li>
 </ul>
 </div>
+</section>
 </section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
