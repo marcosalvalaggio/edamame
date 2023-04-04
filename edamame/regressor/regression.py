@@ -313,6 +313,11 @@ class TrainRegressor:
         
         Returns:
             List: List of best-fit regression models for each algorithm.
+
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> model_list = regressor.auto_ml()
         """
         kfold = KFold(n_splits=n_folds)
         cv_mean = []
@@ -370,11 +375,17 @@ class TrainRegressor:
         Saves the specified machine learning model or all models in the instance to a pickle file.
 
         Args:
-            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"], optional): 
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): 
                 The name of the model to save. Defaults to 'all'.
             
         Returns:
             None
+
+        Example:
+            >>> from edamame.regressor import TrainRegressor
+            >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
+            >>> model_list = regressor.auto_ml()
+            >>> regressor.save_model(model_name="all")
         """
         model_dct = {'linear': 0, 'lasso': 1, 'ridge': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__linear_fit, self.__lasso_fit, self.__ridge_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]

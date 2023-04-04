@@ -16,7 +16,7 @@ import seaborn as sns
 import pickle
 from IPython.display import display, Markdown
 import matplotlib.pyplot as plt 
-from typing import Tuple, Literal
+from typing import Tuple, Literal, List
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -283,7 +283,23 @@ class TrainClassifier:
     # ------------ #
     # auto_ml
     # ------------ #
-    def auto_ml(self, n_folds: int = 5, data: str = 'train'):
+    def auto_ml(self, n_folds: int = 5, data: Literal['train', 'test'] = 'train') -> List:
+        """
+        Perform automated machine learning with cross validation on a list of classification models.
+        
+        Args:
+            n_folds (int): Number of cross-validation folds. Defaults to 5.
+            data (Literal['train', 'test']): Target dataset for cross-validation. 
+                Must be either 'train' or 'test'. Defaults to 'train'.
+        
+        Returns:
+            List: List of best-fit classification models for each algorithm.
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> model_list = classifier.auto_ml()
+        """
         kfold = KFold(n_splits=n_folds)
         cv_mean = []
         score = []
@@ -336,7 +352,23 @@ class TrainClassifier:
     # ------------ #
     # save model
     # ------------ #
-    def save_model(self, model_name: str = 'all'):
+    def save_model(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"] = 'all') -> None:
+        """
+        Saves the specified machine learning model or all models in the instance to a pickle file.
+
+        Args:
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): 
+                The name of the model to save. Defaults to 'all'.
+            
+        Returns:
+            None
+
+        Example:
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> model_list = classifier.auto_ml()
+            >>> classifier.save_model(model_name="all")
+        """
         model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
         model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
         if model_name == 'all':
