@@ -30,7 +30,7 @@ The **eda** module provides a wide range of functions for performing exploratory
 
    - **dimensions**: The function displays the number of rows and columns of a pandas dataframe passed. 
    - **identify_types**: Identify the data types of each column.
-   - **view_cardinality**: View the number of unique values in each column.
+   - **view_cardinality**: View the number of unique values in each categorical column.
    - **modify_cardinality**: Modify the number of unique values in a column.
    - **missing**: Check if any missing data is present in the dataset.
    - **handling_missing**: Replace or remove missing values in the dataset.
@@ -53,6 +53,39 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
    - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Papaer link <https://arxiv.org/pdf/1811.11440.pdf>`_).
 
+
+Regressor module
+----------------
+
+``from edamame.regressor import TrainRegressor``
+
+The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.
+
+The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:
+
+* **linear**: Fits a linear regression model to the training data.
+* **lasso**: Fits a Lasso regression model to the training data.
+* **ridge**: Fits a Ridge regression model to the training data.
+* **tree**: Fits a decision tree regression model to the training data.
+* **random_forest**: Fits a random forest regression model to the training data.
+* **xgboost**: Fits an XGBoost regression model to the training data.
+* **auto_ml**: Uses AutoML to select the best model based on performance metrics.
+* **model_metrics**: Computes and prints the performance metrics for each trained model.
+* **save_model**: Saves the trained model to a file.
+* **load_model**: Loads a previously saved model from a file.
+
+
+``from edamame.regressor import RegressorDiagnose``
+
+The RegressorDiagnose class is designed to diagnose regression models and analyze their performance.
+The class provides several methods for diagnosing and analyzing the performance of regression models. These methods include:
+
+* **coefficients**: Computes and prints the coefficients of the regression model.
+* **random_forest_fi**: Displays the feature importance plot for the random forest regression model. 
+* **random_forest_fi**: Displays the feature importance plot for the xgboost regression model. 
+* **prediction_error**: Computes and prints the prediction error of the regression model on the test data.
+* **residual_plot**: creates and displays a residual plot for the regression model.
+* **qqplot**: creates and displays a QQ plot for the regression model.
 
 .. toctree::
    :maxdepth: 2
