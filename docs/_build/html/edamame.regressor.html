@@ -591,6 +591,467 @@ Default is (10, 100, 5).</p></li>
 </section>
 <section id="module-edamame.regressor">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edamame.regressor" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.regressor.</span></span><span class="sig-name descname"><span class="pre">RegressorDiagnose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class for diagnosing regression models.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.X_train">
+<span class="sig-name descname"><span class="pre">X_train</span></span><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.X_train" title="Permalink to this definition"></a></dt>
+<dd><p>The input training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.y_train">
+<span class="sig-name descname"><span class="pre">y_train</span></span><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.y_train" title="Permalink to this definition"></a></dt>
+<dd><p>The target training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.X_test">
+<span class="sig-name descname"><span class="pre">X_test</span></span><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.X_test" title="Permalink to this definition"></a></dt>
+<dd><p>The input test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.y_test">
+<span class="sig-name descname"><span class="pre">y_test</span></span><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.y_test" title="Permalink to this definition"></a></dt>
+<dd><p>The target test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span><span class="p">,</span> <span class="n">Diagnose</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">linear</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">linear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span> <span class="o">=</span> <span class="n">Diagnose</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">prediction_error</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">residual_plot</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.coefficients">
+<span class="sig-name descname"><span class="pre">coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._base.LinearRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._ridge.Ridge</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.coefficients"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.coefficients" title="Permalink to this definition"></a></dt>
+<dd><p>Display coefficients for Linear, Lasso, and Ridge model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>]</em>) – The input model for which coefficients need to be displayed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.prediction_error">
+<span class="sig-name descname"><span class="pre">prediction_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._base.LinearRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._ridge.Ridge</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBRegressor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(8.0,</span> <span class="pre">6.0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.prediction_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.prediction_error" title="Permalink to this definition"></a></dt>
+<dd><p>Define a scatterpolot with ygt and ypred of the model passed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>, </em><em>DecisionTreeRegressor</em><em>, </em><em>RandomForestRegressor</em><em>, </em><em>xgb.XGBRegressor</em><em>]</em>) – The input model.</p></li>
+<li><p><strong>train</strong> (<em>bool</em>) – Defines if you want to plot the scatterplot on train or test data (train by default).</p></li>
+<li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Define the size of the prediction_erros plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.qqplot">
+<span class="sig-name descname"><span class="pre">qqplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._base.LinearRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._ridge.Ridge</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBRegressor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.qqplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.qqplot" title="Permalink to this definition"></a></dt>
+<dd><p>QQplot for train and test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>, </em><em>DecisionTreeRegressor</em><em>, </em><em>RandomForestRegressor</em><em>, </em><em>xgb.XGBRegressor</em><em>]</em>) – The input model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.random_forest_fi">
+<span class="sig-name descname"><span class="pre">random_forest_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.random_forest_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.random_forest_fi" title="Permalink to this definition"></a></dt>
+<dd><p>The function displays the feature importance plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>RandomForestRegressor</em>) – The input random forest model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.residual_plot">
+<span class="sig-name descname"><span class="pre">residual_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._base.LinearRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._ridge.Ridge</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBRegressor</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.residual_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.residual_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Residual plot for train and test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>, </em><em>DecisionTreeRegressor</em><em>, </em><em>RandomForestRegressor</em><em>, </em><em>xgb.XGBRegressor</em><em>]</em>) – The input model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.RegressorDiagnose.xgboost_fi">
+<span class="sig-name descname"><span class="pre">xgboost_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.sklearn.XGBRegressor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">12)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/diagnose.html#RegressorDiagnose.xgboost_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.RegressorDiagnose.xgboost_fi" title="Permalink to this definition"></a></dt>
+<dd><p>The function displays the feature importance plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>xgb.XGBRegressor</em>) – The input xgboost model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.regressor.</span></span><span class="sig-name descname"><span class="pre">TrainRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class represents a pipeline for training and handling regression models.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.X_train">
+<span class="sig-name descname"><span class="pre">X_train</span></span><a class="headerlink" href="#edamame.regressor.TrainRegressor.X_train" title="Permalink to this definition"></a></dt>
+<dd><p>The input training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.y_train">
+<span class="sig-name descname"><span class="pre">y_train</span></span><a class="headerlink" href="#edamame.regressor.TrainRegressor.y_train" title="Permalink to this definition"></a></dt>
+<dd><p>The target training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.X_test">
+<span class="sig-name descname"><span class="pre">X_test</span></span><a class="headerlink" href="#edamame.regressor.TrainRegressor.X_test" title="Permalink to this definition"></a></dt>
+<dd><p>The input test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.y_test">
+<span class="sig-name descname"><span class="pre">y_test</span></span><a class="headerlink" href="#edamame.regressor.TrainRegressor.y_test" title="Permalink to this definition"></a></dt>
+<dd><p>The target test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">linear</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">linear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">model_metrics</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lasso</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">lasso</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ridge</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">ridge</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">tree</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rf</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">random_forest</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xgb</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">xgboost</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">model_metrics</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># using AutoML</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">models</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">auto_ml</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">model_metrics</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">save_model</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.auto_ml">
+<span class="sig-name descname"><span class="pre">auto_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'train'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'test'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'train'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.auto_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.auto_ml" title="Permalink to this definition"></a></dt>
+<dd><p>Perform automated machine learning with cross validation on a list of regression models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_folds</strong> (<em>int</em>) – Number of cross-validation folds. Defaults to 5.</p></li>
+<li><p><strong>data</strong> (<em>Literal</em><em>[</em><em>'train'</em><em>, </em><em>'test'</em><em>]</em>) – Target dataset for cross-validation.
+Must be either ‘train’ or ‘test’. Defaults to ‘train’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of best-fit regression models for each algorithm.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_list</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">auto_ml</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.lasso">
+<span class="sig-name descname"><span class="pre">lasso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0001,</span> <span class="pre">10.0,</span> <span class="pre">50)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.lasso"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.lasso" title="Permalink to this definition"></a></dt>
+<dd><p>Train a Lasso regression model using the training data and return the fitted model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>int</em><em>]</em>) – The range of alpha values to test for hyperparameter tuning. Default is (0.0001, 10., 50).</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of cross-validation folds to use for hyperparameter tuning. Default is 5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The trained Lasso regression model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Lasso</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lasso</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.linear">
+<span class="sig-name descname"><span class="pre">linear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.linear_model._base.LinearRegression</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.linear" title="Permalink to this definition"></a></dt>
+<dd><p>Train a linear regression model using the training data and return the fitted model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The trained linear regression model.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>LinearRegression</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">linear</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">linear</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.model_metrics">
+<span class="sig-name descname"><span class="pre">model_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'linear'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lasso'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ridge'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.model_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.model_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Displays the metrics of a trained regression model. The metrics displayed are R2, MSE, and MAE for both the training
+and test sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_name</strong> (<em>Literal</em><em>[</em><em>&quot;all&quot;</em><em>, </em><em>&quot;linear&quot;</em><em>, </em><em>&quot;lasso&quot;</em><em>, </em><em>&quot;ridge&quot;</em><em>, </em><em>&quot;tree&quot;</em><em>, </em><em>&quot;random_forest&quot;</em><em>, </em><em>&quot;xgboost&quot;</em><em>]</em>) – The name of the model to display metrics for. Can be one of ‘all’, ‘linear’, ‘lasso’, ‘ridge’, ‘tree’,
+‘random_forest’, or ‘xgboost’. Defaults to ‘all’.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xgboost</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">xgboost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">model_metrics</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;xgboost&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.random_forest">
+<span class="sig-name descname"><span class="pre">random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(50,</span> <span class="pre">1000,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.random_forest" title="Permalink to this definition"></a></dt>
+<dd><p>Trains a Random Forest regression model on the training data and returns the best estimator found by GridSearchCV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_estimators</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – A tuple of integers specifying the minimum and maximum number of trees
+to include in the forest, and the step size between them.</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of cross-validation folds to use when evaluating models.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The best Random Forest model found by GridSearchCV.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>RandomForestRegressor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.ridge">
+<span class="sig-name descname"><span class="pre">ridge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.1,</span> <span class="pre">50.0,</span> <span class="pre">50)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.linear_model._ridge.Ridge</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.ridge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.ridge" title="Permalink to this definition"></a></dt>
+<dd><p>Train a Ridge regression model using the training data and return the fitted model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>int</em><em>]</em>) – The range of alpha values to test for hyperparameter tuning. Default is (0.1, 50, 50).</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of cross-validation folds to use for hyperparameter tuning. Default is 5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The trained Ridge regression model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Ridge</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ridge</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">((</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">50.</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.save_model">
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'linear'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lasso'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ridge'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.save_model" title="Permalink to this definition"></a></dt>
+<dd><p>Saves the specified machine learning model or all models in the instance to a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_name</strong> (<em>Literal</em><em>[</em><em>&quot;all&quot;</em><em>, </em><em>&quot;linear&quot;</em><em>, </em><em>&quot;lasso&quot;</em><em>, </em><em>&quot;ridge&quot;</em><em>, </em><em>&quot;tree&quot;</em><em>, </em><em>&quot;random_forest&quot;</em><em>, </em><em>&quot;xgboost&quot;</em><em>]</em>) – The name of the model to save. Defaults to ‘all’.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model_list</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">auto_ml</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.tree">
+<span class="sig-name descname"><span class="pre">tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.001,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impurity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1e-05,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.tree._classes.DecisionTreeRegressor</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.tree" title="Permalink to this definition"></a></dt>
+<dd><p>Fits a decision tree regression model using the provided training data and hyperparameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>int</em><em>]</em>) – A tuple specifying the range of values to use for the ccp_alpha
+hyperparameter. The range is given as a tuple (start, stop, num), where <cite>start</cite> is the start
+of the range, <cite>stop</cite> is the end of the range, and <cite>num</cite> is the number of values to generate
+within the range. Defaults to (0., 0.001, 5).</p></li>
+<li><p><strong>impurity</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>int</em><em>]</em>) – A tuple specifying the range of values to use for the
+min_impurity_decrease hyperparameter. The range is given as a tuple (start, stop, num), where
+<cite>start</cite> is the start of the range, <cite>stop</cite> is the end of the range, and <cite>num</cite> is the number of
+values to generate within the range. Defaults to (0., 0.00001, 5).</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of folds to use for cross-validation. Defaults to 5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The fitted decision tree regressor model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DecisionTreeRegressor</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">impurity</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.regressor.TrainRegressor.xgboost">
+<span class="sig-name descname"><span class="pre">xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(10,</span> <span class="pre">100,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xgboost.sklearn.XGBRegressor</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#TrainRegressor.xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.TrainRegressor.xgboost" title="Permalink to this definition"></a></dt>
+<dd><p>Trains an XGBoost model using the specified hyperparameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_estimators</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – A tuple containing the start, end and step values for number of estimators.
+Default is (10, 100, 5).</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of folds to use in the cross-validation process. Default is 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The trained XGBoost model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xgb.XGBRegressor</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xgboost</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">xgboost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">n_folds</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.regressor.regression_metrics">
+<span class="sig-prename descclassname"><span class="pre">edamame.regressor.</span></span><span class="sig-name descname"><span class="pre">regression_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._base.LinearRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._coordinate_descent.Lasso</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.linear_model._ridge.Ridge</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestRegressor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBRegressor</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/regressor/regression.html#regression_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.regressor.regression_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Compute and display the regression metrics R2, MSE and MAE of the input model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>, </em><em>DecisionTreeRegressor</em><em>, </em><em>RandomForestRegressor</em><em>, </em><em>xgb.XGBRegressor</em><em>]</em>) – Regression model.</p></li>
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – Input features.</p></li>
+<li><p><strong>y</strong> (<em>pd.DataFrame</em>) – Target feature.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
