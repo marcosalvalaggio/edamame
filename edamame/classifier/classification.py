@@ -37,6 +37,17 @@ class TrainClassifier:
         >>> from edamame.classifier import TrainClassifier
         >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
         >>> logistic = classifier.logistic()
+        >>> classifier.model_metrics(model_name="logisitc")
+        >>> classifier.model_save(model_name="logisitc")
+        >>> nb = classifier.gaussian_nb()
+        >>> knn = classifier.knn()
+        >>> tree = classifier.tree()
+        >>> rf = classifier.random_forest()
+        >>> xgb = classifier.xgboost()
+        >>> classifier.model_metrics()
+        >>> # using AutoML
+        >>> models = classifier.auto_ml()
+        >>> classifier.save_model()
     """
     def __init__(self, X_train, y_train, X_test, y_test):
         self.X_train = X_train

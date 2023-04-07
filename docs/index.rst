@@ -72,7 +72,6 @@ The class provides several methods for fitting different regression models, comp
 * **auto_ml**: Uses AutoML to select the best model based on performance metrics.
 * **model_metrics**: Computes and prints the performance metrics for each trained model.
 * **save_model**: Saves the trained model to a file.
-* **load_model**: Loads a previously saved model from a file.
 
 
 ``from edamame.regressor import RegressorDiagnose``
@@ -86,6 +85,34 @@ The class provides several methods for diagnosing and analyzing the performance 
 * **prediction_error**: Computes and prints the prediction error of the regression model on the test data.
 * **residual_plot**: creates and displays a residual plot for the regression model.
 * **qqplot**: creates and displays a QQ plot for the regression model.
+
+
+Classifier module
+-----------------
+
+``from edamame.classifier import TrainClassifier``
+
+The TrainClassifier class is designed to be used as a pipeline for training and handling clasification models.
+
+The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:
+
+* **logistic**: Fits a logistic model to the training data.
+* **gaussian_nb**: Fits a Gaussina Naive Bayes model to the training data.
+* **knn**: Fits a k-Nearest Neighbors classification model to the training data.
+* **tree**: Fits a decision tree classification model to the training data.
+* **random_forest**: Fits a random forest classification model to the training data.
+* **xgboost**: Fits an XGBoost classification model to the training data.
+* **auto_ml**: Uses AutoML to select the best model based on performance metrics.
+* **model_metrics**: Computes and prints the performance metrics for each trained model.
+* **save_model**: Saves the trained model to a file.
+
+
+Todos
+-----
+
+* Add support for the SVM in the classifier module.
+* Add the ClassifierDiagnose class in the classifier module.
+
 
 .. toctree::
    :maxdepth: 2
