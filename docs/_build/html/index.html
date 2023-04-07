@@ -71,14 +71,14 @@
              
   <section id="welcome-to-edamame-s-documentation">
 <h1>Welcome to Edamame’s documentation!<a class="headerlink" href="#welcome-to-edamame-s-documentation" title="Permalink to this headline"></a></h1>
-<p>Edamame is born under the inspiration of the <a class="reference external" href="https://github.com/ydataai/pandas-profiling">pandas-profiling</a> , <a class="reference external" href="https://github.com/pycaret/pycaret">pycaret</a>, and <a class="reference external" href="https://github.com/DistrictDataLabs/yellowbrick">yellowbrick</a> packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model’s battery for regression or classification problems.</p>
+<p>Edamame is inspired by packages such as <a class="reference external" href="https://github.com/ydataai/pandas-profiling">pandas-profiling</a>, <a class="reference external" href="https://github.com/pycaret/pycaret">pycaret</a>, and <a class="reference external" href="https://github.com/DistrictDataLabs/yellowbrick">yellowbrick</a>. The goal of Edamame is to provide user-friendly functions for conducting exploratory data analysis (EDA) on datasets, as well as for training and analyzing batteries of models for regression or classification problems.</p>
 <p>To install the package,</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">edamame</span></code></p>
 <p>the edamame package works correctly inside a jupyter-notebook.</p>
 </section>
 <section id="edamame-functionalities">
 <h1>Edamame functionalities<a class="headerlink" href="#edamame-functionalities" title="Permalink to this headline"></a></h1>
-<p>The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively.</p>
+<p>The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the <a class="reference external" href="https://github.com/marcosalvalaggio/edamame-notebooks">edamame-notebook</a> repository.</p>
 <section id="eda-module">
 <h2>Eda module<a class="headerlink" href="#eda-module" title="Permalink to this headline"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">edamame.eda</span> <span class="pre">as</span> <span class="pre">eda</span></code></p>
@@ -120,11 +120,20 @@
 </ul>
 </div></blockquote>
 </li>
+<li><p>Useful function:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>load_model</strong>: The function load the model saved in the pickle format.</p></li>
+<li><p><strong>setup</strong>: The function returns the following elements: X_train, y_train, X_test, y_test.</p></li>
+<li><p><strong>scaling</strong>: The function returns the normalised/standardized matrix.</p></li>
+</ul>
+</div></blockquote>
+</li>
 </ul>
 </section>
 <section id="regressor-module">
 <h2>Regressor module<a class="headerlink" href="#regressor-module" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.regressor</span> <span class="pre">import</span> <span class="pre">TrainRegressor</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.regressor</span> <span class="pre">import</span> <span class="pre">TrainRegressor,</span> <span class="pre">regression_metrics</span></code></p>
 <p>The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.</p>
 <p>The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:</p>
 <ul class="simple">
@@ -137,8 +146,8 @@
 <li><p><strong>auto_ml</strong>: Uses AutoML to select the best model based on performance metrics.</p></li>
 <li><p><strong>model_metrics</strong>: Computes and prints the performance metrics for each trained model.</p></li>
 <li><p><strong>save_model</strong>: Saves the trained model to a file.</p></li>
-<li><p><strong>load_model</strong>: Loads a previously saved model from a file.</p></li>
 </ul>
+<p>After saving a model with the <strong>save_model</strong> method, we can upload the model using the <strong>load_model</strong> function of the eda module and evaluate its performance on new data using the <strong>regression_metrics</strong> function.</p>
 <p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.regressor</span> <span class="pre">import</span> <span class="pre">RegressorDiagnose</span></code></p>
 <p>The RegressorDiagnose class is designed to diagnose regression models and analyze their performance.
 The class provides several methods for diagnosing and analyzing the performance of regression models. These methods include:</p>
@@ -149,6 +158,32 @@ The class provides several methods for diagnosing and analyzing the performance 
 <li><p><strong>prediction_error</strong>: Computes and prints the prediction error of the regression model on the test data.</p></li>
 <li><p><strong>residual_plot</strong>: creates and displays a residual plot for the regression model.</p></li>
 <li><p><strong>qqplot</strong>: creates and displays a QQ plot for the regression model.</p></li>
+</ul>
+</section>
+<section id="classifier-module">
+<h2>Classifier module<a class="headerlink" href="#classifier-module" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.classifier</span> <span class="pre">import</span> <span class="pre">TrainClassifier</span></code></p>
+<p>The TrainClassifier class is designed to be used as a pipeline for training and handling clasification models.</p>
+<p>The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:</p>
+<ul class="simple">
+<li><p><strong>logistic</strong>: Fits a logistic model to the training data.</p></li>
+<li><p><strong>gaussian_nb</strong>: Fits a Gaussina Naive Bayes model to the training data.</p></li>
+<li><p><strong>knn</strong>: Fits a k-Nearest Neighbors classification model to the training data.</p></li>
+<li><p><strong>tree</strong>: Fits a decision tree classification model to the training data.</p></li>
+<li><p><strong>random_forest</strong>: Fits a random forest classification model to the training data.</p></li>
+<li><p><strong>xgboost</strong>: Fits an XGBoost classification model to the training data.</p></li>
+<li><p><strong>auto_ml</strong>: Uses AutoML to select the best model based on performance metrics.</p></li>
+<li><p><strong>model_metrics</strong>: Computes and prints the performance metrics for each trained model.</p></li>
+<li><p><strong>save_model</strong>: Saves the trained model to a file.</p></li>
+</ul>
+</section>
+<section id="todos">
+<h2>Todos<a class="headerlink" href="#todos" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Add support for SVM to the classifier module.</p></li>
+<li><p>Add the ClassifierDiagnose class to the classifier module.</p></li>
+<li><p>Add the notebook for EDA in a classification problem to the edamame-notebook repository.</p></li>
+<li><p>Add the notebook for training/diagnosing classification models to the edamame-notebook repository.</p></li>
 </ul>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>

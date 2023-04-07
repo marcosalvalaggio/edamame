@@ -107,6 +107,17 @@
 <span class="sd">        &gt;&gt;&gt; from edamame.classifier import TrainClassifier</span>
 <span class="sd">        &gt;&gt;&gt; classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)</span>
 <span class="sd">        &gt;&gt;&gt; logistic = classifier.logistic()</span>
+<span class="sd">        &gt;&gt;&gt; classifier.model_metrics(model_name=&quot;logisitc&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; classifier.model_save(model_name=&quot;logisitc&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; nb = classifier.gaussian_nb()</span>
+<span class="sd">        &gt;&gt;&gt; knn = classifier.knn()</span>
+<span class="sd">        &gt;&gt;&gt; tree = classifier.tree()</span>
+<span class="sd">        &gt;&gt;&gt; rf = classifier.random_forest()</span>
+<span class="sd">        &gt;&gt;&gt; xgb = classifier.xgboost()</span>
+<span class="sd">        &gt;&gt;&gt; classifier.model_metrics()</span>
+<span class="sd">        &gt;&gt;&gt; # using AutoML</span>
+<span class="sd">        &gt;&gt;&gt; models = classifier.auto_ml()</span>
+<span class="sd">        &gt;&gt;&gt; classifier.save_model()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span>

@@ -6,7 +6,7 @@
 Welcome to Edamame's documentation!
 ===================================
 
-Edamame is born under the inspiration of the `pandas-profiling <https://github.com/ydataai/pandas-profiling>`_ , `pycaret <https://github.com/pycaret/pycaret>`_, and `yellowbrick <https://github.com/DistrictDataLabs/yellowbrick>`_ packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model's battery for regression or classification problems.
+Edamame is inspired by packages such as `pandas-profiling <https://github.com/ydataai/pandas-profiling>`_, `pycaret <https://github.com/pycaret/pycaret>`_, and `yellowbrick <https://github.com/DistrictDataLabs/yellowbrick>`_. The goal of Edamame is to provide user-friendly functions for conducting exploratory data analysis (EDA) on datasets, as well as for training and analyzing batteries of models for regression or classification problems.
 
 To install the package,
 
@@ -17,7 +17,8 @@ the edamame package works correctly inside a jupyter-notebook.
 Edamame functionalities
 =======================
 
-The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively.
+The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the `edamame-notebook <https://github.com/marcosalvalaggio/edamame-notebooks>`_ repository.
+
 
 Eda module
 ----------
@@ -53,11 +54,18 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
    - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Papaer link <https://arxiv.org/pdf/1811.11440.pdf>`_).
 
+* Useful function:
+
+   - **load_model**: The function load the model saved in the pickle format.
+   - **setup**: The function returns the following elements: X_train, y_train, X_test, y_test.
+   - **scaling**: The function returns the normalised/standardized matrix.
+
+
 
 Regressor module
 ----------------
 
-``from edamame.regressor import TrainRegressor``
+``from edamame.regressor import TrainRegressor, regression_metrics``
 
 The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.
 
@@ -73,6 +81,7 @@ The class provides several methods for fitting different regression models, comp
 * **model_metrics**: Computes and prints the performance metrics for each trained model.
 * **save_model**: Saves the trained model to a file.
 
+After saving a model with the **save_model** method, we can upload the model using the **load_model** function of the eda module and evaluate its performance on new data using the **regression_metrics** function.
 
 ``from edamame.regressor import RegressorDiagnose``
 
@@ -110,10 +119,10 @@ The class provides several methods for fitting different regression models, comp
 Todos
 -----
 
-* Add support for the SVM in the classifier module.
-* Add the ClassifierDiagnose class in the classifier module.
-* Add to the edamame-notebook repository the notebook of the EDA in a classification problem.
-* Add to the edamame-notebook repository the notebook of the train/diagnose classification models.
+* Add support for SVM to the classifier module.
+* Add the ClassifierDiagnose class to the classifier module.
+* Add the notebook for EDA in a classification problem to the edamame-notebook repository.
+* Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
 
 
 .. toctree::
