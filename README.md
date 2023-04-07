@@ -1,6 +1,6 @@
 
 
-# Edamame's documentation!
+# Edamame's documentation
 
 Edamame is inspired by packages such as [pandas-profiling](https://github.com/ydataai/pandas-profiling), [pycaret](https://github.com/pycaret/pycaret>), and [yellowbrick](https://github.com/DistrictDataLabs/yellowbrick>). The goal of Edamame is to provide user-friendly functions for conducting exploratory data analysis (EDA) on datasets, as well as for training and analyzing batteries of models for regression or classification problems.
 
@@ -126,5 +126,6 @@ The class provides several methods for fitting different regression models, comp
 * Add the ClassifierDiagnose class to the classifier module.
 * Add the notebook for EDA in a classification problem to the edamame-notebook repository.
 * Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
+* **Add link to docs url**
 
 
