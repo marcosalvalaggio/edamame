@@ -126,6 +126,6 @@ The class provides several methods for fitting different regression models, comp
 * Add the ClassifierDiagnose class to the classifier module.
 * Add the notebook for EDA in a classification problem to the edamame-notebook repository.
 * Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
-* **Add link to docs url**
+* **Add link to docs url**.
 
 
