@@ -1,346 +1,130 @@
 
 
-- [Installation](#installation)
-- [Why Edamame?](#why-edamame)
-  - [Exploratory data analysis functions](#exploratory-data-analysis-functions)
-    - [Dimensions](#dimensions)
-    - [Describe distribution](#describe-distribution)
-    - [Identify columns types](#identify-columns-types)
-    - [Convert numerical columns to categorical](#convert-numerical-columns-to-categorical)
-    - [Missing data](#missing-data)
-    - [Handling Missing values](#handling-missing-values)
-    - [Drop columns](#drop-columns)
-    - [Plot categorical variables](#plot-categorical-variables)
-    - [Plot numerical variables](#plot-numerical-variables)
-    - [View cardinalities of variables](#view-cardinalities-of-variables)
-    - [Modify the cardinalities of a variable](#modify-the-cardinalities-of-a-variable)
-    - [Distribution study of a numerical variable](#distribution-study-of-a-numerical-variable)
-    - [Pearson's correlation matrix](#pearsons-correlation-matrix)
-    - [Correlation matrix for categorical columns](#correlation-matrix-for-categorical-columns)
-    - [Phik Correlation matrix](#phik-correlation-matrix)
-    - [Interaction](#interaction)
-    - [Inspection](#inspection)
-    - [Split and scaling](#split-and-scaling)
-  - [TODO](#todo)
+# Edamame's documentation!
 
-
-
-
-# Installation 
+Edamame is inspired by packages such as [pandas-profiling](https://github.com/ydataai/pandas-profiling), [pycaret](https://github.com/pycaret/pycaret>), and [yellowbrick](https://github.com/DistrictDataLabs/yellowbrick>). The goal of Edamame is to provide user-friendly functions for conducting exploratory data analysis (EDA) on datasets, as well as for training and analyzing batteries of models for regression or classification problems.
 
 To install the package,
 
-```
+```console
 pip install edamame
 ```
 
-the edamame package works correctly inside a **.ipynb** file. 
+the edamame package works correctly inside a jupyter-notebook.
+
+## Edamame functionalities
+
+
+The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the [edamame-notebook](https://github.com/marcosalvalaggio/edamame-notebooks) repository.
+
+
+## Eda module
+
+
+``import edamame.eda as eda``
+
+The **eda** module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The "eda" module offers the following functionalities:
+
+* Data Exploration and Manipulation functions:
+
+   - **dimensions**: The function displays the number of rows and columns of a pandas dataframe passed. 
+   - **identify_types**: Identify the data types of each column.
+   - **view_cardinality**: View the number of unique values in each categorical column.
+   - **modify_cardinality**: Modify the number of unique values in a column.
+   - **missing**: Check if any missing data is present in the dataset.
+   - **handling_missing**: Replace or remove missing values in the dataset.
+   - **drop_columns**: Remove specific columns from the dataset.
+   - **num_to_categorical**: The function returns a dataframe with the columns transformed into an "object".
+   - **interaction**: The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
+   - **inspection**: The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable.
+   - **split_and_scaling**: The function returns two pandas dataframes: the regressor matrix X contains all the predictors for the model, the series y contains the values of the response variable.
+
+* Descriptive Statistics functions:
+
+   - **describe_distribution**: The function display the result of the describe() method applied to a pandas dataframe, divided by numerical and object columns.
+   - **plot_categorical**: The function returns a sequence of tables and plots for the categorical variables.
+   - **plot_numerical**:  The function returns a sequence of tables and plots for the numerical variables.
+   - **num_variable_study**: he function displays the following transformations of the variable col passed: log(x), sqrt(x), x^2, Box-cox, 1/x.
+
+* Correlation Analysis functions:
+
+   - **correlation_pearson**: The function performs the Pearson's correlation between the columns pairs. 
+   - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
+   - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns ([Paper link](https://arxiv.org/pdf/1811.11440.pdf)).
+
+* Useful function:
+
+   - **load_model**: The function load the model saved in the pickle format.
+   - **setup**: The function returns the following elements: X_train, y_train, X_test, y_test.
+   - **scaling**: The function returns the normalised/standardized matrix.
+
+
+
+## Regressor module
 
 ```python
-import edamame as eda
+from edamame.regressor import TrainRegressor, regression_metrics
 ```
-# Why Edamame?
 
-Edamame is born under the inspiration of the [pandas-profiling](https://github.com/ydataai/pandas-profiling) and [pycaret](https://github.com/pycaret/pycaret) packages. The scope of edamame is to build friendly and helpful functions for handling the exploratory data analysis (EDA) step in a dataset studied and then train and analyse a model's battery for regression or classification problems. 
+The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.
 
-## Exploratory data analysis functions
+The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:
 
-You can find an example of the EDA that uses the edamame package in the [edamame-notebooks](https://github.com/marcosalvalaggio/edamame-notebooks) repository.
+* **linear**: Fits a linear regression model to the training data.
+* **lasso**: Fits a Lasso regression model to the training data.
+* **ridge**: Fits a Ridge regression model to the training data.
+* **tree**: Fits a decision tree regression model to the training data.
+* **random_forest**: Fits a random forest regression model to the training data.
+* **xgboost**: Fits an XGBoost regression model to the training data.
+* **auto_ml**: Uses AutoML to select the best model based on performance metrics.
+* **model_metrics**: Computes and prints the performance metrics for each trained model.
+* **save_model**: Saves the trained model to a file.
 
-### Dimensions
-
-a prettier version of the **.shape** method
+After saving a model with the **save_model** method, we can upload the model using the **load_model** function of the eda module and evaluate its performance on new data using the **regression_metrics** function.
 
 ```python
-eda.dimensions(data)
-```
-Parameters: 
-
-* **data**: A pandas dataframe
-
-The function displays the number of rows and columns of a pandas dataframe passed. 
-
-### Describe distribution
-
-
-```python
-eda.describe_distribution(data)
+from edamame.regressor import RegressorDiagnose
 ```
 
-Parameters: 
+The RegressorDiagnose class is designed to diagnose regression models and analyze their performance.
+The class provides several methods for diagnosing and analyzing the performance of regression models. These methods include:
 
-* **data**: A pandas dataframe.
+* **coefficients**: Computes and prints the coefficients of the regression model.
+* **random_forest_fi**: Displays the feature importance plot for the random forest regression model. 
+* **random_forest_fi**: Displays the feature importance plot for the xgboost regression model. 
+* **prediction_error**: Computes and prints the prediction error of the regression model on the test data.
+* **residual_plot**: creates and displays a residual plot for the regression model.
+* **qqplot**: creates and displays a QQ plot for the regression model.
 
-Passing a dataframe the function display the result of the **.describe()** method applied to a pandas dataframe, divided by quantitative/numerical and categorical/object columns.
 
-
-### Identify columns types
+## Classifier module
 
 
 ```python
-eda.identify_types(data)
-```
-Parameters: 
-
-* **data**: A pandas dataframe.
-  
-Passing a dataframe the function display the result of the **.dtypes** method and returns a list with the name of the quantitative/numerical columns and a list with the name of the columns identified as "object" by pandas. 
-
-
-### Convert numerical columns to categorical
-
-```python
-eda.num_to_categorical(data, col: list[str])
+from edamame.classifier import TrainClassifier
 ```
 
-Parameters: 
+The TrainClassifier class is designed to be used as a pipeline for training and handling clasification models.
 
-* **data**: A pandas dataframe.
-* **col**: A list of strings containing the names of columns to convert. 
+The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:
 
-Passing a dataframe and a list with columns name, the function returns a dataframe with the columns transformed into an "object". 
+* **logistic**: Fits a logistic model to the training data.
+* **gaussian_nb**: Fits a Gaussina Naive Bayes model to the training data.
+* **knn**: Fits a k-Nearest Neighbors classification model to the training data.
+* **tree**: Fits a decision tree classification model to the training data.
+* **random_forest**: Fits a random forest classification model to the training data.
+* **xgboost**: Fits an XGBoost classification model to the training data.
+* **auto_ml**: Uses AutoML to select the best model based on performance metrics.
+* **model_metrics**: Computes and prints the performance metrics for each trained model.
+* **save_model**: Saves the trained model to a file.
 
 
-### Missing data
+## Todos
 
-```python
-eda.missing(data)
-```
 
-Parameters: 
+* Add support for SVM to the classifier module.
+* Add the ClassifierDiagnose class to the classifier module.
+* Add the notebook for EDA in a classification problem to the edamame-notebook repository.
+* Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
 
-* **data**: A pandas dataframe.
 
-The function display the following elements:
-
-* A table with the percentage of **NA** record for every column.
-* A table with the percentage of **0** as a record for every column.
-* A table with the percentage of duplicate rows.
-* A list of lists that contains the name of the numerical columns with **NA**, the name of the categorical columns with **NA** and the name of the columns with 0 as a record. 
-
-### Handling Missing values
-
-```python
-eda.handling_missing(data, col: list[str], missing_val = np.nan, method: list[str] = [])
-```
-
-Parameters: 
-
-* **data**: A pandas dataframe.
-* **col**: A list of the names of the dataframe columns to handle.
-* **missing_val**: The value that represents the **NA** in the columns passed. By default is equal to **np.nan**.
-* **method**: A list of the names of the methods (mean, median, most_frequent, drop) applied to the columns passed. By default, if nothing was indicated, the function applied the **most_frequent** method to all the columns passed. Indicating fewer methods than the names of the columns leads to an autocompletion with the **most_frequent** method.
-
-The function returns a pandas dataframe with the columns selected modified to handle the nan values. 
-
-### Drop columns 
-
-```python 
-eda.drop_columns(data, col: list[str]):
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-* **col**: A list of strings containing the names of columns to drop. 
-
-The function returns a pandas dataframe with the columns selected dropped.
-
-
-### Plot categorical variables
-
-```python 
-eda.plot_categorical(data, col: list[str])
-```
-Parameters:
-
-* **data**: A pandas dataframe
-* **col**: A list of string containing the names of columns to plot
-  
-The function returns a sequence of tables and plots. For every variables the **plot_categorical** produce an **info** table that contains the information about: 
-
-* The number of not nan rows. 
-* The number of unique values. 
-* The name of the value with the major frequency.
-* The frequence of the top unique value. 
-
-By the side of the info table, you can see the **top cardinalities** table that shows the first ten values by order of frequency. In addition, the function returns a **barplot** of the cardinalities frequencies. The **plot_categorical** function raises the message ***too many unique values*** instead of the plot if the variable has more than 1000 unique values and removes the x-axis ticks if the variable has more than 50 unique values. 
-
-In the **plot_categorical** function, it's not mandatory to use pandas "object" type variables, but it's strictly recommended.
-
-### Plot numerical variables 
-
-```python
-eda.plot_numerical(data, col: list[str], bins: int = 50)
-```
-Parameters:
-
-* **data**: A pandas dataframe.
-* **col**: A list of string containing the names of columns to plot.
-* **bins**: Number of bins to use in the histogram plot. 
-
-Like the **plot_categorical**, the function returns a sequence of tables and plots. For every variables the **plot_quantitative** function produce an **info** table that contains the information about: 
-
-* Count of rows not nan
-* Mean
-* Std
-* Min
-* 25%
-* 50%
-* 75%
-* Max
-* Number of unique values 
-* Value of the skew 
-
-In addition, the function returns an histogram with an estimated density + a boxplot. In the **plot_quantitative** function, it's mandatory to pass numerical variables to plot the histogram and estimate the density of the distribution. 
-
-### View cardinalities of variables
-
-```python
-eda.view_cardinality(data, col: list[str])
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-* **col**: A list of strings containing the names of columns for which we want to show the number of unique values.
-
-The function especially helps study the cardinalities of the categorical variables. In case the variables present high cardinalities values. We need to reduce these values or drop the variable.
- 
-In addition, seeing low cardinalities values in numerical variables can be a clue for the necessity to convert a numerical variable into a categorical with the **num_to_categorical** function.
-
-### Modify the cardinalities of a variable
-
-```python 
-eda.modify_cardinality(data, col: list[str], threshold: list[int])
-```
-Parameters:
-
-* **data**: A pandas dataframe.
-* **col**: A list of strings containing the names of columns for which we want to modify the cardinalities.
-* **threshold**: A list of integer values containing the threshold values for every variable.
-
-All the cardinalities that have a total count lower than the threshold indicated in the function are grouped into a new unique value called: Other. 
-
-The function returns a pandas dataframe with the cardinalities of the columns selected modified. 
-
-### Distribution study of a numerical variable
-
-```python
-eda.num_variable_study(data, col:str, bins: int = 50, epsilon: float = 0.0001, theory: bool = False)
-```
-Parameters: 
-
-* **data**: A pandas dataframe.
-* **col**: The name of the dataframe column to study.
-* **bins**: The number of bins used by the histograms. By default bins=50.
-* **epsilon**: A constant for handle non strictly positive variables. By default epsilon = 0.0001
-* **theory**: A boolean value for displaying insight into the transformations applied
-
-The function displays the following transformations of the variable **col** passed:
-
-* $log(x)$
-* $\sqrt(x)$
-* $x^2$
-* Box-cox
-* $1/x$
-
-If a variable with zeros or negative values is passed, the function shows results based on the original data transformed to be strictly positive. 
-
-* In case of zeros, data is transformed as: $\begin{cases}
-    x_i = \epsilon,& \text{if } x_i = 0\\
-    x_i,              & \text{otherwise}
-\end{cases}$. 
-
-* In case of negative values, data are transformed as: $x_i = x_i + |min(x)|\cdot\epsilon$.
-
-
-### Pearson's correlation matrix
-
-```python 
-eda.correlation_pearson(data, threshold: float = 0.)
-```
-Parameters: 
-
-* **data**: A pandas dataframe.
-* **threshold**: Only the correlation values higher than the threshold are shown in the matrix. A floating value set by default to 0. 
-
-### Correlation matrix for categorical columns 
-
-```python
-eda.correlation_categorical(data)
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-
-The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
-
-### Phik Correlation matrix
-
-```python
-eda.correlation_phik(data, theory: bool = False)
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-* **theory**: A boolean value for displaying insight into the theory of the $\phi_k$ correlation index. By default is set to False. 
-
-[Link to the paper](https://arxiv.org/pdf/1811.11440.pdf)
-
-
-### Interaction 
-
-```python 
-eda.interaction(data)
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-
-The function display an interactive plot for analysing relationships between numerical columns with a scatterplot.
-
-### Inspection
-
-```python 
-eda.inspection(data, threshold: int = 10, bins: int = 50, figsize: tuple[float, float] = (6., 4.))
-```
-
-Parameters:
-
-* **data**: A pandas dataframe.
-* **threshold**: A value for determining the maximum number of distinct cardinalities the target variable can have. By default is set to 10. 
-* **bins**: The number of bins used by the histograms. By default bins=50.
-* **figsize**: A tuple to determine the plot size.
-
-The function displays an interactive plot for analysing the distribution of a variable based on the distinct cardinalities of the target variable. 
-
-
-### Split and scaling 
-
-```python 
-eda.split_and_scaling(data, target: str)
-```
-
-Parameters: 
-
-* **data**: A pandas dataframe.
-* **target**: The response variable column name.
-
-The function returns two pandas dataframes:
-
-* The regressor matrix $X$ contains all the predictors for the model. 
-* The series $y$ contains the values of the response variable.
-
-In addition, the function applies a step of standard scaling on the numerical columns of the $X$ matrix.
-
-
-## TODO 
-
-* Finishing the documentation. 
-* Add the xgboost model, PCA regression and other methods for studying the goodness of fit of the other models.
-* Add the classification class to the package.
-* Ensamble regressor/classifier method. 

@@ -52,7 +52,7 @@ The **eda** module provides a wide range of functions for performing exploratory
 
    - **correlation_pearson**: The function performs the Pearson's correlation between the columns pairs. 
    - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
-   - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Papaer link <https://arxiv.org/pdf/1811.11440.pdf>`_).
+   - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Paper link <https://arxiv.org/pdf/1811.11440.pdf>`_).
 
 * Useful function:
 
