@@ -112,6 +112,8 @@ Todos
 
 * Add support for the SVM in the classifier module.
 * Add the ClassifierDiagnose class in the classifier module.
+* Add to the edamame-notebook repository the notebook of the EDA in a classification problem.
+* Add to the edamame-notebook repository the notebook of the train/diagnose classification models.
 
 
 .. toctree::
