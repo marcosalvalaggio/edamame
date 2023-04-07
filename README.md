@@ -2,6 +2,8 @@
 
 # Edamame
 
+[![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://edamame-doc.readthedocs.io/en/latest/index.html)
+
 Edamame is inspired by packages such as [pandas-profiling](https://github.com/ydataai/pandas-profiling), [pycaret](https://github.com/pycaret/pycaret>), and [yellowbrick](https://github.com/DistrictDataLabs/yellowbrick>). The goal of Edamame is to provide user-friendly functions for conducting exploratory data analysis (EDA) on datasets, as well as for training and analyzing batteries of models for regression or classification problems.
 
 To install the package,
@@ -10,13 +12,17 @@ To install the package,
 pip install edamame
 ```
 
-the edamame package works correctly inside a jupyter-notebook.
+the edamame package works correctly inside a jupyter-notebook. You can find the documentation of the package on the [edamame-documentation](https://edamame-doc.readthedocs.io/en/latest/index.html) page.
+
+<hr>
+
 
 ## Edamame functionalities
 
 
 The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the [edamame-notebook](https://github.com/marcosalvalaggio/edamame-notebooks) repository.
 
+<hr>
 
 ## Eda module
 
@@ -58,7 +64,7 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **setup**: The function returns the following elements: X_train, y_train, X_test, y_test.
    - **scaling**: The function returns the normalised/standardized matrix.
 
-
+<hr>
 
 ## Regressor module
 
@@ -96,6 +102,7 @@ The class provides several methods for diagnosing and analyzing the performance 
 * **residual_plot**: creates and displays a residual plot for the regression model.
 * **qqplot**: creates and displays a QQ plot for the regression model.
 
+<hr>
 
 ## Classifier module
 
@@ -118,6 +125,7 @@ The class provides several methods for fitting different regression models, comp
 * **model_metrics**: Computes and prints the performance metrics for each trained model.
 * **save_model**: Saves the trained model to a file.
 
+<hr>
 
 ## Todos
 
