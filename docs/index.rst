@@ -54,7 +54,7 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **correlation_categorical**: The function performs the Chi-Square Test of Independence between categorical variables of the dataset. 
    - **correlation_phik**: Calculate the Phik correlation coefficient between all pairs of columns (`Paper link <https://arxiv.org/pdf/1811.11440.pdf>`_).
 
-* Useful function:
+* Useful functions:
 
    - **load_model**: The function load the model saved in the pickle format.
    - **setup**: The function returns the following elements: X_train, y_train, X_test, y_test.
