@@ -81,7 +81,9 @@
 <p>The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the <a class="reference external" href="https://github.com/marcosalvalaggio/edamame-notebooks">edamame-notebook</a> repository.</p>
 <section id="eda-module">
 <h2>Eda module<a class="headerlink" href="#eda-module" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">edamame.eda</span> <span class="pre">as</span> <span class="pre">eda</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">edamame.eda</span> <span class="k">as</span> <span class="nn">eda</span>
+</pre></div>
+</div>
 <p>The <strong>eda</strong> module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The “eda” module offers the following functionalities:</p>
 <ul>
 <li><p>Data Exploration and Manipulation functions:</p>
@@ -133,7 +135,9 @@
 </section>
 <section id="regressor-module">
 <h2>Regressor module<a class="headerlink" href="#regressor-module" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.regressor</span> <span class="pre">import</span> <span class="pre">TrainRegressor,</span> <span class="pre">regression_metrics</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span><span class="p">,</span> <span class="n">regression_metrics</span>
+</pre></div>
+</div>
 <p>The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.</p>
 <p>The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:</p>
 <ul class="simple">
@@ -148,7 +152,9 @@
 <li><p><strong>save_model</strong>: Saves the trained model to a file.</p></li>
 </ul>
 <p>After saving a model with the <strong>save_model</strong> method, we can upload the model using the <strong>load_model</strong> function of the eda module and evaluate its performance on new data using the <strong>regression_metrics</strong> function.</p>
-<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.regressor</span> <span class="pre">import</span> <span class="pre">RegressorDiagnose</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">RegressorDiagnose</span>
+</pre></div>
+</div>
 <p>The RegressorDiagnose class is designed to diagnose regression models and analyze their performance.
 The class provides several methods for diagnosing and analyzing the performance of regression models. These methods include:</p>
 <ul class="simple">
@@ -162,7 +168,9 @@ The class provides several methods for diagnosing and analyzing the performance 
 </section>
 <section id="classifier-module">
 <h2>Classifier module<a class="headerlink" href="#classifier-module" title="Permalink to this headline"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">edamame.classifier</span> <span class="pre">import</span> <span class="pre">TrainClassifier</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edamame.classifier</span> <span class="kn">import</span> <span class="n">TrainClassifier</span>
+</pre></div>
+</div>
 <p>The TrainClassifier class is designed to be used as a pipeline for training and handling clasification models.</p>
 <p>The class provides several methods for fitting different regression models, computing model metrics, saving and loading models, and using AutoML to select the best model based on performance metrics. These methods include:</p>
 <ul class="simple">

@@ -23,7 +23,9 @@ The package consists of three modules: eda, which performs exploratory data anal
 Eda module
 ----------
 
-``import edamame.eda as eda``
+.. code-block:: python
+
+   import edamame.eda as eda
 
 The **eda** module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The "eda" module offers the following functionalities:
 
@@ -65,7 +67,9 @@ The **eda** module provides a wide range of functions for performing exploratory
 Regressor module
 ----------------
 
-``from edamame.regressor import TrainRegressor, regression_metrics``
+.. code-block:: python
+
+   from edamame.regressor import TrainRegressor, regression_metrics
 
 The TrainRegressor class is designed to be used as a pipeline for training and handling regression models.
 
@@ -83,7 +87,9 @@ The class provides several methods for fitting different regression models, comp
 
 After saving a model with the **save_model** method, we can upload the model using the **load_model** function of the eda module and evaluate its performance on new data using the **regression_metrics** function.
 
-``from edamame.regressor import RegressorDiagnose``
+.. code-block:: python
+
+   from edamame.regressor import RegressorDiagnose
 
 The RegressorDiagnose class is designed to diagnose regression models and analyze their performance.
 The class provides several methods for diagnosing and analyzing the performance of regression models. These methods include:
@@ -99,7 +105,9 @@ The class provides several methods for diagnosing and analyzing the performance 
 Classifier module
 -----------------
 
-``from edamame.classifier import TrainClassifier``
+.. code-block:: python
+
+   from edamame.classifier import TrainClassifier
 
 The TrainClassifier class is designed to be used as a pipeline for training and handling clasification models.
 
