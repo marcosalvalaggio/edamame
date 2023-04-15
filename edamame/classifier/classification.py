@@ -45,6 +45,7 @@ class TrainClassifier:
         >>> tree = classifier.tree()
         >>> rf = classifier.random_forest()
         >>> xgb = classifier.xgboost()
+        >>> svm = classifier.svm()
         >>> classifier.model_metrics()
         >>> # using AutoML
         >>> models = classifier.auto_ml()

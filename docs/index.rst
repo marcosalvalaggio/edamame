@@ -119,6 +119,7 @@ The class provides several methods for fitting different regression models, comp
 * **tree**: Fits a decision tree classification model to the training data.
 * **random_forest**: Fits a random forest classification model to the training data.
 * **xgboost**: Fits an XGBoost classification model to the training data.
+* **svm**: Fits an Support Vector classification model to the training data.
 * **auto_ml**: Uses AutoML to select the best model based on performance metrics.
 * **model_metrics**: Computes and prints the performance metrics for each trained model.
 * **save_model**: Saves the trained model to a file.
@@ -127,7 +128,6 @@ The class provides several methods for fitting different regression models, comp
 Todos
 -----
 
-* Add support for SVM to the classifier module.
 * Add the ClassifierDiagnose class to the classifier module.
 * Add the notebook for EDA in a classification problem to the edamame-notebook repository.
 * Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
