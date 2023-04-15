@@ -1,29 +1,19 @@
-edamame.eda package
-===================
+edamame.eda
+===========
 
-Submodules
-----------
-
-edamame.eda.eda module
-----------------------
+eda
+---
 
 .. automodule:: edamame.eda.eda
    :members:
    :undoc-members:
    :show-inheritance:
 
-edamame.eda.tools module
-------------------------
+tools
+-----
 
 .. automodule:: edamame.eda.tools
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: edamame.eda
-   :members:
-   :undoc-members:
-   :show-inheritance:

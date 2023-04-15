@@ -11,10 +11,3 @@ Subpackages
    edamame.eda
    edamame.regressor
 
-Module contents
----------------
-
-.. automodule:: edamame
-   :members:
-   :undoc-members:
-   :show-inheritance:
