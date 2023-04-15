@@ -17,6 +17,7 @@ import pickle
 from IPython.display import display, Markdown
 import matplotlib.pyplot as plt 
 from typing import Tuple, Literal, List
+from sklearn.svm import SVC
 # pandas options
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
@@ -67,6 +68,7 @@ class TrainClassifier:
         self.__tree_fit = {}
         self.__random_forest_fit = {}
         self.__xgb_fit = {}
+        self.__svm_fit = {}
 
 
     def logistic(self) -> LogisticRegression:
@@ -224,14 +226,37 @@ class TrainClassifier:
         self.__xgb_fit = reg_xgb.best_estimator_
         # return step 
         return self.__xgb_fit
+    
+
+    def svm(self, kernel: Literal["linear", "poly", "rbf", "sigmoid", "precomputed"] = "rbf", *args, **kwargs) -> SVC:
+        """
+        Trains an SVM classifier using the training data and returns the fitted model.
+
+        Args:
+            kernel (Literal["linear", "poly", "rbf", "sigmoid", "precomputed"]): The kernel type to be used in the algorithm. Default is "rbf".
+            *args: Variable length argument list to be passed to the `SVC` constructor.
+            **kwargs: Arbitrary keyword arguments to be passed to the `SVC` constructor.
+        
+        Returns:
+            SVC: The trained SVM classifier.
+        
+        Example: 
+            >>> from edamame.classifier import TrainClassifier
+            >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
+            >>> svm = classifier.svm(kernel="linear", C=1.0, gamma="auto")
+        """
+        svm_c = SVC(kernel=kernel, *args, **kwargs)
+        svm_c.fit(self.X_train, self.y_train.squeeze())
+        self.__svm_fit = svm_c
+        return self.__svm_fit
 
 
-    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"] = 'all') -> None:
+    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all') -> None:
         """
         Display classification metrics (confusion matrix and classification report) for specified or all trained models.
 
         Args:
-            model_name (Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"]): The name of the model to display the metrics for. Defaults to 'all'.
+            model_name (Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"]): The name of the model to display the metrics for. Defaults to 'all'.
 
         Returns:
             None
@@ -242,8 +267,8 @@ class TrainClassifier:
             >>> xgboost = classifier.xgboost(n_estimators=(10, 100, 5), n_folds=2) 
             >>> classifier.model_metrics(model_name="xgboost")
         """
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
-        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
+        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
@@ -291,9 +316,6 @@ class TrainClassifier:
                 print(classification_report(self.y_test, y_pred_test))
 
 
-    # ------------ #
-    # auto_ml
-    # ------------ #
     def auto_ml(self, n_folds: int = 5, data: Literal['train', 'test'] = 'train') -> List:
         """
         Perform automated machine learning with cross validation on a list of classification models.
@@ -315,12 +337,13 @@ class TrainClassifier:
         cv_mean = []
         score = []
         std = []
-        classifier = ["Logistic", "Gaussian NB", "KNN", "Tree", "Random forest", "Xgboost"]
+        classifier = ["Logistic", "Gaussian NB", "KNN", "Tree", "Random forest", "Xgboost", "SVM"]
         try:
             model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.__knn_fit.n_neighbors),
                           DecisionTreeClassifier(ccp_alpha=self.__tree_fit.ccp_alpha, min_impurity_decrease=self.__tree_fit.min_impurity_decrease),
-                          RandomForestClassifier(n_estimators = self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1), 
-                          XGBClassifier(n_estimators = self.__xgb_fit.n_estimators)]
+                          RandomForestClassifier(n_estimators=self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1), 
+                          XGBClassifier(n_estimators=self.__xgb_fit.n_estimators),
+                          SVC(kernel=self.__svm_fit.kernel)]
         except:
             # find best hyperparameters
             self.logistic()
@@ -333,7 +356,8 @@ class TrainClassifier:
             model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.__knn_fit.n_neighbors),
                           DecisionTreeClassifier(ccp_alpha=self.__tree_fit.ccp_alpha, min_impurity_decrease=self.__tree_fit.min_impurity_decrease),
                           RandomForestClassifier(n_estimators = self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1),
-                          XGBClassifier(n_estimators = self.__xgb_fit.n_estimators)]
+                          XGBClassifier(n_estimators = self.__xgb_fit.n_estimators),
+                          SVC()]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
@@ -357,18 +381,15 @@ class TrainClassifier:
         box.T.boxplot()
         plt.show()
 
-        return [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
+        return [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
 
 
-    # ------------ #
-    # save model
-    # ------------ #
-    def save_model(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost"] = 'all') -> None:
+    def save_model(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all') -> None:
         """
         Saves the specified machine learning model or all models in the instance to a pickle file.
 
         Args:
-            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): 
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost", "svm"]): 
                 The name of the model to save. Defaults to 'all'.
             
         Returns:
@@ -380,8 +401,8 @@ class TrainClassifier:
             >>> model_list = classifier.auto_ml()
             >>> classifier.save_model(model_name="all")
         """
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5}
-        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit]
+        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
+        model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
         if model_name == 'all':
             for key in model_dct:
                 if model_list[model_dct[key]].__class__.__name__ == 'dict':
