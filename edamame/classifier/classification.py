@@ -223,12 +223,11 @@ class TrainClassifier:
         return self.__xgb_fit
     
 
-    def svm(self, kernel: Literal["linear", "poly", "rbf", "sigmoid", "precomputed"] = "rbf", n_folds: int = 2, *args, **kwargs) -> SVC:
+    def svm(self, n_folds: int = 2, *args, **kwargs) -> SVC:
         """
         Trains an SVM classifier using the training data and returns the fitted model.
 
         Args:
-            kernel (Literal["linear", "poly", "rbf", "sigmoid", "precomputed"]): The kernel type to be used in the algorithm. Default is "rbf".
             n_folds (int): The number of folds in cross-validation. Default is 2.
             *args: Variable length argument list to be passed to the `SVC` constructor.
             **kwargs: Arbitrary keyword arguments to be passed to the `SVC` constructor.
@@ -241,7 +240,7 @@ class TrainClassifier:
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
             >>> svm = classifier.svm(kernel="linear", C=1.0, gamma="auto")
         """
-        n_kernel = ["linear", "poly", "rbf"] 
+        n_kernel = ["linear", "poly", "rbf", "sigmoid"] 
         tuned_parameters = {"kernel": n_kernel}
         svm_c = SVC(*args, **kwargs)
         grid_svm_c = GridSearchCV(svm_c, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
@@ -301,7 +300,7 @@ class TrainClassifier:
                 y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
                 y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
                 plt.figure(figsize=(10,4))
-                # plt.subplot(121)
+                plt.subplot(121)
                 sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
                 plt.title(f'{model_name} train')
                 plt.subplot(122)
