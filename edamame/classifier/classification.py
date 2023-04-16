@@ -1,4 +1,4 @@
-#TODO - add SVM method
+#TODO - add classifier metrics function 
 
 import numpy as np
 import pandas as pd
@@ -16,7 +16,7 @@ import seaborn as sns
 import pickle
 from IPython.display import display, Markdown
 import matplotlib.pyplot as plt 
-from typing import Tuple, Literal, List
+from typing import Tuple, Literal, List, Union
 from sklearn.svm import SVC
 # pandas options
 pd.set_option('display.max_columns', None)
@@ -420,4 +420,28 @@ class TrainClassifier:
                 filename = f'{model_name}.pkl'
                 with open(filename, 'wb') as file:
                     pickle.dump(model_list[model_dct[model_name]], file)
+
+
+
+def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], X: pd.DataFrame, y: pd.DataFrame) -> None:
+    """
+    Display classification metrics (confusion matrix and classification report) for the model passed as input to the function.
+
+    Args:
+        model ( Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
+        X (pd.DataFrame): Input features.
+        y (pd.DataFrame): Target feature.
+    
+    Returns:
+        None
+    """
+    dataframe_review(X)
+    dummy_control(X)
+    y_pred = model.predict(X)
+    title = f'#### Model metrics:'
+    display(Markdown(title))
+    sns.heatmap(confusion_matrix(y, y_pred), annot=True, fmt="2.0f")
+    plt.show()
+    print(classification_report(y, y_pred))
+
         
