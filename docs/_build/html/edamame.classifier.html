@@ -322,12 +322,12 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.svm">
-<span class="sig-name descname"><span class="pre">svm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'linear'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'poly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rbf'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'sigmoid'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'precomputed'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rbf'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.svm._classes.SVC</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.svm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.svm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">svm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.svm._classes.SVC</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.svm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.svm" title="Permalink to this definition"></a></dt>
 <dd><p>Trains an SVM classifier using the training data and returns the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kernel</strong> (<em>Literal</em><em>[</em><em>&quot;linear&quot;</em><em>, </em><em>&quot;poly&quot;</em><em>, </em><em>&quot;rbf&quot;</em><em>, </em><em>&quot;sigmoid&quot;</em><em>, </em><em>&quot;precomputed&quot;</em><em>]</em>) – The kernel type to be used in the algorithm. Default is “rbf”.</p></li>
+<li><p><strong>n_folds</strong> (<em>int</em>) – The number of folds in cross-validation. Default is 2.</p></li>
 <li><p><strong>*args</strong> – Variable length argument list to be passed to the <cite>SVC</cite> constructor.</p></li>
 <li><p><strong>**kwargs</strong> – Arbitrary keyword arguments to be passed to the <cite>SVC</cite> constructor.</p></li>
 </ul>
@@ -400,6 +400,24 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 </div>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.classifier.classification.classifier_metrics">
+<span class="sig-prename descclassname"><span class="pre">edamame.classifier.classification.</span></span><span class="sig-name descname"><span class="pre">classifier_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.naive_bayes.GaussianNB</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.svm._classes.SVC</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#classifier_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.classifier_metrics" title="Permalink to this definition"></a></dt>
+<dd><p>Display classification metrics (confusion matrix and classification report) for the model passed as input to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>LogisticRegression</em><em>, </em><em>GaussianNB</em><em>, </em><em>KNeighborsClassifier</em><em>, </em><em>DecisionTreeClassifier</em><em>, </em><em>RandomForestClassifier</em><em>, </em><em>XGBClassifier</em><em>, </em><em>SVC</em><em>]</em>) – Classification model.</p></li>
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – Input features.</p></li>
+<li><p><strong>y</strong> (<em>pd.DataFrame</em>) – Target feature.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

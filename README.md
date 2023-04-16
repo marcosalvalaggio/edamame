@@ -126,6 +126,12 @@ The class provides several methods for fitting different regression models, comp
 * **model_metrics**: Computes and prints the performance metrics for each trained model.
 * **save_model**: Saves the trained model to a file.
 
+After saving a model with the **save_model** method, we can upload the model using the **load_model** function of the eda module and evaluate its performance on new data using the **classifier_metrics** function.
+
+```python
+from edamame.classifier import classifier_metrics
+```
+
 <hr>
 
 ## Todos
