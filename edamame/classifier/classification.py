@@ -427,7 +427,7 @@ def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsCl
     Display classification metrics (confusion matrix and classification report) for the model passed as input to the function.
 
     Args:
-        model ( Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
+        model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
         X (pd.DataFrame): Input features.
         y (pd.DataFrame): Target feature.
     
