@@ -88,7 +88,6 @@ class TrainClassifier:
         logistic.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.__logistic_fit = logistic
-        # return step 
         return self.__logistic_fit
 
 
@@ -108,7 +107,6 @@ class TrainClassifier:
         gauss_nb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.__gaussian_nb_fit = gauss_nb
-        # return step 
         return self.__gaussian_nb_fit
 
 
@@ -138,11 +136,10 @@ class TrainClassifier:
         n_n = np.linspace(n_neighbors[0], n_neighbors[1], n_neighbors[2]).astype(np.int32)
         knn = KNeighborsClassifier()
         tuned_parameters = [{"n_neighbors": n_n}]
-        reg_knn = GridSearchCV(knn, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
-        reg_knn.fit(self.X_train, self.y_train.squeeze())
+        grid_knn = GridSearchCV(knn, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        grid_knn.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.__knn_fit = reg_knn.best_estimator_
-        # return step 
+        self.__knn_fit = grid_knn.best_estimator_
         return self.__knn_fit
 
 
@@ -167,11 +164,10 @@ class TrainClassifier:
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
         tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
         tree = DecisionTreeClassifier() 
-        reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
-        reg_tree.fit(self.X_train, self.y_train.squeeze())
+        grid_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        grid_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.__tree_fit = reg_tree.best_estimator_
-        # return step 
+        self.__tree_fit = grid_tree.best_estimator_
         return self.__tree_fit
 
 
@@ -194,11 +190,10 @@ class TrainClassifier:
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
         random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)
-        reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
-        reg_random_forest.fit(self.X_train, self.y_train.squeeze())
+        grid_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        grid_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.__random_forest_fit = reg_random_forest.best_estimator_
-        # return step 
+        self.__random_forest_fit = grid_random_forest.best_estimator_
         return self.__random_forest_fit
 
 
@@ -221,20 +216,20 @@ class TrainClassifier:
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
         xgb_m = XGBClassifier()
-        reg_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
-        reg_xgb.fit(self.X_train, self.y_train.squeeze())
+        grid_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        grid_xgb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
-        self.__xgb_fit = reg_xgb.best_estimator_
-        # return step 
+        self.__xgb_fit = grid_xgb.best_estimator_
         return self.__xgb_fit
     
 
-    def svm(self, kernel: Literal["linear", "poly", "rbf", "sigmoid", "precomputed"] = "rbf", *args, **kwargs) -> SVC:
+    def svm(self, kernel: Literal["linear", "poly", "rbf", "sigmoid", "precomputed"] = "rbf", n_folds: int = 2, *args, **kwargs) -> SVC:
         """
         Trains an SVM classifier using the training data and returns the fitted model.
 
         Args:
             kernel (Literal["linear", "poly", "rbf", "sigmoid", "precomputed"]): The kernel type to be used in the algorithm. Default is "rbf".
+            n_folds (int): The number of folds in cross-validation. Default is 2.
             *args: Variable length argument list to be passed to the `SVC` constructor.
             **kwargs: Arbitrary keyword arguments to be passed to the `SVC` constructor.
         
@@ -246,9 +241,13 @@ class TrainClassifier:
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
             >>> svm = classifier.svm(kernel="linear", C=1.0, gamma="auto")
         """
-        svm_c = SVC(kernel=kernel, *args, **kwargs)
-        svm_c.fit(self.X_train, self.y_train.squeeze())
-        self.__svm_fit = svm_c
+        n_kernel = ["linear", "poly", "rbf"] 
+        tuned_parameters = {"kernel": n_kernel}
+        svm_c = SVC(*args, **kwargs)
+        grid_svm_c = GridSearchCV(svm_c, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
+        grid_svm_c.fit(self.X_train, self.y_train.squeeze())
+        # save the model in the instance attributes
+        self.__svm_fit = grid_svm_c.best_estimator_
         return self.__svm_fit
 
 
@@ -353,12 +352,13 @@ class TrainClassifier:
             self.tree()
             self.random_forest()
             self.xgboost()
+            self.svm()
             # model list 
             model_list = [LogisticRegression(), GaussianNB(), KNeighborsClassifier(n_neighbors=self.__knn_fit.n_neighbors),
                           DecisionTreeClassifier(ccp_alpha=self.__tree_fit.ccp_alpha, min_impurity_decrease=self.__tree_fit.min_impurity_decrease),
                           RandomForestClassifier(n_estimators = self.__random_forest_fit.n_estimators, warm_start=True, n_jobs=-1),
                           XGBClassifier(n_estimators = self.__xgb_fit.n_estimators),
-                          SVC()]
+                          SVC(kernel=self.__svm_fit.kernel)]
         # cross validation loop 
         for model in model_list:
             if data == 'train':
