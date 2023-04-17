@@ -132,6 +132,29 @@ After saving a model with the **save_model** method, we can upload the model usi
 from edamame.classifier import classifier_metrics
 ```
 
+### Example:
+
+```python
+from edamame.classifier import TrainClassifier
+from sklearn import datasets
+import edamame.eda as eda
+iris = datasets.load_iris()
+X = iris.data
+X = pd.DataFrame(X, columns=iris.feature_names)
+y = iris.target
+y = pd.DataFrame(y, columns=['y'])
+X_train, y_train, X_test, y_test = eda.setup(X,y)
+X_train_s = eda.scaling(X_train)
+X_test_s = eda.scaling(X_test)
+classifier = TrainClassifier(X_train_s, y_train, X_test_s, y_test)
+models = classifier.auto_ml()
+svm = classifier.svm()
+classifier.model_metrics(model_name="svm")
+classifier.save_model(model_name="svm")
+svm_upload = eda.load_model(path="svm.pkl")
+classifier_metrics(svm_upload, X_train_s, y_train)
+```
+
 <hr>
 
 ## Todos
