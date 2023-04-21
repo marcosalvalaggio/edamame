@@ -104,6 +104,29 @@ The class provides several methods for diagnosing and analyzing the performance 
 * **residual_plot**: creates and displays a residual plot for the regression model.
 * **qqplot**: creates and displays a QQ plot for the regression model.
 
+
+### Example:
+
+```python
+from sklearn.datasets import make_regression
+from edamame.regressor import TrainRegressor
+import pandas as pd
+import edamame.eda as eda
+from edamame.regressor import RegressorDiagnose
+X, y = make_regression(n_samples=1000, n_features=5, n_targets=1, random_state=42)
+X = pd.DataFrame(X, columns=["f1", "f2", "f3", "f4", "f5"])
+y = pd.DataFrame(y, columns=["y"])
+X_train, y_train, X_test, y_test = eda.setup(X, y)
+X_train_s = eda.scaling(X_train)
+X_test_s = eda.scaling(X_test)
+regressor = TrainRegressor(X_train_s, y_train, X_test_s, y_test)
+rf = regressor.random_forest()
+regressor.model_metrics()
+diagnose = RegressorDiagnose(X_train_s, y_train, X_test_s, y_test)
+diagnose.random_forest_fi(model=rf)
+diagnose.prediction_error(model=rf)
+```
+
 <hr>
 
 ## Classifier module
