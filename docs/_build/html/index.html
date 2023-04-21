@@ -165,6 +165,28 @@ The class provides several methods for diagnosing and analyzing the performance 
 <li><p><strong>residual_plot</strong>: creates and displays a residual plot for the regression model.</p></li>
 <li><p><strong>qqplot</strong>: creates and displays a QQ plot for the regression model.</p></li>
 </ul>
+<section id="example">
+<h3>Example:<a class="headerlink" href="#example" title="Permalink to this headline"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_regression</span>
+<span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">edamame.eda</span> <span class="k">as</span> <span class="nn">eda</span>
+<span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">RegressorDiagnose</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_targets</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">,</span> <span class="s2">&quot;f3&quot;</span><span class="p">,</span> <span class="s2">&quot;f4&quot;</span><span class="p">,</span> <span class="s2">&quot;f5&quot;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">eda</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">eda</span><span class="o">.</span><span class="n">scaling</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span> <span class="o">=</span> <span class="n">eda</span><span class="o">.</span><span class="n">scaling</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test_s</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">random_forest</span><span class="p">()</span>
+<span class="n">regressor</span><span class="o">.</span><span class="n">model_metrics</span><span class="p">()</span>
+<span class="n">diagnose</span> <span class="o">=</span> <span class="n">RegressorDiagnose</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test_s</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">diagnose</span><span class="o">.</span><span class="n">random_forest_fi</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">rf</span><span class="p">)</span>
+<span class="n">diagnose</span><span class="o">.</span><span class="n">prediction_error</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">rf</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="classifier-module">
 <h2>Classifier module<a class="headerlink" href="#classifier-module" title="Permalink to this headline"></a></h2>
@@ -189,8 +211,8 @@ The class provides several methods for diagnosing and analyzing the performance 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edamame.classifier</span> <span class="kn">import</span> <span class="n">classifier_metrics</span>
 </pre></div>
 </div>
-<section id="example">
-<h3>Example:<a class="headerlink" href="#example" title="Permalink to this headline"></a></h3>
+<section id="id1">
+<h3>Example:<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edamame.classifier</span> <span class="kn">import</span> <span class="n">TrainClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 <span class="kn">import</span> <span class="nn">edamame.eda</span> <span class="k">as</span> <span class="nn">eda</span>
