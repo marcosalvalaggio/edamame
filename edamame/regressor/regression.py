@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 import xgboost as xgb
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error, get_scorer_names
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_predict, cross_val_score
 import pickle
 from edamame.eda.tools import dataframe_review, dummy_control, setup
@@ -19,8 +19,7 @@ pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
 
 # list of metrics
-#get_scorer_names()
-
+#get_scorer
 
 class TrainRegressor:
     """
