@@ -1,98 +1,70 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>edamame.classifier &mdash; Edamame 0.48 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>edamame.classifier &#8212; Edamame 0.48 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/flasky.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="edamame.eda" href="edamame.eda.html" />
-    <link rel="prev" title="edamame package" href="edamame.html" /> 
-</head>
+    <link rel="prev" title="edamame package" href="edamame.html" />
+     
+    
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  </head><body>
+    
+    
 
-          
-          
-          <a href="index.html" class="icon icon-home">
-            Edamame
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">edamame</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="edamame.html">edamame package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="edamame.eda.html">edamame.eda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="edamame.regressor.html">edamame.regressor</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">edamame.classifier</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-edamame.classifier.classification">classification</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="edamame.eda.html" title="edamame.eda"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="edamame.html" title="edamame package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Edamame 0.48 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >edamame</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="edamame.html" accesskey="U">edamame package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">edamame.classifier</a></li> 
+      </ul>
+    </div>  
 
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Edamame</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">edamame</a></li>
-          <li class="breadcrumb-item"><a href="edamame.html">edamame package</a></li>
-      <li class="breadcrumb-item active">edamame.classifier</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/edamame.classifier.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
   <section id="edamame-classifier">
-<h1>edamame.classifier<a class="headerlink" href="#edamame-classifier" title="Permalink to this headline"></a></h1>
+<h1>edamame.classifier<a class="headerlink" href="#edamame-classifier" title="Permalink to this headline">¶</a></h1>
 <section id="module-edamame.classifier.classification">
-<span id="classification"></span><h2>classification<a class="headerlink" href="#module-edamame.classifier.classification" title="Permalink to this headline"></a></h2>
+<span id="classification"></span><h2>classification<a class="headerlink" href="#module-edamame.classifier.classification" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.classifier.classification.</span></span><span class="sig-name descname"><span class="pre">TrainClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.classifier.classification.</span></span><span class="sig-name descname"><span class="pre">TrainClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>This class represents a pipeline for training and handling classification models.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.X_train">
-<span class="sig-name descname"><span class="pre">X_train</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.X_train" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">X_train</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.X_train" title="Permalink to this definition">¶</a></dt>
 <dd><p>The input training data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -103,7 +75,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.y_train">
-<span class="sig-name descname"><span class="pre">y_train</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.y_train" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">y_train</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.y_train" title="Permalink to this definition">¶</a></dt>
 <dd><p>The target training data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -114,7 +86,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.X_test">
-<span class="sig-name descname"><span class="pre">X_test</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.X_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">X_test</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.X_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>The input test data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -125,7 +97,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.y_test">
-<span class="sig-name descname"><span class="pre">y_test</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.y_test" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">y_test</span></span><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.y_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>The target test data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -154,7 +126,7 @@
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.auto_ml">
-<span class="sig-name descname"><span class="pre">auto_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'train'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'test'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'train'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.auto_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.auto_ml" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">auto_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'train'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'test'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'train'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.auto_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.auto_ml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform automated machine learning with cross validation on a list of classification models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -181,7 +153,7 @@ Must be either ‘train’ or ‘test’. Defaults to ‘train’.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.gaussian_nb">
-<span class="sig-name descname"><span class="pre">gaussian_nb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.naive_bayes.GaussianNB</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.gaussian_nb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.gaussian_nb" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gaussian_nb</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.naive_bayes.GaussianNB</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.gaussian_nb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.gaussian_nb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains a Gaussian Naive Bayes classifier using the training data and returns the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -201,7 +173,7 @@ Must be either ‘train’ or ‘test’. Defaults to ‘train’.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.knn">
-<span class="sig-name descname"><span class="pre">knn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1,</span> <span class="pre">50,</span> <span class="pre">50)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.knn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.knn" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">knn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1,</span> <span class="pre">50,</span> <span class="pre">50)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.knn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.knn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the
 best value of ‘n_neighbors’ hyperparameter.</p>
 <dl class="field-list simple">
@@ -234,7 +206,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.logistic">
-<span class="sig-name descname"><span class="pre">logistic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.logistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.logistic" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">logistic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.logistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.logistic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains a logistic regression model using the training data and returns the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -254,7 +226,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.model_metrics">
-<span class="sig-name descname"><span class="pre">model_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'logistic'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'guassian_nb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'knn'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'svm'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.model_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.model_metrics" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'logistic'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'guassian_nb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'knn'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'svm'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.model_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.model_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display classification metrics (confusion matrix and classification report) for specified or all trained models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -275,7 +247,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.random_forest">
-<span class="sig-name descname"><span class="pre">random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(50,</span> <span class="pre">1000,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.random_forest" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(50,</span> <span class="pre">1000,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.random_forest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train a Random Forest classifier using the training data and return the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -301,7 +273,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.save_model">
-<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'logistic'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'guassian_nb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'knn'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'svm'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.save_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'all'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'logistic'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'guassian_nb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'knn'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'tree'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'random_forest'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'xgboost'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'svm'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.save_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the specified machine learning model or all models in the instance to a pickle file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -322,7 +294,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.svm">
-<span class="sig-name descname"><span class="pre">svm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.svm._classes.SVC</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.svm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.svm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">svm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.svm._classes.SVC</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.svm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.svm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains an SVM classifier using the training data and returns the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -349,7 +321,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.tree">
-<span class="sig-name descname"><span class="pre">tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.001,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impurity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1e-05,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.tree" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.001,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impurity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">1e-05,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trains a decision tree classifier using the training data and returns the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -376,7 +348,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py method">
 <dt class="sig sig-object py" id="edamame.classifier.classification.TrainClassifier.xgboost">
-<span class="sig-name descname"><span class="pre">xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(10,</span> <span class="pre">100,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xgboost.sklearn.XGBClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.xgboost" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_estimators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(10,</span> <span class="pre">100,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_folds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">xgboost.sklearn.XGBClassifier</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#TrainClassifier.xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.TrainClassifier.xgboost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train an XGBoost classifier using the training data and return the fitted model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -404,7 +376,7 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edamame.classifier.classification.classifier_metrics">
-<span class="sig-prename descclassname"><span class="pre">edamame.classifier.classification.</span></span><span class="sig-name descname"><span class="pre">classifier_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.naive_bayes.GaussianNB</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.svm._classes.SVC</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#classifier_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.classifier_metrics" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">edamame.classifier.classification.</span></span><span class="sig-name descname"><span class="pre">classifier_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.naive_bayes.GaussianNB</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.svm._classes.SVC</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/classification.html#classifier_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.classification.classifier_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display classification metrics (confusion matrix and classification report) for the model passed as input to the function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -424,34 +396,64 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 </section>
 
 
-           </div>
+            <div class="clearer"></div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="edamame.html" class="btn btn-neutral float-left" title="edamame package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="edamame.eda.html" class="btn btn-neutral float-right" title="edamame.eda" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2023, Marco Salvalaggio.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
         </div>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">edamame.classifier</a><ul>
+<li><a class="reference internal" href="#module-edamame.classifier.classification">classification</a></li>
+</ul>
+</li>
+</ul>
 
-</body>
+  </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">edamame</a><ul>
+  <li><a href="edamame.html">edamame package</a><ul>
+      <li>Previous: <a href="edamame.html" title="previous chapter">edamame package</a></li>
+      <li>Next: <a href="edamame.eda.html" title="next chapter">edamame.eda</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/edamame.classifier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+
+    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Marco Salvalaggio.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+    
+
+  </body>
 </html>

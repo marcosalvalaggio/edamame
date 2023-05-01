@@ -8,3 +8,4 @@ scipy
 phik
 ipywidgets
 xgboost
+Flask-Sphinx-Themes
