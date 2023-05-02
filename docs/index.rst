@@ -10,7 +10,9 @@ Edamame is inspired by packages such as `pandas-profiling <https://github.com/yd
 
 To install the package,
 
-``pip install edamame``
+.. code-block:: python
+
+   pip install edamame
 
 the edamame package works correctly inside a jupyter-notebook.
 
