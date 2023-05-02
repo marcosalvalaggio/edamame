@@ -25,7 +25,7 @@ copyright = '2023, Marco Salvalaggio'
 author = 'Marco Salvalaggio'
 
 # The full version, including alpha/beta/rc tags
-release = '0.48'
+release = '0.49'
 
 
 # -- General configuration ---------------------------------------------------
@@ -65,3 +65,11 @@ pygments_style = "sphinx"
 html_logo = '_static/logo.png'
 
 html_css_files = ['custom.css']
+
+html_theme_options = {
+    'github_user': 'marcosalvalaggio',
+    'github_repo': 'edamame',
+    'github_button': 'true',
+    'github_type': 'star',
+    'github_banner': 'true',
+}

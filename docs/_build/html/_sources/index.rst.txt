@@ -16,8 +16,8 @@ To install the package,
 
 the edamame package works correctly inside a jupyter-notebook.
 
-Edamame functionalities
-=======================
+Functionalities
+===============
 
 The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the `edamame-notebook <https://github.com/marcosalvalaggio/edamame-notebooks>`_ repository.
 

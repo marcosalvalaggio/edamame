@@ -7,7 +7,7 @@
 [![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://edamame-doc.readthedocs.io/en/latest/index.html) [![PyPI version](https://badge.fury.io/py/edamame.svg)](https://badge.fury.io/py/edamame) ![PyPI - Downloads](https://img.shields.io/pypi/dm/edamame) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 - [Edamame](#edamame)
-  - [Edamame functionalities](#edamame-functionalities)
+  - [Functionalities](#functionalities)
   - [Eda module](#eda-module)
   - [Regressor module](#regressor-module)
     - [Example:](#example)
@@ -29,10 +29,10 @@ the edamame package works correctly inside a jupyter-notebook. You can find the 
 <hr>
 
 
-## Edamame functionalities
+## Functionalities
 
 
-The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the [edamame-notebook](https://github.com/marcosalvalaggio/edamame-notebooks) repository.
+The package consists of three modules: eda, which performs exploratory data analysis; and regressor and classifier, which handle the training of machine learning models for regression and classification, respectively. To see examples of the uses of the edamame package, you can check out the [examples](https://github.com/marcosalvalaggio/edamame-notebooks) folder in the repository.
 
 <hr>
 
