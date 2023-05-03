@@ -1,5 +1,3 @@
-#TODO - add classifier metrics function 
-
 import numpy as np
 import pandas as pd
 from  edamame.eda.tools import dataframe_review, dummy_control
