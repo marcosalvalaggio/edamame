@@ -61,10 +61,10 @@ class RegressorDiagnose:
         y_test (pd.Series): The target test data.
 
     Example:
-        >>> from edamame.regressor import TrainRegressor, Diagnose
+        >>> from edamame.regressor import TrainRegressor, RegressorDiagnose
         >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
         >>> linear = regressor.linear()
-        >>> diagnose = Diagnose(X_train, np.log(y_train), X_test, np.log(y_test))
+        >>> diagnose = RegressorDiagnose(X_train, np.log(y_train), X_test, np.log(y_test))
         >>> diagnose.coefficients()
         >>> diagnose.prediction_error(model=linear)
         >>> diagnose.residual_plot(model=linear)
@@ -140,7 +140,7 @@ class RegressorDiagnose:
 
         Args:
             model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model.
-            train (bool): Defines if you want to plot the scatterplot on train or test data (train by default).
+            train_data (bool): Defines if you want to plot the scatterplot on train or test data (train by default).
             figsize (Tuple[float, float]): Define the size of the prediction_erros plot.
 
         Returns:
