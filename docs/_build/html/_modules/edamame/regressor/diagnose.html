@@ -95,10 +95,10 @@
 <span class="sd">        y_test (pd.Series): The target test data.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; from edamame.regressor import TrainRegressor, Diagnose</span>
+<span class="sd">        &gt;&gt;&gt; from edamame.regressor import TrainRegressor, RegressorDiagnose</span>
 <span class="sd">        &gt;&gt;&gt; regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))</span>
 <span class="sd">        &gt;&gt;&gt; linear = regressor.linear()</span>
-<span class="sd">        &gt;&gt;&gt; diagnose = Diagnose(X_train, np.log(y_train), X_test, np.log(y_test))</span>
+<span class="sd">        &gt;&gt;&gt; diagnose = RegressorDiagnose(X_train, np.log(y_train), X_test, np.log(y_test))</span>
 <span class="sd">        &gt;&gt;&gt; diagnose.coefficients()</span>
 <span class="sd">        &gt;&gt;&gt; diagnose.prediction_error(model=linear)</span>
 <span class="sd">        &gt;&gt;&gt; diagnose.residual_plot(model=linear)</span>
@@ -174,7 +174,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            model (Union[LinearRegression, Lasso, Ridge, DecisionTreeRegressor, RandomForestRegressor, xgb.XGBRegressor]): The input model.</span>
-<span class="sd">            train (bool): Defines if you want to plot the scatterplot on train or test data (train by default).</span>
+<span class="sd">            train_data (bool): Defines if you want to plot the scatterplot on train or test data (train by default).</span>
 <span class="sd">            figsize (Tuple[float, float]): Define the size of the prediction_erros plot.</span>
 
 <span class="sd">        Returns:</span>

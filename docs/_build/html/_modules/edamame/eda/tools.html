@@ -37,7 +37,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="load_model"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.load_model">[docs]</a><span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -51,7 +51,6 @@
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">model</span> </div>
-
 
 
 <div class="viewcode-block" id="setup"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">dummy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
@@ -79,7 +78,6 @@
     <span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">dummy</span><span class="p">)</span>
     <span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="n">dummy</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span></div>
-
 
 
 <div class="viewcode-block" id="scaling"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.scaling">[docs]</a><span class="k">def</span> <span class="nf">scaling</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">minmaxscaler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -113,6 +111,27 @@
     <span class="k">return</span> <span class="n">X</span></div>
 
 
+<div class="viewcode-block" id="ohe"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.ohe">[docs]</a><span class="k">def</span> <span class="nf">ohe</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a NumPy array that represents the categorical label of the target variable and transform it using one-hot encoding.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array (np.ndarray): The target variables passed in input.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        np.ndarray: The one-hot encoded NumPy array.</span>
+<span class="sd">    </span>
+<span class="sd">    Example: </span>
+<span class="sd">        &gt;&gt;&gt; import edamame.eda as eda</span>
+<span class="sd">        &gt;&gt;&gt; from sklearn import datasets</span>
+<span class="sd">        &gt;&gt;&gt; iris = datasets.load_iris()</span>
+<span class="sd">        &gt;&gt;&gt; y = iris.target</span>
+<span class="sd">        &gt;&gt;&gt; y_ohe = eda.ohe(y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">array</span><span class="p">))</span>
+    <span class="n">ohe_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)[</span><span class="n">array</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ohe_array</span></div>
+
 
 <div class="viewcode-block" id="dummy_control"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.dummy_control">[docs]</a><span class="k">def</span> <span class="nf">dummy_control</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -133,7 +152,6 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;dataframe with non-numerical columns&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">pass</span></div>
-
 
 
 <div class="viewcode-block" id="dataframe_review"><a class="viewcode-back" href="../../../edamame.eda.html#edamame.eda.tools.dataframe_review">[docs]</a><span class="k">def</span> <span class="nf">dataframe_review</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

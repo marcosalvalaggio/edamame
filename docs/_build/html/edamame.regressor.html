@@ -88,10 +88,10 @@
 </dd></dl>
 
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span><span class="p">,</span> <span class="n">Diagnose</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.regressor</span> <span class="kn">import</span> <span class="n">TrainRegressor</span><span class="p">,</span> <span class="n">RegressorDiagnose</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">regressor</span> <span class="o">=</span> <span class="n">TrainRegressor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">linear</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">linear</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span> <span class="o">=</span> <span class="n">Diagnose</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span> <span class="o">=</span> <span class="n">RegressorDiagnose</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">prediction_error</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diagnose</span><span class="o">.</span><span class="n">residual_plot</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
@@ -120,7 +120,7 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>Union</em><em>[</em><em>LinearRegression</em><em>, </em><em>Lasso</em><em>, </em><em>Ridge</em><em>, </em><em>DecisionTreeRegressor</em><em>, </em><em>RandomForestRegressor</em><em>, </em><em>xgb.XGBRegressor</em><em>]</em>) – The input model.</p></li>
-<li><p><strong>train</strong> (<em>bool</em>) – Defines if you want to plot the scatterplot on train or test data (train by default).</p></li>
+<li><p><strong>train_data</strong> (<em>bool</em>) – Defines if you want to plot the scatterplot on train or test data (train by default).</p></li>
 <li><p><strong>figsize</strong> (<em>Tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – Define the size of the prediction_erros plot.</p></li>
 </ul>
 </dd>

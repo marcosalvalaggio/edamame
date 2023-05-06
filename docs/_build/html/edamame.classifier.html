@@ -373,6 +373,147 @@ number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. D
 </dd></dl>
 
 </section>
+<section id="module-edamame.classifier.diagnose">
+<span id="diagnose"></span><h2>diagnose<a class="headerlink" href="#module-edamame.classifier.diagnose" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edamame.classifier.diagnose.</span></span><span class="sig-name descname"><span class="pre">ClassifierDiagnose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#ClassifierDiagnose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class for diagnosing classification models.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.X_train">
+<span class="sig-name descname"><span class="pre">X_train</span></span><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.X_train" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.y_train">
+<span class="sig-name descname"><span class="pre">y_train</span></span><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.y_train" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.X_test">
+<span class="sig-name descname"><span class="pre">X_test</span></span><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.X_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.y_test">
+<span class="sig-name descname"><span class="pre">y_test</span></span><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.y_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">edamame.classifier</span> <span class="kn">import</span> <span class="n">TrainClassifier</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifier</span> <span class="o">=</span> <span class="n">TrainClassifier</span><span class="p">(</span><span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nb</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">gaussian_nb</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifiers_diagnose</span> <span class="o">=</span> <span class="n">ClassifierDiagnose</span><span class="p">(</span><span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classifiers_diagnose</span><span class="o">.</span><span class="n">class_prediction_error</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">nb</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.class_prediction_error">
+<span class="sig-name descname"><span class="pre">class_prediction_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">sklearn.linear_model._logistic.LogisticRegression</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.naive_bayes.GaussianNB</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.neighbors._classification.KNeighborsClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.tree._classes.DecisionTreeClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xgboost.sklearn.XGBClassifier</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">sklearn.svm._classes.SVC</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#ClassifierDiagnose.class_prediction_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.class_prediction_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>This plot shows the support (number of training samples) for each class in the fitted classification model as a stacked bar chart. Each bar is segmented to show the proportion of predictions (including false negatives and false positives, like a Confusion Matrix) for each class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>LogisticRegression</em><em>, </em><em>GaussianNB</em><em>, </em><em>KNeighborsClassifier</em><em>, </em><em>DecisionTreeClassifier</em><em>, </em><em>RandomForestClassifier</em><em>, </em><em>XGBClassifier</em><em>, </em><em>SVC</em><em>]</em>) – Classification model.</p></li>
+<li><p><strong>train_data</strong> (<em>bool</em>) – Defines if you want to plot the stacked barplot on train or test data (train by default).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.random_forest_fi">
+<span class="sig-name descname"><span class="pre">random_forest_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(12,</span> <span class="pre">10)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#ClassifierDiagnose.random_forest_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.random_forest_fi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function displays the feature importance plot of the random forest model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>RandomForestClassifier</em>) – The input random forest model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.ClassifierDiagnose.xgboost_fi">
+<span class="sig-name descname"><span class="pre">xgboost_fi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.sklearn.XGBClassifier</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(14,</span> <span class="pre">12)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#ClassifierDiagnose.xgboost_fi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.ClassifierDiagnose.xgboost_fi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function displays the feature importance plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>XGBClassifier</em>) – The input xgboost model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.check_random_forest">
+<span class="sig-prename descclassname"><span class="pre">edamame.classifier.diagnose.</span></span><span class="sig-name descname"><span class="pre">check_random_forest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sklearn.ensemble._forest.RandomForestClassifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#check_random_forest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.check_random_forest" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function checks if the model passed is a random forest regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>RandomForestClassifier</em>) – The input model to be checked.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input model is not a random forest regression model.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edamame.classifier.diagnose.check_xgboost">
+<span class="sig-prename descclassname"><span class="pre">edamame.classifier.diagnose.</span></span><span class="sig-name descname"><span class="pre">check_xgboost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xgboost.sklearn.XGBClassifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/edamame/classifier/diagnose.html#check_xgboost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edamame.classifier.diagnose.check_xgboost" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function checks if the model passed is a xgboost regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>xgb.XGBRegressor</em>) – The input model to be checked.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If the input model is not an XGBoost regression model.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
