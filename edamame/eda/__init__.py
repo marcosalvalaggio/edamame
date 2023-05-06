@@ -17,7 +17,7 @@ interaction,
 inspection,
 split_and_scaling)
 
-from .tools import (load_model, setup, scaling)
+from .tools import (load_model, setup, scaling, ohe)
 
 
 __all__ = [
@@ -42,4 +42,5 @@ __all__ = [
     "load_model",
     "setup",
     "scaling",
+    "ohe",
 ]

@@ -63,6 +63,7 @@ The **eda** module provides a wide range of functions for performing exploratory
    - **load_model**: The function load the model saved in the pickle format.
    - **setup**: The function returns the following elements: X_train, y_train, X_test, y_test.
    - **scaling**: The function returns the normalised/standardized matrix.
+   - **ohe**: The function returns the numpy array passed in as input, converted using one-hot encoding.
 
 
 
