@@ -15,6 +15,43 @@ from sklearn.svm import SVC
 from sklearn import datasets
 from sklearn.metrics import confusion_matrix
 import random
+from typing import Tuple
+import xgboost as xgb
+
+
+def check_random_forest(model: RandomForestClassifier) -> None: 
+    """
+    The function checks if the model passed is a random forest regression.
+
+    Args:
+        model (RandomForestClassifier): The input model to be checked.
+
+    Raises:
+            TypeError: If the input model is not a random forest regression model.
+    
+    Returns:
+        None
+    """
+    if model.__class__.__name__ != 'RandomForestClassifier':
+        raise TypeError('The model passed isn\'t a ridge model')
+    
+
+def check_xgboost(model: XGBClassifier) -> None: 
+    """
+    The function checks if the model passed is a xgboost regression.
+
+    Args:
+        model (xgb.XGBRegressor): The input model to be checked.
+
+    Raises:
+        TypeError: If the input model is not an XGBoost regression model.
+
+    Returns:
+        None
+    """
+    if model.__class__.__name__ != 'XGBClassifier':
+        raise TypeError('The model passed isn\'t an xgboost')
+    
 
 class ClassifierDiagnose:
     """
@@ -81,3 +118,41 @@ class ClassifierDiagnose:
             num_classes = y_true.max() + 1
             cm = confusion_matrix(y_true=y_true, y_pred=y_pred)
             stacked_barplot(matrix=cm, num_of_class=num_classes)
+    
+
+    def random_forest_fi(self, model: RandomForestClassifier, figsize: Tuple[float, float] = (12,10)) -> None:
+        """
+        The function displays the feature importance plot of the random forest model. 
+
+        Args:
+            model (RandomForestClassifier): The input random forest model.
+
+        Returns:
+            None
+        """
+        check_random_forest(model)
+        importances = model.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in model.estimators_], axis=0)
+        feature_names = model.feature_names_in_
+        forest_importances = pd.Series(importances, index=feature_names)
+        plt.figure(figsize=figsize)
+        forest_importances.plot.bar(yerr=std)
+        plt.title("Feature importances using mean decrease in impurity")
+        plt.ylabel("Mean decrease in impurity")
+        plt.show()
+
+    
+    def xgboost_fi(self, model: XGBClassifier, figsize: tuple[float, float] = (14,12)) -> None:
+        """
+        The function displays the feature importance plot.
+
+        Args:
+            model (XGBClassifier): The input xgboost model.
+
+        Returns:
+            None
+        """
+        check_xgboost(model)
+        xgb.plot_importance(model)
+        plt.rcParams['figure.figsize'] = [figsize[0], figsize[1]]
+        plt.show()
