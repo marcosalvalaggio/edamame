@@ -38,8 +38,9 @@ The package consists of three modules: eda, which performs exploratory data anal
 
 ## Eda module
 
-
-``import edamame.eda as eda``
+```python
+import edamame.eda as eda
+```
 
 The **eda** module provides a wide range of functions for performing exploratory data analysis (EDA) on datasets. With this module you can easily explore and manipulate your data, conduct descriptive statistics, correlation analysis, and prepare your data for machine learning. The "eda" module offers the following functionalities:
 
