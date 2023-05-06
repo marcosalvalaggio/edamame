@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import pandas as pd
 from typing import Tuple
-
+import numpy as np
 
 
 def load_model(path: str):
@@ -17,7 +17,6 @@ def load_model(path: str):
     with open(path, 'rb') as file:
         model = pickle.load(file)
     return model 
-
 
 
 def setup(X: pd.DataFrame, y: pd.DataFrame, dummy: bool = False, seed: int = 42, size: float = 0.25) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -45,7 +44,6 @@ def setup(X: pd.DataFrame, y: pd.DataFrame, dummy: bool = False, seed: int = 42,
     X_train = pd.get_dummies(data=X_train, drop_first=dummy)
     X_test = pd.get_dummies(data=X_test, drop_first=dummy)
     return X_train, y_train, X_test, y_test
-
 
 
 def scaling(X: pd.DataFrame, minmaxscaler: bool = False) -> pd.DataFrame:
@@ -79,6 +77,27 @@ def scaling(X: pd.DataFrame, minmaxscaler: bool = False) -> pd.DataFrame:
     return X
 
 
+def ohe(array: np.ndarray) -> np.ndarray:
+    """
+    Convert a NumPy array that represents the categorical label of the target variable and transform it using one-hot encoding.
+
+    Args:
+        array (np.ndarray): The target variables passed in input.
+
+    Return:
+        np.ndarray: The one-hot encoded NumPy array.
+    
+    Example: 
+        >>> import edamame.eda as eda
+        >>> from sklearn import datasets
+        >>> iris = datasets.load_iris()
+        >>> y = iris.target
+        >>> y_ohe = eda.ohe(y)
+    """
+    num_classes = len(np.unique(array))
+    ohe_array = np.eye(num_classes)[array]
+    return ohe_array
+
 
 def dummy_control(data: pd.DataFrame) -> None:
     """
@@ -99,7 +118,6 @@ def dummy_control(data: pd.DataFrame) -> None:
         raise TypeError('dataframe with non-numerical columns')
     else:
         pass
-
 
 
 def dataframe_review(data: pd.DataFrame) -> None:
