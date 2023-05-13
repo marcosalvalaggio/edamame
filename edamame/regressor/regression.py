@@ -68,19 +68,21 @@ class TrainRegressor:
         self.__xgb_fit = {}
 
 
-    def linear(self) -> LinearRegression:
+    def linear(self, **kwargs) -> LinearRegression:
         """
         Train a linear regression model using the training data and return the fitted model.
 
         Returns:
             LinearRegression: The trained linear regression model.
+            **kwargs: Arbitrary keyword arguments to be passed to the `linear` constructor.
+
         
         Example:
             >>> from edamame.regressor import TrainRegressor
             >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
             >>> linear = regressor.linear()
         """
-        linear = LinearRegression()
+        linear = LinearRegression(**kwargs)
         linear.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.__linear_fit = linear
@@ -88,13 +90,14 @@ class TrainRegressor:
         return self.__linear_fit
 
 
-    def lasso(self, alpha: Tuple[float, float, int] = (0.0001, 10., 50), n_folds: int = 5) -> Lasso:
+    def lasso(self, alpha: Tuple[float, float, int] = (0.0001, 10., 50), n_folds: int = 5, **kwargs) -> Lasso:
         """
         Train a Lasso regression model using the training data and return the fitted model.
 
         Args:
             alpha (Tuple[float, float, int]): The range of alpha values to test for hyperparameter tuning. Default is (0.0001, 10., 50).
             n_folds (int): The number of cross-validation folds to use for hyperparameter tuning. Default is 5.
+            **kwargs: Arbitrary keyword arguments to be passed to the `lasso` constructor.
 
         Returns:
             Lasso: The trained Lasso regression model.
@@ -107,7 +110,7 @@ class TrainRegressor:
         # lasso hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         # hyperparameter gridsearch
-        lasso = Lasso()
+        lasso = Lasso(**kwargs)
         tuned_parameters = [{"alpha": alphas}]
         reg_lasso = GridSearchCV(lasso, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_lasso.fit(self.X_train, self.y_train.squeeze())
@@ -117,13 +120,14 @@ class TrainRegressor:
         return self.__lasso_fit
 
 
-    def ridge(self, alpha: Tuple[float, float, int] = (0.1, 50., 50), n_folds: int = 5) -> Ridge:
+    def ridge(self, alpha: Tuple[float, float, int] = (0.1, 50., 50), n_folds: int = 5, **kwargs) -> Ridge:
         """
         Train a Ridge regression model using the training data and return the fitted model.
 
         Args:
             alpha (Tuple[float, float, int]): The range of alpha values to test for hyperparameter tuning. Default is (0.1, 50, 50).
             n_folds (int): The number of cross-validation folds to use for hyperparameter tuning. Default is 5.
+            **kwargs: Arbitrary keyword arguments to be passed to the `ridge` constructor.
 
         Returns:
             Ridge: The trained Ridge regression model.
@@ -136,7 +140,7 @@ class TrainRegressor:
         # ridge hyperparameter 
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         # hyperparameter gridsearch
-        ridge = Ridge()
+        ridge = Ridge(**kwargs)
         tuned_parameters = [{"alpha": alphas}]
         reg_ridge = GridSearchCV(ridge, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_ridge.fit(self.X_train, self.y_train.squeeze())
@@ -147,7 +151,7 @@ class TrainRegressor:
     
     
     def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5),
-            n_folds: int = 5) -> DecisionTreeRegressor:
+            n_folds: int = 5, **kwargs) -> DecisionTreeRegressor:
         """
         Fits a decision tree regression model using the provided training data and hyperparameters.
 
@@ -161,6 +165,7 @@ class TrainRegressor:
                 `start` is the start of the range, `stop` is the end of the range, and `num` is the number of 
                 values to generate within the range. Defaults to (0., 0.00001, 5).
             n_folds (int): The number of folds to use for cross-validation. Defaults to 5.
+            **kwargs: Arbitrary keyword arguments to be passed to the `tree` constructor.
 
         Returns:
             DecisionTreeRegressor: The fitted decision tree regressor model.
@@ -174,7 +179,7 @@ class TrainRegressor:
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
         tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
-        tree = DecisionTreeRegressor() 
+        tree = DecisionTreeRegressor(**kwargs) 
         reg_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -183,7 +188,7 @@ class TrainRegressor:
         return self.__tree_fit
 
 
-    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestRegressor:
+    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2, **kwargs) -> RandomForestRegressor:
         """
         Trains a Random Forest regression model on the training data and returns the best estimator found by GridSearchCV.
 
@@ -191,13 +196,14 @@ class TrainRegressor:
             n_estimators (Tuple[int, int, int]): A tuple of integers specifying the minimum and maximum number of trees
                 to include in the forest, and the step size between them.
             n_folds (int): The number of cross-validation folds to use when evaluating models.
+            **kwargs: Arbitrary keyword arguments to be passed to the `random forest` constructor.
 
         Returns:
             RandomForestRegressor: The best Random Forest model found by GridSearchCV.
         """
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
-        random_forest = RandomForestRegressor(warm_start=True, n_jobs=-1)
+        random_forest = RandomForestRegressor(warm_start=True, n_jobs=-1, **kwargs)
         reg_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -206,7 +212,7 @@ class TrainRegressor:
         return self.__random_forest_fit
 
 
-    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2) -> xgb.XGBRegressor:
+    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2, **kwargs) -> xgb.XGBRegressor:
         """
         Trains an XGBoost model using the specified hyperparameters.
 
@@ -214,6 +220,7 @@ class TrainRegressor:
             n_estimators (Tuple[int, int, int]): A tuple containing the start, end and step values for number of estimators.
                 Default is (10, 100, 5).
             n_folds (int): The number of folds to use in the cross-validation process. Default is 2.
+            **kwargs: Arbitrary keyword arguments to be passed to the `xgboost` constructor.
 
         Returns:
             xgb.XGBRegressor: The trained XGBoost model.
@@ -225,7 +232,7 @@ class TrainRegressor:
         """
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
-        xgb_m = xgb.XGBRegressor(objective ='reg:squarederror')
+        xgb_m = xgb.XGBRegressor(objective ='reg:squarederror', **kwargs)
         reg_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='r2')
         reg_xgb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes

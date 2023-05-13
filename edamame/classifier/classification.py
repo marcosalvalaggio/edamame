@@ -70,38 +70,41 @@ class TrainClassifier:
         self.__svm_fit = {}
 
 
-    def logistic(self) -> LogisticRegression:
+    def logistic(self, **kwargs) -> LogisticRegression:
         """
         Trains a logistic regression model using the training data and returns the fitted model.
 
         Returns:
             LogisticRegression: The trained logistic regression model.
+            **kwargs: Arbitrary keyword arguments to be passed to the `logistic` constructor.
 
         Example:
             >>> from edamame.classifier import TrainClassifier
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
             >>> logistic = classifier.logistic()
         """
-        logistic = LogisticRegression()
+        logistic = LogisticRegression(**kwargs)
         logistic.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.__logistic_fit = logistic
         return self.__logistic_fit
 
 
-    def gaussian_nb(self) -> GaussianNB:
+    def gaussian_nb(self, **kwargs) -> GaussianNB:
         """
         Trains a Gaussian Naive Bayes classifier using the training data and returns the fitted model.
 
         Returns:
             GaussianNB: The trained Gaussian Naive Bayes classifier.
+            **kwargs: Arbitrary keyword arguments to be passed to the `Gaussian NB` constructor.
+
         
         Example:
             >>> from edamame.classifier import TrainClassifier
             >>> classifier = TrainClassifier(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
             >>> nb = classifier.gaussian_nb()
         """
-        gauss_nb = GaussianNB()
+        gauss_nb = GaussianNB(**kwargs)
         gauss_nb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
         self.__gaussian_nb_fit = gauss_nb
@@ -111,7 +114,7 @@ class TrainClassifier:
     # ------------ #
     # KNN
     # ------------ #
-    def knn(self, n_neighbors: Tuple[int, int, int] = (1, 50, 50), n_folds: int = 5) -> KNeighborsClassifier:
+    def knn(self, n_neighbors: Tuple[int, int, int] = (1, 50, 50), n_folds: int = 5, **kwargs) -> KNeighborsClassifier:
         """
         Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the
         best value of 'n_neighbors' hyperparameter. 
@@ -121,6 +124,8 @@ class TrainClassifier:
                 'n_neighbors' hyperparameter that will be searched by the grid search, and the third integer is the 
                 number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. Default is [1, 50, 50].
             n_folds (int): The number of cross-validation folds to use for the grid search. Default is 5.
+            **kwargs: Arbitrary keyword arguments to be passed to the `KNN` constructor.
+
 
         Returns:
             KNeighborsClassifier: The trained k-Nearest Neighbors classification model with the best 'n_neighbors' 
@@ -132,7 +137,7 @@ class TrainClassifier:
             >>> knn = classifier.knn(n_neighbors=(1,50,50), n_folds=3) 
         """
         n_n = np.linspace(n_neighbors[0], n_neighbors[1], n_neighbors[2]).astype(np.int32)
-        knn = KNeighborsClassifier()
+        knn = KNeighborsClassifier(**kwargs)
         tuned_parameters = [{"n_neighbors": n_n}]
         grid_knn = GridSearchCV(knn, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         grid_knn.fit(self.X_train, self.y_train.squeeze())
@@ -141,7 +146,7 @@ class TrainClassifier:
         return self.__knn_fit
 
 
-    def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5), n_folds: int = 5) -> DecisionTreeClassifier:
+    def tree(self, alpha: Tuple[float, float, int] = (0., 0.001, 5), impurity: Tuple[float, float, int] = (0., 0.00001, 5), n_folds: int = 5, **kwargs) -> DecisionTreeClassifier:
         """
         Trains a decision tree classifier using the training data and returns the fitted model.
     
@@ -149,6 +154,8 @@ class TrainClassifier:
             alpha (Tuple[float, float, int]): A tuple containing the minimum and maximum values of ccp_alpha and the number of values to try (default: (0., 0.001, 5)).
             impurity (Tuple[float, float, int]): A tuple containing the minimum and maximum values of min_impurity_decrease and the number of values to try (default: (0., 0.00001, 5)).
             n_folds (int): The number of cross-validation folds to use for grid search (default: 5).
+            **kwargs: Arbitrary keyword arguments to be passed to the `tree` constructor.
+
 
         Returns:
             DecisionTreeClassifier: The trained decision tree classifier model.
@@ -161,7 +168,7 @@ class TrainClassifier:
         alphas = np.linspace(alpha[0], alpha[1], alpha[2])
         impurities = np.linspace(impurity[0], impurity[1], impurity[2])
         tuned_parameters = [{"ccp_alpha": alphas, 'min_impurity_decrease': impurities}]
-        tree = DecisionTreeClassifier() 
+        tree = DecisionTreeClassifier(**kwargs) 
         grid_tree = GridSearchCV(tree, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         grid_tree.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -169,13 +176,14 @@ class TrainClassifier:
         return self.__tree_fit
 
 
-    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2) -> RandomForestClassifier:
+    def random_forest(self, n_estimators: Tuple[int, int, int] = (50, 1000, 5), n_folds: int = 2, **kwargs) -> RandomForestClassifier:
         """
         Train a Random Forest classifier using the training data and return the fitted model.
 
         Args:
             n_estimators (Tuple[int, int, int]): The range of the number of trees in the forest. Default is (50, 1000, 5).
             n_folds (int): The number of folds in cross-validation. Default is 2.
+            **kwargs: Arbitrary keyword arguments to be passed to the `random forest` constructor.
 
         Returns:
             RandomForestClassifier: The trained Random Forest classifier.
@@ -187,7 +195,7 @@ class TrainClassifier:
         """
         n_estimators = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = [{"n_estimators": n_estimators}]
-        random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1)
+        random_forest = RandomForestClassifier(warm_start=True, n_jobs=-1, **kwargs)
         grid_random_forest = GridSearchCV(random_forest, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         grid_random_forest.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
@@ -195,13 +203,14 @@ class TrainClassifier:
         return self.__random_forest_fit
 
 
-    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2) -> XGBClassifier:
+    def xgboost(self, n_estimators: Tuple[int, int, int] = (10, 100, 5), n_folds: int = 2, **kwargs) -> XGBClassifier:
         """
         Train an XGBoost classifier using the training data and return the fitted model.
 
         Args:
             n_estimators (Tuple[int, int, int]): The range of the number of boosting rounds. Default is (10, 100, 5).
             n_folds (int): The number of folds in cross-validation. Default is 2.
+            **kwargs: Arbitrary keyword arguments to be passed to the `xgboost` constructor.
 
         Returns:
             XGBClassifier: The trained XGBoost classifier.
@@ -213,7 +222,7 @@ class TrainClassifier:
         """
         n_est = np.linspace(n_estimators[0], n_estimators[1], n_estimators[2]).astype(np.int16)
         tuned_parameters = {"n_estimators": n_est}
-        xgb_m = XGBClassifier()
+        xgb_m = XGBClassifier(**kwargs)
         grid_xgb = GridSearchCV(xgb_m, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         grid_xgb.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes
