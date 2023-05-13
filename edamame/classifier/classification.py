@@ -74,9 +74,11 @@ class TrainClassifier:
         """
         Trains a logistic regression model using the training data and returns the fitted model.
 
+        Args:
+            **kwargs: Arbitrary keyword arguments to be passed to the `logistic` constructor.
+
         Returns:
             LogisticRegression: The trained logistic regression model.
-            **kwargs: Arbitrary keyword arguments to be passed to the `logistic` constructor.
 
         Example:
             >>> from edamame.classifier import TrainClassifier
@@ -94,10 +96,11 @@ class TrainClassifier:
         """
         Trains a Gaussian Naive Bayes classifier using the training data and returns the fitted model.
 
-        Returns:
-            GaussianNB: The trained Gaussian Naive Bayes classifier.
+        Args:
             **kwargs: Arbitrary keyword arguments to be passed to the `Gaussian NB` constructor.
 
+        Returns:
+            GaussianNB: The trained Gaussian Naive Bayes classifier.
         
         Example:
             >>> from edamame.classifier import TrainClassifier
@@ -117,7 +120,7 @@ class TrainClassifier:
     def knn(self, n_neighbors: Tuple[int, int, int] = (1, 50, 50), n_folds: int = 5, **kwargs) -> KNeighborsClassifier:
         """
         Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the
-        best value of 'n_neighbors' hyperparameter. 
+    best value of 'n_neighbors' hyperparameter. 
 
         Args:
             n_neighbors (Tuple[int, int, int]): A tuple with three integers. The first and second integers are the range of the 

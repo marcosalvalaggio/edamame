@@ -72,12 +72,13 @@ class TrainRegressor:
         """
         Train a linear regression model using the training data and return the fitted model.
 
-        Returns:
-            LinearRegression: The trained linear regression model.
+        Args: 
             **kwargs: Arbitrary keyword arguments to be passed to the `linear` constructor.
 
-        
-        Example:
+        Returns:
+            LinearRegression: The trained linear regression model.
+
+    Example:
             >>> from edamame.regressor import TrainRegressor
             >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
             >>> linear = regressor.linear()
