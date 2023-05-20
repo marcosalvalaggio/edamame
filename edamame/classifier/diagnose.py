@@ -17,6 +17,7 @@ from sklearn.metrics import confusion_matrix
 import random
 from typing import Tuple
 import xgboost as xgb
+from sklearn.metrics import RocCurveDisplay
 
 
 def check_random_forest(model: RandomForestClassifier) -> None: 
@@ -77,9 +78,9 @@ class ClassifierDiagnose:
         self.y_test = y_test
 
     
-    def class_prediction_error(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC] , train_data: bool = True) -> None:
+    def class_prediction_error(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], train_data: bool = True) -> None:
         """
-        This plot shows the support (number of training samples) for each class in the fitted classification model as a stacked bar chart. Each bar is segmented to show the proportion of predictions (including false negatives and false positives, like a Confusion Matrix) for each class
+        This plot method shows the support (number of training samples) for each class in the fitted classification model as a stacked bar chart. Each bar is segmented to show the proportion of predictions (including false negatives and false positives, like a Confusion Matrix) for each class
 
         Args:
             model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
@@ -122,7 +123,7 @@ class ClassifierDiagnose:
 
     def random_forest_fi(self, model: RandomForestClassifier, figsize: Tuple[float, float] = (12,10)) -> None:
         """
-        The function displays the feature importance plot of the random forest model. 
+        The method displays the feature importance plot of the random forest model. 
 
         Args:
             model (RandomForestClassifier): The input random forest model.
@@ -144,7 +145,7 @@ class ClassifierDiagnose:
     
     def xgboost_fi(self, model: XGBClassifier, figsize: tuple[float, float] = (14,12)) -> None:
         """
-        The function displays the feature importance plot.
+        The method displays the feature importance plot.
 
         Args:
             model (XGBClassifier): The input xgboost model.
@@ -156,3 +157,27 @@ class ClassifierDiagnose:
         xgb.plot_importance(model)
         plt.rcParams['figure.figsize'] = [figsize[0], figsize[1]]
         plt.show()
+
+    
+    def plot_roc_auc(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], train_data: bool = True) -> None: 
+        """
+        Method for plotting the ROC curve and calculating the AUC values for a given model.
+
+        Args: 
+            model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
+            train_data (bool): Defines if you want to plot the stacked barplot on train or test data (train by default).
+        
+        Returns: 
+            None
+        """
+        # check binary problem: 
+        if len(set(self.y_train.iloc[:,0])) > 2:
+            #TODO IMPLEMENT ROCAUC for multilabel classification problem 
+            raise ValueError("The passed model is not intended for a binary classification problem.")
+        else:
+            if train_data:
+                roc = nb_roc = RocCurveDisplay.from_estimator(model, self.X_train, self.y_train)
+                plt.show()
+            else: 
+                roc = nb_roc = RocCurveDisplay.from_estimator(model, self.X_test, self.y_test)
+                plt.show()
