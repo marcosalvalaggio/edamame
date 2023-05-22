@@ -196,8 +196,8 @@ classifier_metrics(svm_upload, X_train_s, y_train)
 
 ## Todos
 
-* Add the ClassifierDiagnose class to the classifier module.
 * Add the notebook for EDA in a classification problem to the edamame-notebook repository.
 * Add the notebook for training/diagnosing classification models to the edamame-notebook repository.
 * Add the rocauc method to the ClassifierDiagnose class. 
+* Update example notebooks.
 

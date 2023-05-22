@@ -1,5 +1,3 @@
-#TODO - ROCAUC
-
 import edamame.eda as eda
 import pandas as pd
 import numpy as np 
