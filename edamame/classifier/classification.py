@@ -260,12 +260,13 @@ class TrainClassifier:
         return self.__svm_fit
 
 
-    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all') -> None:
+    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all', confusion_matrix: bool = True) -> None:
         """
         Display classification metrics (confusion matrix and classification report) for specified or all trained models.
 
         Args:
             model_name (Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"]): The name of the model to display the metrics for. Defaults to 'all'.
+            confusion_matrix (bool): Whether to display the confusion matrix. Defaults to True.
 
         Returns:
             None
@@ -287,14 +288,15 @@ class TrainClassifier:
                     display(Markdown(title))
                     y_pred_train = model_list[model_dct[key]].predict(self.X_train)
                     y_pred_test = model_list[model_dct[key]].predict(self.X_test)
-                    plt.figure(figsize=(10,4))
-                    plt.subplot(121)
-                    sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
-                    plt.title(f'{key} train')
-                    plt.subplot(122)
-                    sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
-                    plt.title(f'{key} test')
-                    plt.show()
+                    if confusion_matrix:
+                        plt.figure(figsize=(10,4))
+                        plt.subplot(121)
+                        sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
+                        plt.title(f'{key} train')
+                        plt.subplot(122)
+                        sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
+                        plt.title(f'{key} test')
+                        plt.show()
                     title = f'#### Train classification report'
                     display(Markdown(title))
                     print(classification_report(self.y_train, y_pred_train))
@@ -309,14 +311,15 @@ class TrainClassifier:
                 display(Markdown(title))
                 y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
                 y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
-                plt.figure(figsize=(10,4))
-                plt.subplot(121)
-                sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
-                plt.title(f'{model_name} train')
-                plt.subplot(122)
-                sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
-                plt.title(f'{model_name} test')
-                plt.show()
+                if confusion_matrix: 
+                    plt.figure(figsize=(10,4))
+                    plt.subplot(121)
+                    sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
+                    plt.title(f'{model_name} train')
+                    plt.subplot(122)
+                    sns.heatmap(confusion_matrix(self.y_test, y_pred_test), annot=True, fmt="2.0f")
+                    plt.title(f'{model_name} test')
+                    plt.show()
                 title = f'#### Train classification report'
                 display(Markdown(title))
                 print(classification_report(self.y_train, y_pred_train))
