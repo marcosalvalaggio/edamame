@@ -18,6 +18,7 @@ import random
 from typing import Tuple
 import xgboost as xgb
 from sklearn.metrics import RocCurveDisplay
+from sklearn.metrics import roc_curve, auc
 
 
 def check_random_forest(model: RandomForestClassifier) -> None: 
@@ -170,10 +171,38 @@ class ClassifierDiagnose:
         Returns: 
             None
         """
+        # One VS All strategy
+        def _OVR_roc_curve(x, y, target_data):
+            y_ohe = eda.ohe(y.iloc[:,0])
+            y_score = model.predict_proba(x)
+            n_classes = y_ohe.shape[1]
+            fpr = dict()
+            tpr = dict()
+            roc_auc = dict()
+            for i in range(n_classes):
+                fpr[i], tpr[i], _ = roc_curve(y_ohe[:, i], y_score[:, i])
+                roc_auc[i] = auc(fpr[i], tpr[i])
+            # Plot ROC curve for each class
+            plt.figure()
+            colors = ['blue', 'red', 'green']
+            for i, color in zip(range(n_classes), colors):
+                plt.plot(fpr[i], tpr[i], color=color, lw=2, label=f'ROC curve of class {i} (area = {roc_auc[i]:.2f})')
+            # Plot the random chance line
+            plt.plot([0, 1], [0, 1], 'k--', lw=2)
+            # Set plot properties
+            plt.xlim([0.0, 1.0])
+            plt.ylim([0.0, 1.05])
+            plt.xlabel('False Positive Rate')
+            plt.ylabel('True Positive Rate')
+            plt.title(f'One-vs-Rest multiclass ROC for {target_data}')
+            plt.legend(loc="lower right")
+            plt.show()
         # check binary problem: 
         if len(set(self.y_train.iloc[:,0])) > 2:
-            #TODO IMPLEMENT ROCAUC for multilabel classification problem 
-            raise ValueError("The passed model is not intended for a binary classification problem.")
+            if train_data:
+                _OVR_roc_curve(self.X_train, self.y_train, target_data="Training data")
+            else:
+                _OVR_roc_curve(self.X_test, self.y_test, target_data="Test data")
         else:
             if train_data:
                 roc = nb_roc = RocCurveDisplay.from_estimator(model, self.X_train, self.y_train)
