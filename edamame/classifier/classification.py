@@ -119,20 +119,15 @@ class TrainClassifier:
     # ------------ #
     def knn(self, n_neighbors: Tuple[int, int, int] = (1, 50, 50), n_folds: int = 5, **kwargs) -> KNeighborsClassifier:
         """
-        Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the
-    best value of 'n_neighbors' hyperparameter. 
+        Train a k-Nearest Neighbors classification model using the training data, and perform a grid search to find the best value of 'n_neighbors' hyperparameter. 
 
         Args:
-            n_neighbors (Tuple[int, int, int]): A tuple with three integers. The first and second integers are the range of the 
-                'n_neighbors' hyperparameter that will be searched by the grid search, and the third integer is the 
-                number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. Default is [1, 50, 50].
+            n_neighbors (Tuple[int, int, int]): A tuple with three integers. The first and second integers are the range of the 'n_neighbors' hyperparameter that will be searched by the grid search, and the third integer is the number of values to generate in the interval [n_neighbors[0], n_neighbors[1]]. Default is [1, 50, 50].
             n_folds (int): The number of cross-validation folds to use for the grid search. Default is 5.
             **kwargs: Arbitrary keyword arguments to be passed to the `KNN` constructor.
 
-
         Returns:
-            KNeighborsClassifier: The trained k-Nearest Neighbors classification model with the best 'n_neighbors' 
-                hyperparameter found by the grid search. 
+            KNeighborsClassifier: The trained k-Nearest Neighbors classification model with the best 'n_neighbors' hyperparameter found by the grid search. 
         
         Example:
             >>> from edamame.classifier import TrainClassifier
@@ -158,7 +153,6 @@ class TrainClassifier:
             impurity (Tuple[float, float, int]): A tuple containing the minimum and maximum values of min_impurity_decrease and the number of values to try (default: (0., 0.00001, 5)).
             n_folds (int): The number of cross-validation folds to use for grid search (default: 5).
             **kwargs: Arbitrary keyword arguments to be passed to the `tree` constructor.
-
 
         Returns:
             DecisionTreeClassifier: The trained decision tree classifier model.

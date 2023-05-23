@@ -25,7 +25,7 @@ copyright = '2023, Marco Salvalaggio'
 author = 'Marco Salvalaggio'
 
 # The full version, including alpha/beta/rc tags
-release = '0.52'
+release = '0.53'
 
 
 # -- General configuration ---------------------------------------------------
@@ -53,23 +53,23 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-pygments_style = "sphinx"
+# pygments_style = "sphinx"
 
 html_logo = '_static/logo.png'
 
-html_css_files = ['custom.css']
+# html_css_files = ['custom.css']
 
-html_theme_options = {
-    'github_user': 'marcosalvalaggio',
-    'github_repo': 'edamame',
-    'github_button': 'true',
-    'github_type': 'star',
-    'github_banner': 'true',
-}
+# html_theme_options = {
+#     'github_user': 'marcosalvalaggio',
+#     'github_repo': 'edamame',
+#     'github_button': 'true',
+#     'github_type': 'star',
+#     'github_banner': 'true',
+# }

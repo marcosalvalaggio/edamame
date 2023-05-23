@@ -78,7 +78,7 @@ class TrainRegressor:
         Returns:
             LinearRegression: The trained linear regression model.
 
-    Example:
+        Example:
             >>> from edamame.regressor import TrainRegressor
             >>> regressor = TrainRegressor(X_train, np.log(y_train), X_test, np.log(y_test))
             >>> linear = regressor.linear()
@@ -382,8 +382,7 @@ class TrainRegressor:
         Saves the specified machine learning model or all models in the instance to a pickle file.
 
         Args:
-            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): 
-                The name of the model to save. Defaults to 'all'.
+            model_name (Literal["all", "linear", "lasso", "ridge", "tree", "random_forest", "xgboost"]): The name of the model to save. Defaults to 'all'.
             
         Returns:
             None
