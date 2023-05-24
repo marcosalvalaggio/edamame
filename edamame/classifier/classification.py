@@ -254,13 +254,13 @@ class TrainClassifier:
         return self.__svm_fit
 
 
-    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all', confusion_matrix: bool = True) -> None:
+    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all', cm: bool = False) -> None:
         """
         Display classification metrics (confusion matrix and classification report) for specified or all trained models.
 
         Args:
             model_name (Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"]): The name of the model to display the metrics for. Defaults to 'all'.
-            confusion_matrix (bool): Whether to display the confusion matrix. Defaults to True.
+            cm (bool): Whether to display the confusion matrix. Defaults to False.
 
         Returns:
             None
