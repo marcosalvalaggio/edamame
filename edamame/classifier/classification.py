@@ -282,7 +282,7 @@ class TrainClassifier:
                     display(Markdown(title))
                     y_pred_train = model_list[model_dct[key]].predict(self.X_train)
                     y_pred_test = model_list[model_dct[key]].predict(self.X_test)
-                    if confusion_matrix:
+                    if cm:
                         plt.figure(figsize=(10,4))
                         plt.subplot(121)
                         sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
@@ -305,7 +305,7 @@ class TrainClassifier:
                 display(Markdown(title))
                 y_pred_train = model_list[model_dct[model_name]].predict(self.X_train)
                 y_pred_test = model_list[model_dct[model_name]].predict(self.X_test)
-                if confusion_matrix: 
+                if cm: 
                     plt.figure(figsize=(10,4))
                     plt.subplot(121)
                     sns.heatmap(confusion_matrix(self.y_train, y_pred_train), annot=True, fmt="2.0f")
