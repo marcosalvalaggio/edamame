@@ -173,7 +173,8 @@ class ClassifierDiagnose:
         """
         # One VS All strategy
         def _OVR_roc_curve(x, y, target_data):
-            y_ohe = eda.ohe(y.iloc[:,0])
+            y = y.squeeze()
+            y_ohe = eda.ohe(y)
             y_score = model.predict_proba(x)
             n_classes = y_ohe.shape[1]
             fpr = dict()

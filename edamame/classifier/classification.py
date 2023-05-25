@@ -429,7 +429,7 @@ class TrainClassifier:
 
 
 
-def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], X: pd.DataFrame, y: pd.DataFrame) -> None:
+def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], X: pd.DataFrame, y: pd.DataFrame, cm: bool = False) -> None:
     """
     Display classification metrics (confusion matrix and classification report) for the model passed as input to the function.
 
@@ -437,6 +437,7 @@ def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsCl
         model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
         X (pd.DataFrame): Input features.
         y (pd.DataFrame): Target feature.
+        cm (bool): Whether to display the confusion matrix. Defaults to False.
     
     Returns:
         None
@@ -446,8 +447,9 @@ def classifier_metrics(model: Union[LogisticRegression, GaussianNB, KNeighborsCl
     y_pred = model.predict(X)
     title = f'#### Model metrics:'
     display(Markdown(title))
-    sns.heatmap(confusion_matrix(y, y_pred), annot=True, fmt="2.0f")
-    plt.show()
+    if cm:
+        sns.heatmap(confusion_matrix(y, y_pred), annot=True, fmt="2.0f")
+        plt.show()
     print(classification_report(y, y_pred))
 
         
