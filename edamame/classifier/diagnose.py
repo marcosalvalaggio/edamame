@@ -1,5 +1,3 @@
-#TODO - fix plot ROC curve if y is a pd.Series
-
 import edamame.eda as eda
 import pandas as pd
 import numpy as np 
