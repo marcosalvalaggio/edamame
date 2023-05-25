@@ -253,7 +253,7 @@ class TrainClassifier:
         return self.__svm_fit
 
 
-    def model_metrics(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all', cm: bool = False) -> None:
+    def model_metrics(self, model_name: Literal["all", "logistic", "gaussian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all', cm: bool = False) -> None:
         """
         Display classification metrics (confusion matrix and classification report) for specified or all trained models.
 
@@ -270,7 +270,7 @@ class TrainClassifier:
             >>> xgboost = classifier.xgboost(n_estimators=(10, 100, 5), n_folds=2) 
             >>> classifier.model_metrics(model_name="xgboost")
         """
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
+        model_dct = {'logistic': 0, 'gaussian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
         model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
         if model_name == 'all':
             for key in model_dct:
@@ -390,7 +390,7 @@ class TrainClassifier:
         return [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
 
 
-    def save_model(self, model_name: Literal["all", "logistic", "guassian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all') -> None:
+    def save_model(self, model_name: Literal["all", "logistic", "gaussian_nb", "knn", "tree", "random_forest", "xgboost", "svm"] = 'all') -> None:
         """
         Saves the specified machine learning model or all models in the instance to a pickle file.
 
@@ -407,7 +407,7 @@ class TrainClassifier:
             >>> model_list = classifier.auto_ml()
             >>> classifier.save_model(model_name="all")
         """
-        model_dct = {'logistic': 0, 'guassian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
+        model_dct = {'logistic': 0, 'gaussian_nb': 1, 'knn': 2, 'tree': 3, 'random_forest': 4, 'xgboost': 5, 'svm': 6}
         model_list = [self.__logistic_fit, self.__gaussian_nb_fit, self.__knn_fit, self.__tree_fit, self.__random_forest_fit, self.__xgb_fit, self.__svm_fit]
         if model_name == 'all':
             for key in model_dct:
