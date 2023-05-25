@@ -199,7 +199,7 @@ class ClassifierDiagnose:
             plt.legend(loc="lower right")
             plt.show()
         # check binary problem: 
-        if len(set(self.y_train.iloc[:,0])) > 2:
+        if len(set(self.y_train.squeeze())) > 2:
             if train_data:
                 _OVR_roc_curve(self.X_train, self.y_train, target_data="Training data")
             else:
