@@ -1,3 +1,4 @@
+#TODO - update dimension of plot 
 import edamame.eda as eda
 import pandas as pd
 import numpy as np 
