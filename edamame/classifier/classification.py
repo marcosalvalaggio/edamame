@@ -227,13 +227,12 @@ class TrainClassifier:
         return self.__xgb_fit
     
 
-    def svm(self, n_folds: int = 2, *args, **kwargs) -> SVC:
+    def svm(self, n_folds: int = 2, **kwargs) -> SVC:
         """
         Trains an SVM classifier using the training data and returns the fitted model.
 
         Args:
             n_folds (int): The number of folds in cross-validation. Default is 2.
-            *args: Variable length argument list to be passed to the `SVC` constructor.
             **kwargs: Arbitrary keyword arguments to be passed to the `SVC` constructor.
         
         Returns:
@@ -246,7 +245,7 @@ class TrainClassifier:
         """
         n_kernel = ["linear", "poly", "rbf", "sigmoid"] 
         tuned_parameters = {"kernel": n_kernel}
-        svm_c = SVC(*args, **kwargs)
+        svm_c = SVC(probability=True, **kwargs)
         grid_svm_c = GridSearchCV(svm_c, tuned_parameters, cv=n_folds, refit=True, verbose=0, scoring='accuracy')
         grid_svm_c.fit(self.X_train, self.y_train.squeeze())
         # save the model in the instance attributes

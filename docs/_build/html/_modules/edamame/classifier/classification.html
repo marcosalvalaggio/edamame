@@ -427,13 +427,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__xgb_fit</span></div>
     
 
-<div class="viewcode-block" id="TrainClassifier.svm"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.svm">[docs]</a>    <span class="k">def</span> <span class="nf">svm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SVC</span><span class="p">:</span>
+<div class="viewcode-block" id="TrainClassifier.svm"><a class="viewcode-back" href="../../../edamame.classifier.html#edamame.classifier.classification.TrainClassifier.svm">[docs]</a>    <span class="k">def</span> <span class="nf">svm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_folds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SVC</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Trains an SVM classifier using the training data and returns the fitted model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            n_folds (int): The number of folds in cross-validation. Default is 2.</span>
-<span class="sd">            *args: Variable length argument list to be passed to the `SVC` constructor.</span>
 <span class="sd">            **kwargs: Arbitrary keyword arguments to be passed to the `SVC` constructor.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
@@ -446,7 +445,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n_kernel</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="s2">&quot;poly&quot;</span><span class="p">,</span> <span class="s2">&quot;rbf&quot;</span><span class="p">,</span> <span class="s2">&quot;sigmoid&quot;</span><span class="p">]</span> 
         <span class="n">tuned_parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;kernel&quot;</span><span class="p">:</span> <span class="n">n_kernel</span><span class="p">}</span>
-        <span class="n">svm_c</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">svm_c</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">grid_svm_c</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">svm_c</span><span class="p">,</span> <span class="n">tuned_parameters</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">n_folds</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
         <span class="n">grid_svm_c</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
         <span class="c1"># save the model in the instance attributes</span>
