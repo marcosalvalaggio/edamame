@@ -78,12 +78,13 @@ class ClassifierDiagnose:
         self.y_test = y_test
 
     
-    def class_prediction_error(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], train_data: bool = True) -> None:
+    def class_prediction_error(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], figsize: Tuple[float, float] = (8.,6.), train_data: bool = True) -> None:
         """
         This plot method shows the support (number of training samples) for each class in the fitted classification model as a stacked bar chart. Each bar is segmented to show the proportion of predictions (including false negatives and false positives, like a Confusion Matrix) for each class
 
         Args:
             model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
+            figsize (Tuple[float, float]): Figure size for the plot. Defaults to (8, 6).
             train_data (bool): Defines if you want to plot the stacked barplot on train or test data (train by default).
         
         Returns: 
@@ -91,7 +92,7 @@ class ClassifierDiagnose:
         """
         def stacked_barplot(matrix: np.array, num_of_class: int) -> None:
             cmap = plt.get_cmap('rainbow')
-            plt.figure(figsize=(8,6))
+            plt.figure(figsize=figsize)
             cm_bottom = np.zeros((num_of_class,))
             for i in range(len(matrix)):
                 value = random.uniform(0, 1)
@@ -121,12 +122,13 @@ class ClassifierDiagnose:
             stacked_barplot(matrix=cm, num_of_class=num_classes)
     
 
-    def random_forest_fi(self, model: RandomForestClassifier, figsize: Tuple[float, float] = (12,10)) -> None:
+    def random_forest_fi(self, model: RandomForestClassifier, figsize: Tuple[float, float] = (8.,6.)) -> None:
         """
-        The method displays the feature importance plot of the random forest model. 
+        Displays the feature importance plot of the random forest model.
 
         Args:
             model (RandomForestClassifier): The input random forest model.
+            figsize (Tuple[float, float]): Figure size for the plot. Defaults to (8, 6).
 
         Returns:
             None
@@ -143,12 +145,13 @@ class ClassifierDiagnose:
         plt.show()
 
     
-    def xgboost_fi(self, model: XGBClassifier, figsize: tuple[float, float] = (14,12)) -> None:
+    def xgboost_fi(self, model: XGBClassifier, figsize: Tuple[float, float] = (8.,6.)) -> None:
         """
-        The method displays the feature importance plot.
+        Displays the feature importance plot of the xgboost model.
 
         Args:
             model (XGBClassifier): The input xgboost model.
+            figsize (Tuple[float, float]): Figure size for the plot. Defaults to (8, 6).
 
         Returns:
             None
@@ -159,12 +162,13 @@ class ClassifierDiagnose:
         plt.show()
 
     
-    def plot_roc_auc(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], train_data: bool = True) -> None: 
+    def plot_roc_auc(self, model: Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC], figsize: Tuple[float, float] = (8.,6.), train_data: bool = True) -> None: 
         """
         Method for plotting the ROC curve and calculating the AUC values for a given model.
 
         Args: 
             model (Union[LogisticRegression, GaussianNB, KNeighborsClassifier, DecisionTreeClassifier, RandomForestClassifier, XGBClassifier, SVC]): Classification model.
+            figsize (Tuple[float, float]): Figure size for the plot. Defaults to (8, 6).
             train_data (bool): Defines if you want to plot the stacked barplot on train or test data (train by default).
         
         Returns: 
@@ -183,7 +187,7 @@ class ClassifierDiagnose:
                 fpr[i], tpr[i], _ = roc_curve(y_ohe[:, i], y_score[:, i])
                 roc_auc[i] = auc(fpr[i], tpr[i])
             # Plot ROC curve for each class
-            plt.figure()
+            plt.figure(figsize=figsize)
             colors = ['blue', 'red', 'green']
             for i, color in zip(range(n_classes), colors):
                 plt.plot(fpr[i], tpr[i], color=color, lw=2, label=f'ROC curve of class {i} (area = {roc_auc[i]:.2f})')
